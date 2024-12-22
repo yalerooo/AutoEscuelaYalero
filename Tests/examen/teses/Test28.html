@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Autoescuela</title>
+    <link rel="stylesheet" href="../../../Assets/style.css">
+</head>
+<body>
+
+    
+    <div class="container">
+        <h1 style="text-align: center; color: #ffa5c3;">Test de Autoescuela</h1>
+        <div id="test-container">
+            <!-- Aquí se generarán dinámicamente las preguntas -->
+        </div>
+        <div class="pagination">
+            <div class="pagination-row" id="pagination-row-1"></div>
+            <div class="pagination-row" id="pagination-row-2"></div>
+        </div>
+        <button id="correct-test">Corregir Test</button>
+    </div>
+
+    <!-- Custom Alert HTML -->
+    <div class="custom-alert" id="custom-alert">
+        <h2>Resultado del Test</h2>
+        <p id="alert-message">Aquí irá el mensaje del resultado.</p>
+        <button onclick="closeAlert()">Cerrar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = [
+    {
+        "text": "¿Pueden los ocupantes de un vehículo transitar por el arcén de una autopista?",
+        "options": [
+            "No.",
+            "No, excepto en caso de una avería.",
+            "Sí."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T512801.jpg"
+    },
+    {
+        "text": "Tomar un analgésico para el dolor de cabeza, ¿puede afectar a la conducción?",
+        "options": [
+            "Solo si se mezcla con alcohol.",
+            "No, los analgésicos son inofensivos.",
+            "Sí."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T512802.jpg"
+    },
+    {
+        "text": "¿A qué motocicletas prohíbe la entrada esta señal?",
+        "options": [
+            "A las de dos ruedas sin sidecar solamente.",
+            "A todas.",
+            "A las de más de 125 centímetros cúbicos, únicamente."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T512803.jpg"
+    },
+    {
+        "text": "Si se toman bebidas alcohólicas cuando se conduce...",
+        "options": [
+            "se aprecian de forma incorrecta las distancias y las velocidades.",
+            "mejora la apreciación de distancias y velocidades.",
+            "se aprecian mejor las distancias y peor las velocidades."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T512804.jpg"
+    },
+    {
+        "text": "Las motocicletas están obligadas a llevar encendida la luz de cruce...",
+        "options": [
+            "durante todo el día por cualquier vía.",
+            "sólo entre la puesta y la salida del sol.",
+            "durante el día por vías interurbanas y solo entre la puesta y la salida del sol por vías urbanas."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T512805.jpg"
+    },
+    {
+        "text": "¿El exceso de ruido afecta más a las personas mayores en la conducción?",
+        "options": [
+            "Sí, porque escuchan peor.",
+            "Afecta de igual modo que al resto de personas.",
+            "No."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T512806.jpg"
+    },
+    {
+        "text": "Si queda detenido en un paso a nivel por avería, deberá...",
+        "options": [
+            "poner punto muerto, desactivar el freno de mano y empujar el vehículo.",
+            "desalojar a de los ocupantes, intentar retirar el vehículo y avisar al maquinista.",
+            "tratar de arrancar el vehículo con la primera velocidad puesta y tranquilizar a sus ocupantes."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T512807.jpg"
+    },
+    {
+        "text": "El apoya-cabezas, ¿para qué sirve, fundamentalmente?",
+        "options": [
+            "Para proteger el cuello en un accidente.",
+            "Para que el asiento sea más cómodo.",
+            "Para apoyar la cabeza y descansar."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T512808.jpg"
+    },
+    {
+        "text": "Si en un tramo de vía muy estrecho sin señalizar la prioridad se encuentran un camión y un turismo, ¿qué vehículo pasará primero?",
+        "options": [
+            "El turismo, porque tiene menor dificultad para pasar.",
+            "El camión si existe duda de qué vehículo entró primero.",
+            "El turismo, porque sus dimensiones son menores."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T512809.jpg"
+    },
+    {
+        "text": "Las técnicas de conducción preventiva se basan en los principios de...",
+        "options": [
+            "visión, anticipación y gestión del tiempo.",
+            "visión y gestión del espacio, únicamente.",
+            "visión, anticipación y gestión del espacio."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T512810.jpg"
+    },
+    {
+        "text": "¿Cuál es la edad mínima para viajar como acompañante en una motocicleta conducida por alguien distinto a los padres o al tutor del menor, o por una persona mayor de edad autorizada?",
+        "options": [
+            "7 años.",
+            "14 años.",
+            "12 años."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T514623.jpg"
+    },
+    {
+        "text": "Las ruedas tiene la presión correcta. Después de un viaje, comprueba que la presión ha aumentado. ¿Qué debe hacer?",
+        "options": [
+            "Echar agua a las ruedas para que se enfríen.",
+            "No quitar aire, porque el aire se ha calentado y por eso tiene más presión.",
+            "Quitar aire de las ruedas."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T512812.jpg"
+    },
+    {
+        "text": "En los cambios de carril en un mismo sentido, ¿quién tiene prioridad?",
+        "options": [
+            "Siempre los turismos.",
+            "El vehículo que realiza el cambio.",
+            "El vehículo que circula por el carril que se pretende ocupar."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T512813.jpg"
+    },
+    {
+        "text": "Los accidentes de tráfico, ¿causan costes administrativos?",
+        "options": [
+            "No, sólo materiales.",
+            "No, sólo causan costes humanos.",
+            "Sí, entre otros, de policía y bomberos."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T510114_250117.jpg"
+    },
+    {
+        "text": "¿Qué le indica la señal?",
+        "options": [
+            "La velocidad máxima a la que debo circular en un tramo de obras.",
+            "La velocidad máxima a la que puedo circular en esa vía.",
+            "La velocidad máxima para los vehículos de obras."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T512815.jpg"
+    },
+    {
+        "text": "Un vehículo de tres ruedas, ¿puede arrastrar un remolque?",
+        "options": [
+            "Sí.",
+            "No."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T512816.jpg"
+    },
+    {
+        "text": "En esta intersección entre una vía pavimentada y otra sin pavimentar, ¿debe ceder el paso a este vehículo azul?",
+        "options": [
+            "Sí, porque se incorpora por la derecha.",
+            "Sí, porque en las intersecciones sin señalizar debe ceder el paso a los vehículos que se aproximen por la derecha.",
+            "No, ya que se incorpora desde una vía sin pavimentar."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T512817.jpg"
+    },
+    {
+        "text": "Cuando conduce y está cansado, ¿qué debe hacer?",
+        "options": [
+            "Tomar alguna bebida alcohólica.",
+            "Tomar alguna bebida estimulante (té, café).",
+            "Detener el vehículo y descansar o dormir."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T512818.jpg"
+    },
+    {
+        "text": "Un cuadriciclo de motor, ¿a qué velocidad máxima puede circular fuera de poblado?",
+        "options": [
+            "A 45 km/h.",
+            "A 70 km/h.",
+            "A 50 km/h."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T512819.jpg"
+    },
+    {
+        "text": "Está prohibido conducir un vehículo prioritario en servicio de urgencia con una tasa de alcohol en aire espirado superior a...",
+        "options": [
+            "0,30 miligramos por litro.",
+            "0,15 miligramos por litro.",
+            "0,25 miligramos por litro."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T512820.jpg"
+    },
+    {
+        "text": "Los carriles reversibles están delimitados por marcas longitudinales...",
+        "options": [
+            "dobles discontinuas a ambos lados.",
+            "discontinuas con una separación sensiblemente más corta.",
+            "discontinuas simples a ambos lados."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T512821.jpg"
+    },
+    {
+        "text": "Los accidentes causados por una distracción son más frecuentes en...",
+        "options": [
+            "jóvenes entre 18-25 años y los mayores de 70 años.",
+            "mayores de 65 años.",
+            "noveles."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T512822.jpg"
+    },
+    {
+        "text": "La inscripción \"BUS\" dentro de un carril indica que es...",
+        "options": [
+            "un carril destinado al estacionamiento de autobuses.",
+            "un carril reservado para la circulación de autobuses.",
+            "una zona de la vía reservada sólo a turismos y autobuses."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T512823.jpg"
+    },
+    {
+        "text": "Una incorrecta presión de inflado...",
+        "options": [
+            "reduce el riesgo de reventón del neumático.",
+            "puede aumentar el consumo de carburante.",
+            "hace que el neumático se desgaste de forma regular."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T507408.jpg"
+    },
+    {
+        "text": "¿Dónde debe ir colocada la placa \"L\" de conductor novel en un turismo?",
+        "options": [
+            "En cualquier lugar visible de la parte posterior.",
+            "En un lugar visible en la parte posterior derecha.",
+            "En un lugar visible en la parte posterior izquierda."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T512825.jpg"
+    },
+    {
+        "text": "No están obligados a utilizar el cinturón de seguridad, como norma general...",
+        "options": [
+            "los menores de 16 años.",
+            "los conductores de taxis cuando están de servicio en vía urbana.",
+            "las embarazadas."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T512826.jpg"
+    },
+    {
+        "text": "Si estaciona su vehículo, deberá...",
+        "options": [
+            "dejar colocada la primera velocidad en pendientes ascendentes.",
+            "dejar la palanca de cambio en punto muerto.",
+            "dejar colocada la primera velocidad en pendientes descendentes."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T512827.jpg"
+    },
+    {
+        "text": "La depresión hace que...",
+        "options": [
+            "resulte fácil mantener la concentración.",
+            "aumente la sensibilidad a la somnolencia y la fatiga.",
+            "las decisiones sean más rápidas."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T512828.jpg"
+    },
+    {
+        "text": "¿Qué indica esta señal?",
+        "options": [
+            "Obliga a seguir circulando de frente.",
+            "Obliga a ceder el paso a la circulación del sentido contrario.",
+            "Calzada con doble sentido de circulación."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T512829.jpg"
+    },
+    {
+        "text": "Una de las principales causas de mortalidad en los accidentes de moto y ciclomotor es...",
+        "options": [
+            "no utilizar el casco.",
+            "el arrollamiento por otros vehículos.",
+            "los golpes contra el asfalto en las caídas."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/I4023.jpg"
+    }
+]
+            
+            ;
+
+            const container = document.getElementById('test-container');
+            const paginationRow1 = document.getElementById('pagination-row-1');
+            const paginationRow2 = document.getElementById('pagination-row-2');
+
+            // Generar preguntas
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.setAttribute('data-correct', question.correct);
+                questionDiv.innerHTML = `
+                    <div class="question-image">
+                        <img src="${question.image}" alt="Imagen de la pregunta">
+                    </div>
+                    <div class="question-content">
+                        <h3>${index + 1}. ${question.text}</h3>
+                        <div class="options">
+                            ${question.options.map((option, idx) => `
+                                <div class="option" data-answer="${String.fromCharCode(65 + idx)}">
+                                    <span class="option-circle">${String.fromCharCode(65 + idx)}</span>
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+
+            // Generar paginación
+            for (let i = 0; i < questions.length; i++) {
+                const button = document.createElement('button');
+                button.textContent = `${i + 1}`;
+                button.addEventListener('click', () => showQuestion(i));
+                if (i < 15) {
+                    paginationRow1.appendChild(button);
+                } else {
+                    paginationRow2.appendChild(button);
+                }
+            }
+
+            // Mostrar la primera pregunta
+            showQuestion(0);
+
+            // Función para mostrar una pregunta específica
+            function showQuestion(index) {
+                document.querySelectorAll('.question').forEach((q, i) => {
+                    q.style.display = i === index ? 'flex' : 'none';
+                });
+                document.querySelectorAll('.pagination button').forEach((btn, i) => {
+                    btn.style.backgroundColor = i === index ? '#ff7aa2' : '#ffa5c3';
+                });
+            }
+
+            // Evento para las opciones de respuesta
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const question = this.closest('.question');
+                    const questionIndex = Array.from(container.children).indexOf(question);
+                    const isCorrect = this.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    
+                    if (question.dataset.answered) return;
+
+                    question.dataset.answered = true;
+
+                    question.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                        opt.style.pointerEvents = 'none';
+                    });
+                    
+                    this.classList.add('selected', isCorrect ? 'correct' : 'incorrect');
+
+                    if (!isCorrect) {
+                        question.querySelector(`.option[data-answer="${question.getAttribute('data-correct')}"]`).classList.add('correct');
+                    }
+
+                    // Actualizar el botón de paginación
+                    const paginationButton = questionIndex < 15 ? paginationRow1.children[questionIndex] : paginationRow2.children[questionIndex - 15];
+                    paginationButton.classList.add(isCorrect ? 'correct' : 'incorrect');
+                });
+            });
+
+            // Evento para corregir el test
+            document.getElementById('correct-test').addEventListener('click', () => {
+                let wrongAnswers = 0;
+                document.querySelectorAll('.question').forEach((question, index) => {
+                    const selected = question.querySelector('.option.selected');
+                    const isCorrect = selected && selected.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    if (!isCorrect) {
+                        wrongAnswers++;
+                    }
+                    // Actualizar el botón de paginación si no se ha respondido
+                    if (!selected) {
+                        const paginationButton = index < 15 ? paginationRow1.children[index] : paginationRow2.children[index - 15];
+                        paginationButton.classList.add('incorrect');
+                    }
+                });
+                const resultMessage = `Has fallado ${wrongAnswers} respuestas.`;
+
+                const alert = document.getElementById('custom-alert');
+                document.getElementById('alert-message').textContent = resultMessage;
+                alert.style.display = 'block';
+            });
+        });
+
+        function closeAlert() {
+            document.getElementById('custom-alert').style.display = 'none';
+        }
+    </script>
+
+    
+</body>
+</html>

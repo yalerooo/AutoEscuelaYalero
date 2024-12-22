@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Autoescuela</title>
+    <link rel="stylesheet" href="../../../Assets/style.css">
+</head>
+<body>
+
+    
+    <div class="container">
+        <h1 style="text-align: center; color: #ffa5c3;">Test de Autoescuela</h1>
+        <div id="test-container">
+            <!-- Aquí se generarán dinámicamente las preguntas -->
+        </div>
+        <div class="pagination">
+            <div class="pagination-row" id="pagination-row-1"></div>
+            <div class="pagination-row" id="pagination-row-2"></div>
+        </div>
+        <button id="correct-test">Corregir Test</button>
+    </div>
+
+    <!-- Custom Alert HTML -->
+    <div class="custom-alert" id="custom-alert">
+        <h2>Resultado del Test</h2>
+        <p id="alert-message">Aquí irá el mensaje del resultado.</p>
+        <button onclick="closeAlert()">Cerrar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = [
+    {
+        "text": "El sistema de alumbrado de los vehículos...",
+        "options": [
+            "sirve para ver bien de noche.",
+            "sirve para que el conductor vea bien la carretera.",
+            "sirve para que el conductor vea bien la carretera, y su vehículo sea visto por los demás conductores."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P1101.jpg"
+    },
+    {
+        "text": "Es importante mantener limpio el cristal de los faros ya que la suciedad...",
+        "options": [
+            "provoca la corrosión del cristal disminuyendo la estanqueidad.",
+            "elimina la superficie rugosa que forman los prismas de la superficie exterior.",
+            "modifica la dirección de los rayos luminosos provocando deslumbramientos."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T510128_050723.jpg"
+    },
+    {
+        "text": "Cuando las pantallas protectoras de las luces de un vehículo están muy sucias...",
+        "options": [
+            "se mejora la iluminación de la vía.",
+            "no se deslumbra a los demás conductores.",
+            "disminuye la eficacia de las luces."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T510129_050723.jpg"
+    },
+    {
+        "text": "Las luces rojas encendidas del vehículo de delante, ¿qué indican?",
+        "options": [
+            "Que hay niebla.",
+            "Que circulo por una travesía.",
+            "Que el vehículo está frenando."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T510103_150116.jpg"
+    },
+    {
+        "text": "¿Qué debe hacer si durante la marcha su vehículo no puede alcanzar la velocidad mínima exigida y existe peligro de alcance?",
+        "options": [
+            "Utilizar la señal de emergencia.",
+            "Realizar destellos con las luces de largo alcance.",
+            "Pisar de forma intermitente el freno para advertir con las luces de frenado que va a reducir la marcha."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P1130.jpg"
+    },
+    {
+        "text": "Se considera que una vía está insuficientemente iluminada cuando...",
+        "options": [
+            "no pueda distinguir la placa de matrícula de otro vehículo a 50 metros.",
+            "la vía no permita ver con claridad.",
+            "con vista normal no se puede leer una placa de matrícula a 10 metros o distinguir un vehículo pintado de oscuro a 50 metros."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P1102.jpg"
+    },
+    {
+        "text": "En caso de avería del alumbrado, ¿puede circular por la noche un vehículo con un alumbrado de intensidad inferior?",
+        "options": [
+            "Sí, manteniendo una velocidad que le permita detener el vehículo dentro de la zona iluminada.",
+            "No, no podrá continuar el viaje.",
+            "Sí, pero sólo hasta el taller más próximo."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T514105.jpg"
+    },
+    {
+        "text": "¿Qué debe hacer un conductor que ha sido deslumbrado?",
+        "options": [
+            "Desviarse siempre a la derecha para detenerse en el arcén.",
+            "Reducir la velocidad, incluso hasta llegar a detenerse totalmente, si fuera necesario.",
+            "Encender el alumbrado de largo alcance."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P1111.jpg"
+    },
+    {
+        "text": "Bajo condiciones de luminosidad desfavorables, el alumbrado...",
+        "options": [
+            "permite percibir posibles peligros únicamente cuando se circula con la luz de carretera.",
+            "permite percibir posibles peligros con tiempo suficiente para reaccionar.",
+            "no es de mucha utilidad."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T505703.jpg"
+    },
+    {
+        "text": "La luz de posición de los vehículos, ¿qué indica?",
+        "options": [
+            "El lugar que ocupa en la calzada y la anchura del vehículo.",
+            "Que el vehículo está parado.",
+            "Que el vehículo está circulando."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P1103.jpg"
+    },
+    {
+        "text": "¿En qué situación se puede encender solamente la luz de posición entre la puesta y la salida del sol?",
+        "options": [
+            "Cuando circule por una carretera suficientemente iluminada.",
+            "Cuando circule por una calle suficientemente iluminada.",
+            "Para inmovilizar el vehículo en un arcén fuera de poblado."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P1112.jpg"
+    },
+    {
+        "text": "Al estacionar un vehículo en una vía urbana suficientemente iluminada, ¿qué alumbrado dejará encendido?",
+        "options": [
+            "Ninguno.",
+            "El alumbrado de posición o el de estacionamiento, si se trata de una travesía.",
+            "El alumbrado de posición."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P1115.jpg"
+    },
+    {
+        "text": "¿Qué alumbrado deberá mantener encendido un vehículo estacionado durante la noche en el arcén de una travesía insuficientemente iluminada?",
+        "options": [
+            "Las luces de largo alcance y las luces de emergencia.",
+            "Las luces de posición, que podrá sustituir por las de estacionamiento.",
+            "Ninguno, ya que es un estacionamiento dentro de poblado."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T514325.jpg"
+    },
+    {
+        "text": "Es obligatorio encender el alumbrado de posición...",
+        "options": [
+            "al estacionar en la calzada de una travesía suficientemente iluminada.",
+            "siempre que esté estacionado en el arcén de una vía urbana suficientemente iluminada.",
+            "siempre que deba utilizar cualquier otro alumbrado en circulación."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T514219.jpg"
+    },
+    {
+        "text": "¿Qué alumbrado debe utilizar si circula antes de la salida del sol, pero con buena visibilidad?",
+        "options": [
+            "El de posición y el de corto alcance.",
+            "No es necesario que utilice ningún alumbrado.",
+            "Únicamente, el alumbrado de posición."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P1104.jpg"
+    },
+    {
+        "text": "Desde el anochecer hasta el amanecer, ¿qué luces son obligatorias?",
+        "options": [
+            "La luz de posición y el alumbrado antiniebla.",
+            "La luz de posición con las de corto o largo alcance, dependiendo de las circunstancias del tráfico.",
+            "La luz de posición solamente."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T513521.jpg"
+    },
+    {
+        "text": "Aún es de día, pero ya se ha puesto el sol. ¿Qué luces debe encender?",
+        "options": [
+            "Está prohibido encender las luces cuando es de día.",
+            "Basta con las de posición.",
+            "Las de corto alcance o de cruce."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T506605.jpg"
+    },
+    {
+        "text": "Si circula de noche por una vía urbana, ¿qué alumbrado debe utilizar?",
+        "options": [
+            "El de largo alcance.",
+            "Sólo el de posición.",
+            "El de corto alcance."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P1105.jpg"
+    },
+    {
+        "text": "De noche por una vía urbana insuficientemente iluminada, ¿qué luces deberá llevar encendidas al menos?",
+        "options": [
+            "Solamente las luces de posición.",
+            "Las luces de posición y las de carretera.",
+            "Las luces de posición y las de cruce."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T514823.jpg"
+    },
+    {
+        "text": "De día, ¿en qué circunstancia debe llevar encendida la luz de corto alcance?",
+        "options": [
+            "Al circular por un carril VAO.",
+            "La luz de corto alcance sólo puede encenderse de noche.",
+            "Al circular por un carril reversible."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T513321.jpg"
+    },
+    {
+        "text": "Con las luces de corto alcance, ¿está permitido hacer ráfagas?",
+        "options": [
+            "Sí, sólo en vías urbanas.",
+            "Sí, tanto en vías urbanas como en vías interurbanas.",
+            "Sí, sólo en vías interurbanas."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P1114.jpg"
+    },
+    {
+        "text": "No está permitido utilizar la luz de largo alcance...",
+        "options": [
+            "para avisar a otros usuarios de un posible peligro.",
+            "si el vehículo está parado o estacionado.",
+            "en túneles y tramos de vía afectados por señal de túnel."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T507611.jpg"
+    },
+    {
+        "text": "En una travesía insuficientemente iluminada, ¿puede encender la luz larga?",
+        "options": [
+            "Sí.",
+            "No."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T504927.jpg"
+    },
+    {
+        "text": "¿En qué vías debe emplear las luces de largo alcance?",
+        "options": [
+            "En las vías interurbanas insuficientemente iluminadas.",
+            "En cualquier tipo de vía, siempre que sea necesario.",
+            "En las vías urbanas, incluidas las travesías."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P1108.jpg"
+    },
+    {
+        "text": "Si circula de noche por una carretera a una velocidad inferior a 40 kilómetros por hora, deberá llevar encendida...",
+        "options": [
+            "siempre la luz de carretera.",
+            "las luces de cruce necesariamente.",
+            "las luces de cruce o de carretera."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T510103_150616.jpg"
+    },
+    {
+        "text": "Es obligatorio utilizar las luces de carretera al circular a más de 40 kilómetros por hora por una vía...",
+        "options": [
+            "interurbana suficientemente iluminada.",
+            "interurbana insuficientemente iluminada.",
+            "insuficientemente iluminada, dentro o fuera de poblado."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T504105.jpg"
+    },
+    {
+        "text": "La luz de carretera debe sustituirse por la de cruce...",
+        "options": [
+            "al circular por una autopista o una autovía.",
+            "cuando exista la posibilidad de deslumbrar a otros usuarios.",
+            "cuando haya niebla."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T513627.jpg"
+    },
+    {
+        "text": "Circula de noche con las luces largas encendidas. Ve peatones en el arcén. ¿Está obligado a cambiar la luz larga por la corta?",
+        "options": [
+            "No es necesario.",
+            "Sí, pero solamente en los tramos rectos.",
+            "Sí, para no deslumbrar."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T505629.jpg"
+    },
+    {
+        "text": "Utilizar ráfagas de luz para advertir un adelantamiento, ¿está permitido?",
+        "options": [
+            "No.",
+            "Sí."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P1113.jpg"
+    },
+    {
+        "text": "Cuando termine el adelantamiento, el vehículo adelantado deberá...",
+        "options": [
+            "Cambiar la luz de largo alcance por la luz de cruce.",
+            "Circular igual que lo está haciendo, con la luz de largo alcance encendida.",
+            "Reducir la velocidad, obligatoriamente."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510113_251217.jpg"
+    }
+]
+            
+            ;
+
+            const container = document.getElementById('test-container');
+            const paginationRow1 = document.getElementById('pagination-row-1');
+            const paginationRow2 = document.getElementById('pagination-row-2');
+
+            // Generar preguntas
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.setAttribute('data-correct', question.correct);
+                questionDiv.innerHTML = `
+                    <div class="question-image">
+                        <img src="${question.image}" alt="Imagen de la pregunta">
+                    </div>
+                    <div class="question-content">
+                        <h3>${index + 1}. ${question.text}</h3>
+                        <div class="options">
+                            ${question.options.map((option, idx) => `
+                                <div class="option" data-answer="${String.fromCharCode(65 + idx)}">
+                                    <span class="option-circle">${String.fromCharCode(65 + idx)}</span>
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+
+            // Generar paginación
+            for (let i = 0; i < questions.length; i++) {
+                const button = document.createElement('button');
+                button.textContent = `${i + 1}`;
+                button.addEventListener('click', () => showQuestion(i));
+                if (i < 15) {
+                    paginationRow1.appendChild(button);
+                } else {
+                    paginationRow2.appendChild(button);
+                }
+            }
+
+            // Mostrar la primera pregunta
+            showQuestion(0);
+
+            // Función para mostrar una pregunta específica
+            function showQuestion(index) {
+                document.querySelectorAll('.question').forEach((q, i) => {
+                    q.style.display = i === index ? 'flex' : 'none';
+                });
+                document.querySelectorAll('.pagination button').forEach((btn, i) => {
+                    btn.style.backgroundColor = i === index ? '#ff7aa2' : '#ffa5c3';
+                });
+            }
+
+            // Evento para las opciones de respuesta
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const question = this.closest('.question');
+                    const questionIndex = Array.from(container.children).indexOf(question);
+                    const isCorrect = this.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    
+                    if (question.dataset.answered) return;
+
+                    question.dataset.answered = true;
+
+                    question.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                        opt.style.pointerEvents = 'none';
+                    });
+                    
+                    this.classList.add('selected', isCorrect ? 'correct' : 'incorrect');
+
+                    if (!isCorrect) {
+                        question.querySelector(`.option[data-answer="${question.getAttribute('data-correct')}"]`).classList.add('correct');
+                    }
+
+                    // Actualizar el botón de paginación
+                    const paginationButton = questionIndex < 15 ? paginationRow1.children[questionIndex] : paginationRow2.children[questionIndex - 15];
+                    paginationButton.classList.add(isCorrect ? 'correct' : 'incorrect');
+                });
+            });
+
+            // Evento para corregir el test
+            document.getElementById('correct-test').addEventListener('click', () => {
+                let wrongAnswers = 0;
+                document.querySelectorAll('.question').forEach((question, index) => {
+                    const selected = question.querySelector('.option.selected');
+                    const isCorrect = selected && selected.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    if (!isCorrect) {
+                        wrongAnswers++;
+                    }
+                    // Actualizar el botón de paginación si no se ha respondido
+                    if (!selected) {
+                        const paginationButton = index < 15 ? paginationRow1.children[index] : paginationRow2.children[index - 15];
+                        paginationButton.classList.add('incorrect');
+                    }
+                });
+                const resultMessage = `Has fallado ${wrongAnswers} respuestas.`;
+
+                const alert = document.getElementById('custom-alert');
+                document.getElementById('alert-message').textContent = resultMessage;
+                alert.style.display = 'block';
+            });
+        });
+
+        function closeAlert() {
+            document.getElementById('custom-alert').style.display = 'none';
+        }
+    </script>
+
+    
+</body>
+</html>

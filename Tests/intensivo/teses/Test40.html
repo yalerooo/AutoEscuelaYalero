@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Autoescuela</title>
+    <link rel="stylesheet" href="../../../Assets/style.css">
+</head>
+<body>
+
+    
+    <div class="container">
+        <h1 style="text-align: center; color: #ffa5c3;">Test de Autoescuela</h1>
+        <div id="test-container">
+            <!-- Aquí se generarán dinámicamente las preguntas -->
+        </div>
+        <div class="pagination">
+            <div class="pagination-row" id="pagination-row-1"></div>
+            <div class="pagination-row" id="pagination-row-2"></div>
+        </div>
+        <button id="correct-test">Corregir Test</button>
+    </div>
+
+    <!-- Custom Alert HTML -->
+    <div class="custom-alert" id="custom-alert">
+        <h2>Resultado del Test</h2>
+        <p id="alert-message">Aquí irá el mensaje del resultado.</p>
+        <button onclick="closeAlert()">Cerrar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = [
+    {
+        "text": "En este tramo de autopista no quiere adelantar. ¿Puede circular por el carril izquierdo?",
+        "options": [
+            "No.",
+            "Sí."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P0205.jpg"
+    },
+    {
+        "text": "Si, cuando intentamos arrancar el motor del vehículo girando la llave de contacto, observamos que el motor gira muy lentamente, no consiguiendo ponerse en marcha, puede ser debido a...",
+        "options": [
+            "Mal estado o suciedad en el carburador.",
+            "Obstrucción en el filtro del aire.",
+            "Poca carga en la batería."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P3210.jpg"
+    },
+    {
+        "text": "La señal...",
+        "options": [
+            "reitera la información dada por otra señal de peligro anterior.",
+            "indica la proximidad de un peligro distinto de los advertidos por otras señales.",
+            "indica la proximidad de un tramo con tráfico denso."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P1430.jpg"
+    },
+    {
+        "text": "¿Cuál es el accidente más frecuente que sufren los ciclistas?",
+        "options": [
+            "La colisión frontal con otro vehículo.",
+            "Los atropellos.",
+            "Las salidas de vía."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T504413.jpg"
+    },
+    {
+        "text": "¿Cuándo debe iniciar las advertencias para realizar una maniobra?",
+        "options": [
+            "Justo antes de iniciar la maniobra.",
+            "Cuando haya iniciado la maniobra.",
+            "Con antelación suficiente a la iniciación de la maniobra."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P0706.jpg"
+    },
+    {
+        "text": "Un turismo, ¿puede llevar sólo el espejo exterior izquierdo y el interior?",
+        "options": [
+            "Sí.",
+            "No, también debe llevar el espejo exterior derecho.",
+            "No, sólo son obligatorios el espejo interior y el exterior derecho."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P2617.jpg"
+    },
+    {
+        "text": "Por la izquierda de una línea continua, ¿se puede circular?",
+        "options": [
+            "No, en ningún caso.",
+            "Sí, para adelantar.",
+            "Sí, si la vía es de sentido único."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P1803.jpg"
+    },
+    {
+        "text": "Un conductor novel, ¿puede sentirse fatigado más fácilmente?",
+        "options": [
+            "Únicamente cuando sea una persona mayor.",
+            "Sí, por la falta de experiencia al volante.",
+            "No."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P2222.jpg"
+    },
+    {
+        "text": "¿Está prohibido circular marcha atrás?",
+        "options": [
+            "No, excepto en autopistas y autovías.",
+            "Sí, si hay otros usuarios en las proximidades.",
+            "Sí, salvo que no pueda marchar hacia delante o cambiar de dirección o sentido."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P0923.jpg"
+    },
+    {
+        "text": "Si ha cambiado de domicilio, ¿tiene obligación de comunicarlo a la Jefatura de Tráfico?",
+        "options": [
+            "Sí, pero esperaré a comunicarlo cuando me caduque la validez del permiso de conducción.",
+            "No.",
+            "Sí, debo comunicar mi nuevo domicilio en el plazo de 15 días."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P2006.jpg"
+    },
+    {
+        "text": "Esta señal prohíbe el acceso a vehículos destinados al transporte de mercancías, entendiendo como tales...",
+        "options": [
+            "los camiones, exclusivamente.",
+            "los camiones y furgones dependiendo de su masa.",
+            "los camiones y furgones independientemente de su masa."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P1512.jpg"
+    },
+    {
+        "text": "Si su vehículo dispone de servofreno y éste falla, para detener el vehículo:",
+        "options": [
+            "deberá usar el freno de mano.",
+            "deberá ejercer más fuerza sobre el pedal del freno.",
+            "deberá frenar con más suavidad (ejerciendo menos fuerza)."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T510122_251116.jpg"
+    },
+    {
+        "text": "Circula por una vía y se encuentra a este agente, ¿qué indica con la bandera roja?",
+        "options": [
+            "Que debe detenerse en el lado derecho.",
+            "Que la vía queda temporalmente cerrada al tráfico a partir del paso de esa moto.",
+            "Que debe extremar la atención por la proximidad de un peligro."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P1226.jpg"
+    },
+    {
+        "text": "El número de teléfono de emergencias en caso de accidentes de tráfico es...",
+        "options": [
+            "el 1003.",
+            "el 112.",
+            "el 911."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P3107.jpg"
+    },
+    {
+        "text": "Una hilera de luces amarillas fijas o intermitentes...",
+        "options": [
+            "permite el paso si son intermitentes y lo prohíbe si son fijas.",
+            "prohíbe el paso a través de la línea imaginaria que las une.",
+            "permite el paso tanto si son fijas como si son intermitentes."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T503019.jpg"
+    },
+    {
+        "text": "Un peatón circula por su izquierda en una vía interurbana. ¿Circula correctamente?",
+        "options": [
+            "Sí.",
+            "No, porque debe circular siempre por el lado de la calzada donde el arcén sea transitable.",
+            "No, porque debe circular por la derecha de la calzada en el sentido de su marcha."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P0126.jpg"
+    },
+    {
+        "text": "¿Cuál es la velocidad máxima a la que tiene permitido circular un cuadriciclo ligero cuando lo hace fuera de poblado?",
+        "options": [
+            "70 km/h.",
+            "50 km/h.",
+            "45 km/h."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P0401.jpg"
+    },
+    {
+        "text": "La cinta abdominal del cinturón de seguridad debe colocarse...",
+        "options": [
+            "sobre la pelvis.",
+            "sobre los muslos.",
+            "sobre el abdomen."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P2807.jpg"
+    },
+    {
+        "text": "Esta señal indica la situación de...",
+        "options": [
+            "un paraje de interés paisajístico.",
+            "un apartadero en un túnel.",
+            "un lugar desde el que puede realizar un cambio de sentido."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P1707.jpg"
+    },
+    {
+        "text": "El navegador GPS, ¿puede ser peligroso para la conducción?",
+        "options": [
+            "Sí, cuando produce distracciones.",
+            "Sí, cuando nos lleva por una ruta distinta a la habitual.",
+            "No, es de gran ayuda a la conducción."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P2325.jpg"
+    },
+    {
+        "text": "En caso de lluvia no intensa, ¿está permitido utilizar la luz antiniebla?",
+        "options": [
+            "Sí, tanto la delantera como la trasera.",
+            "Sí, pero sólo la trasera.",
+            "No."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P1121.jpg"
+    },
+    {
+        "text": "Los efectos del alcohol, ¿son mayores en los conductores con poca experiencia al volante?",
+        "options": [
+            "No, el alcohol afecta igual a todas las personas.",
+            "No, sólo dependen de la tasa de alcoholemia.",
+            "Sí, por eso la tasa de alcoholemia permitida es menor."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P2425.jpg"
+    },
+    {
+        "text": "Cuando el autobús circula más rápido que el resto de los vehículos, ¿se considera adelantamiento?",
+        "options": [
+            "No.",
+            "Sí.",
+            "Sí, porque en vía urbana está permitido adelantar por la derecha."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P0802.jpg"
+    },
+    {
+        "text": "El viento por la derecha en los adelantamientos a vehículos grandes, ¿por qué es peligroso?",
+        "options": [
+            "Porque puedo perder el control del vehículo y salirme de la calzada.",
+            "Porque no me deja ver la calzada.",
+            "Porque frena mi vehículo y no me deja adelantar."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P3030.jpg"
+    },
+    {
+        "text": "Como norma general, ¿está prohibido adelantar en las intersecciones con vías para ciclistas o en sus proximidades?",
+        "options": [
+            "Sí.",
+            "En las intersecciones con vías para ciclistas sí, pero en sus proximidades no.",
+            "No."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510129_250617.jpg"
+    },
+    {
+        "text": "Una forma de ahorrar combustible en su vehículo es...",
+        "options": [
+            "parar el motor en inmovilizaciones prolongadas, tales como atascos, etc.",
+            "utilizar gasolina de octanaje inferior al establecido por el fabricante.",
+            "utilizar el vehículo con el motor en punto muerto bajando pendientes."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P3414.jpg"
+    },
+    {
+        "text": "En una intersección en la que no funciona el semáforo, ¿qué debe hacer?",
+        "options": [
+            "Pasar porque se entiende que el semáforo está en verde.",
+            "Ceder el paso a los vehículos que vengan por la derecha, y extremar la precaución.",
+            "Detenerse porque está prohibido el paso."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P1330.jpg"
+    },
+    {
+        "text": "El vehículo rojo, ¿está correctamente estacionado?",
+        "options": [
+            "Sí, si la duración del estacionamiento es inferior a dos minutos.",
+            "No, porque está en doble fila.",
+            "Sí, si no hay espacio próximo para estacionar de otra manera."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P1015.jpg"
+    },
+    {
+        "text": "El panel colocado debajo de la señal vertical...",
+        "options": [
+            "es complementario de la señal vertical, e indica niebla.",
+            "advierte de la presencia de una señalización.",
+            "advierte al conductor de condiciones adversas como nieve, niebla o lluvia."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P1727.jpg"
+    },
+    {
+        "text": "En un control de alcoholemia, ¿cuántas pruebas pueden realizarle?",
+        "options": [
+            "Una única prueba con el etilómetro.",
+            "Dos pruebas a elegir entre aire espirado con el etilómetro o un análisis de sangre.",
+            "La primera de aire espirado con el etilómetro y puede solicitar una segunda prueba transcurridos 10 minutos."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P2504.jpg"
+    }
+]
+            
+            ;
+
+            const container = document.getElementById('test-container');
+            const paginationRow1 = document.getElementById('pagination-row-1');
+            const paginationRow2 = document.getElementById('pagination-row-2');
+
+            // Generar preguntas
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.setAttribute('data-correct', question.correct);
+                questionDiv.innerHTML = `
+                    <div class="question-image">
+                        <img src="${question.image}" alt="Imagen de la pregunta">
+                    </div>
+                    <div class="question-content">
+                        <h3>${index + 1}. ${question.text}</h3>
+                        <div class="options">
+                            ${question.options.map((option, idx) => `
+                                <div class="option" data-answer="${String.fromCharCode(65 + idx)}">
+                                    <span class="option-circle">${String.fromCharCode(65 + idx)}</span>
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+
+            // Generar paginación
+            for (let i = 0; i < questions.length; i++) {
+                const button = document.createElement('button');
+                button.textContent = `${i + 1}`;
+                button.addEventListener('click', () => showQuestion(i));
+                if (i < 15) {
+                    paginationRow1.appendChild(button);
+                } else {
+                    paginationRow2.appendChild(button);
+                }
+            }
+
+            // Mostrar la primera pregunta
+            showQuestion(0);
+
+            // Función para mostrar una pregunta específica
+            function showQuestion(index) {
+                document.querySelectorAll('.question').forEach((q, i) => {
+                    q.style.display = i === index ? 'flex' : 'none';
+                });
+                document.querySelectorAll('.pagination button').forEach((btn, i) => {
+                    btn.style.backgroundColor = i === index ? '#ff7aa2' : '#ffa5c3';
+                });
+            }
+
+            // Evento para las opciones de respuesta
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const question = this.closest('.question');
+                    const questionIndex = Array.from(container.children).indexOf(question);
+                    const isCorrect = this.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    
+                    if (question.dataset.answered) return;
+
+                    question.dataset.answered = true;
+
+                    question.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                        opt.style.pointerEvents = 'none';
+                    });
+                    
+                    this.classList.add('selected', isCorrect ? 'correct' : 'incorrect');
+
+                    if (!isCorrect) {
+                        question.querySelector(`.option[data-answer="${question.getAttribute('data-correct')}"]`).classList.add('correct');
+                    }
+
+                    // Actualizar el botón de paginación
+                    const paginationButton = questionIndex < 15 ? paginationRow1.children[questionIndex] : paginationRow2.children[questionIndex - 15];
+                    paginationButton.classList.add(isCorrect ? 'correct' : 'incorrect');
+                });
+            });
+
+            // Evento para corregir el test
+            document.getElementById('correct-test').addEventListener('click', () => {
+                let wrongAnswers = 0;
+                document.querySelectorAll('.question').forEach((question, index) => {
+                    const selected = question.querySelector('.option.selected');
+                    const isCorrect = selected && selected.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    if (!isCorrect) {
+                        wrongAnswers++;
+                    }
+                    // Actualizar el botón de paginación si no se ha respondido
+                    if (!selected) {
+                        const paginationButton = index < 15 ? paginationRow1.children[index] : paginationRow2.children[index - 15];
+                        paginationButton.classList.add('incorrect');
+                    }
+                });
+                const resultMessage = `Has fallado ${wrongAnswers} respuestas.`;
+
+                const alert = document.getElementById('custom-alert');
+                document.getElementById('alert-message').textContent = resultMessage;
+                alert.style.display = 'block';
+            });
+        });
+
+        function closeAlert() {
+            document.getElementById('custom-alert').style.display = 'none';
+        }
+    </script>
+
+    
+</body>
+</html>

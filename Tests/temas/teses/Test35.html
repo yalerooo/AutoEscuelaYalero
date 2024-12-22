@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Autoescuela</title>
+    <link rel="stylesheet" href="../../../Assets/style.css">
+</head>
+<body>
+
+    
+    <div class="container">
+        <h1 style="text-align: center; color: #ffa5c3;">Test de Autoescuela</h1>
+        <div id="test-container">
+            <!-- Aquí se generarán dinámicamente las preguntas -->
+        </div>
+        <div class="pagination">
+            <div class="pagination-row" id="pagination-row-1"></div>
+            <div class="pagination-row" id="pagination-row-2"></div>
+        </div>
+        <button id="correct-test">Corregir Test</button>
+    </div>
+
+    <!-- Custom Alert HTML -->
+    <div class="custom-alert" id="custom-alert">
+        <h2>Resultado del Test</h2>
+        <p id="alert-message">Aquí irá el mensaje del resultado.</p>
+        <button onclick="closeAlert()">Cerrar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = [
+    {
+        "text": "¿Qué indica esta señal?",
+        "options": [
+            "La situación de una estación de recarga eléctrica.",
+            "Una estación de transporte de viajeros conectada.",
+            "Un punto de carga de patinetes eléctricos."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510105_150623.jpg"
+    },
+    {
+        "text": "¿Qué indica esta señal?",
+        "options": [
+            "Una intersección.",
+            "Una zona de peligro.",
+            "Un puesto de socorro."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T514303.jpg"
+    },
+    {
+        "text": "La señal le indica...",
+        "options": [
+            "la situación de un lugar pintoresco.",
+            "la situación de un merendero.",
+            "la situación de un taller de reparación."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510114_050723.jpg"
+    },
+    {
+        "text": "¿Qué indica esta señal?",
+        "options": [
+            "Albergue de juventud.",
+            "Merendero.",
+            "Campamento."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T511130.jpg"
+    },
+    {
+        "text": "Esta señal indica la situación de un...",
+        "options": [
+            "albergue de juventud.",
+            "merendero fuera de la vía de servicio.",
+            "área de descanso."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T500923.jpg"
+    },
+    {
+        "text": "¿Qué indica esta señal?",
+        "options": [
+            "Estacionamiento para usuarios de ferrocarril.",
+            "Zona reservada para el estacionamiento de autobuses.",
+            "Estacionamiento para usuarios de autobús."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T510125_150623.jpg"
+    },
+    {
+        "text": "¿Qué indica la señal?",
+        "options": [
+            "Estacionamiento para usuarios del ferrocarril.",
+            "Estacionamiento para usuarios de autobús.",
+            "Estacionamiento para usuarios del ferrocarril inferior."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T510111_050723.jpg"
+    },
+    {
+        "text": "La señal indica...",
+        "options": [
+            "una zona o área de descanso.",
+            "un área de servicio en una autopista o autovía.",
+            "un área de servicio en una carretera convencional."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T503727.jpg"
+    },
+    {
+        "text": "Esta señal indica que circula por carretera convencional y que un ramal de la próxima intersección conduce a...",
+        "options": [
+            "una autopista o una autovía.",
+            "una vía para automóviles.",
+            "otra carretera convencional."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510125_150116.jpg"
+    },
+    {
+        "text": "Esta señal sobre una carretera convencional indica la distancia y la dirección del ramal...",
+        "options": [
+            "de la próxima salida hacia una carretera convencional.",
+            "procedente de una autopista o autovía.",
+            "de la próxima salida hacia una autopista o autovía."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T514213.jpg"
+    },
+    {
+        "text": "Estas señales significan...",
+        "options": [
+            "preseñalización en autopista o autovía hacia cualquier carretera y dirección propia.",
+            "salida inmediata hacia carretera convencional y dirección propia en autopista o autovía.",
+            "preseñalización en carretera convencional hacia autopista o autovía."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T513427.jpg"
+    },
+    {
+        "text": "Estas señales, sobre autopista o autovía, indican salida inmediata hacia...",
+        "options": [
+            "la población indicada.",
+            "una autopista o autovía.",
+            "una carretera convencional."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T502602.jpg"
+    },
+    {
+        "text": "Estas señales, sobre una carretera convencional, indican salida inmediata hacia...",
+        "options": [
+            "otra carretera convencional.",
+            "una autovía.",
+            "una autopista."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T504701.jpg"
+    },
+    {
+        "text": "Esta señal, ¿qué indica?",
+        "options": [
+            "Las direcciones de las distintas salidas en la próxima glorieta.",
+            "El lugar a partir del cual rigen las normas de las autopistas.",
+            "Que hay una vía que tiene cuatro carreteras."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T504804.jpg"
+    },
+    {
+        "text": "Esta señal...",
+        "options": [
+            "indica que se puede efectuar un cambio de sentido a distinto nivel.",
+            "indica la única dirección permitida en la próxima intersección.",
+            "indica el itinerario que es preciso seguir para tomar la dirección que señala la flecha."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T514827.jpg"
+    },
+    {
+        "text": "¿Qué indica esta señal?",
+        "options": [
+            "Que un carril se desvía hacia la calzada contraria por obras.",
+            "Que la vía pasa de uno a dos carriles de circulación por obras.",
+            "Que dos carriles se desvían hacia la calzada contraria por obras."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T503114.jpg"
+    },
+    {
+        "text": "Esta señal indica...",
+        "options": [
+            "la existencia de una vía para peatones y ciclos segregada del tráfico motorizado.",
+            "la intersección con una vía ciclista.",
+            "que el acceso está prohibido a ciclos."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T503815.jpg"
+    },
+    {
+        "text": "¿Qué indica esta señal?",
+        "options": [
+            "Dirección hacia una vía ciclista.",
+            "La prohibición a las bicicletas de circular en la dirección que señala.",
+            "Dirección hacia una vía reservada a vehículos de dos ruedas."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T506027.jpg"
+    },
+    {
+        "text": "Esta señal, ¿qué tipo de vía identifica?",
+        "options": [
+            "Una vía exclusiva para automóviles.",
+            "Una autovía o autopista.",
+            "Una autopista de peaje."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/A301110.jpg"
+    },
+    {
+        "text": "¿Qué indica esta señal?",
+        "options": [
+            "La longitud en la que existe el peligro.",
+            "La distancia que falta para llegar a un stop.",
+            "Que a 4,25 kilómetros hay un peligro."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T503215.jpg"
+    },
+    {
+        "text": "Las señales de la fotografía, indican...",
+        "options": [
+            "obras a 300 metros.",
+            "curvas e intersección a la a la derecha.",
+            "curvas y estrechamiento por obras."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T503715.jpg"
+    },
+    {
+        "text": "Este panel, colocado bajo una señal de prohibición, indica...",
+        "options": [
+            "la distancia en que se aplica la prohibición a ambos lados de la calzada.",
+            "la distancia al comienzo de la prohibición.",
+            "la distancia en que se aplica la prohibición en el sentido de la flecha."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T504428.jpg"
+    },
+    {
+        "text": "¿Qué indica esta señal?",
+        "options": [
+            "Que el itinerario que sigue de frente tiene prioridad.",
+            "Que el itinerario que sigue el ramal de la izquierda tiene prioridad.",
+            "Que el itinerario que sigue el ramal de la derecha tiene prioridad."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T504814.jpg"
+    },
+    {
+        "text": "¿Qué indica esta señal?",
+        "options": [
+            "Que el itinerario que sigue el ramal de la derecha tiene prioridad.",
+            "Que el itinerario que sigue el ramal de la izquierda tiene prioridad.",
+            "Que el itinerario que sigue de frente tiene prioridad."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T500409.jpg"
+    },
+    {
+        "text": "¿Dónde puede encontrar estos paneles?",
+        "options": [
+            "Antes de una señal vertical.",
+            "Bajo una señal vertical.",
+            "Encima de una señal vertical."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T510113_150116.jpg"
+    },
+    {
+        "text": "Esta señalización recomienda circular a 70 kilómetros por hora...",
+        "options": [
+            "en cualquier caso.",
+            "sólo cuando las condiciones meteorológicas y ambientales sean favorables.",
+            "sólo cuando está lloviendo."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T504213.jpg"
+    },
+    {
+        "text": "¿Qué significa esta señal?",
+        "options": [
+            "Avisa de que puede haber hielo en la calzada.",
+            "Que en caso de nieve no puede superar la velocidad indicada.",
+            "Que se aproxima a una zona con nieve en la calzada."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T505803.jpg"
+    },
+    {
+        "text": "¿Qué significan estas señales?",
+        "options": [
+            "Que en caso de niebla, no puedo superar la velocidad indicada.",
+            "Que si llueve, no puedo superar la velocidad indicada.",
+            "Que no puedo superar la velocidad indicada si la calzada está inundada."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510115_250216.jpg"
+    },
+    {
+        "text": "Esta señal indica la situación de...",
+        "options": [
+            "un extintor de incendios y un teléfono de emergencia en un apartadero.",
+            "una salida de emergencia.",
+            "un puesto de socorro."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T502102.jpg"
+    },
+    {
+        "text": "En un túnel, esta señal indica...",
+        "options": [
+            "la situación de un teléfono de emergencia.",
+            "la dirección y distancia a una salida de emergencia.",
+            "la situación de una salida de emergencia."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T501402.jpg"
+    }
+]
+            
+            ;
+
+            const container = document.getElementById('test-container');
+            const paginationRow1 = document.getElementById('pagination-row-1');
+            const paginationRow2 = document.getElementById('pagination-row-2');
+
+            // Generar preguntas
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.setAttribute('data-correct', question.correct);
+                questionDiv.innerHTML = `
+                    <div class="question-image">
+                        <img src="${question.image}" alt="Imagen de la pregunta">
+                    </div>
+                    <div class="question-content">
+                        <h3>${index + 1}. ${question.text}</h3>
+                        <div class="options">
+                            ${question.options.map((option, idx) => `
+                                <div class="option" data-answer="${String.fromCharCode(65 + idx)}">
+                                    <span class="option-circle">${String.fromCharCode(65 + idx)}</span>
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+
+            // Generar paginación
+            for (let i = 0; i < questions.length; i++) {
+                const button = document.createElement('button');
+                button.textContent = `${i + 1}`;
+                button.addEventListener('click', () => showQuestion(i));
+                if (i < 15) {
+                    paginationRow1.appendChild(button);
+                } else {
+                    paginationRow2.appendChild(button);
+                }
+            }
+
+            // Mostrar la primera pregunta
+            showQuestion(0);
+
+            // Función para mostrar una pregunta específica
+            function showQuestion(index) {
+                document.querySelectorAll('.question').forEach((q, i) => {
+                    q.style.display = i === index ? 'flex' : 'none';
+                });
+                document.querySelectorAll('.pagination button').forEach((btn, i) => {
+                    btn.style.backgroundColor = i === index ? '#ff7aa2' : '#ffa5c3';
+                });
+            }
+
+            // Evento para las opciones de respuesta
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const question = this.closest('.question');
+                    const questionIndex = Array.from(container.children).indexOf(question);
+                    const isCorrect = this.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    
+                    if (question.dataset.answered) return;
+
+                    question.dataset.answered = true;
+
+                    question.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                        opt.style.pointerEvents = 'none';
+                    });
+                    
+                    this.classList.add('selected', isCorrect ? 'correct' : 'incorrect');
+
+                    if (!isCorrect) {
+                        question.querySelector(`.option[data-answer="${question.getAttribute('data-correct')}"]`).classList.add('correct');
+                    }
+
+                    // Actualizar el botón de paginación
+                    const paginationButton = questionIndex < 15 ? paginationRow1.children[questionIndex] : paginationRow2.children[questionIndex - 15];
+                    paginationButton.classList.add(isCorrect ? 'correct' : 'incorrect');
+                });
+            });
+
+            // Evento para corregir el test
+            document.getElementById('correct-test').addEventListener('click', () => {
+                let wrongAnswers = 0;
+                document.querySelectorAll('.question').forEach((question, index) => {
+                    const selected = question.querySelector('.option.selected');
+                    const isCorrect = selected && selected.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    if (!isCorrect) {
+                        wrongAnswers++;
+                    }
+                    // Actualizar el botón de paginación si no se ha respondido
+                    if (!selected) {
+                        const paginationButton = index < 15 ? paginationRow1.children[index] : paginationRow2.children[index - 15];
+                        paginationButton.classList.add('incorrect');
+                    }
+                });
+                const resultMessage = `Has fallado ${wrongAnswers} respuestas.`;
+
+                const alert = document.getElementById('custom-alert');
+                document.getElementById('alert-message').textContent = resultMessage;
+                alert.style.display = 'block';
+            });
+        });
+
+        function closeAlert() {
+            document.getElementById('custom-alert').style.display = 'none';
+        }
+    </script>
+
+    
+</body>
+</html>

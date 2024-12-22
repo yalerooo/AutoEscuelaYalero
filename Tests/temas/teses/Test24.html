@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Autoescuela</title>
+    <link rel="stylesheet" href="../../../Assets/style.css">
+</head>
+<body>
+
+    
+    <div class="container">
+        <h1 style="text-align: center; color: #ffa5c3;">Test de Autoescuela</h1>
+        <div id="test-container">
+            <!-- Aquí se generarán dinámicamente las preguntas -->
+        </div>
+        <div class="pagination">
+            <div class="pagination-row" id="pagination-row-1"></div>
+            <div class="pagination-row" id="pagination-row-2"></div>
+        </div>
+        <button id="correct-test">Corregir Test</button>
+    </div>
+
+    <!-- Custom Alert HTML -->
+    <div class="custom-alert" id="custom-alert">
+        <h2>Resultado del Test</h2>
+        <p id="alert-message">Aquí irá el mensaje del resultado.</p>
+        <button onclick="closeAlert()">Cerrar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = [
+    {
+        "text": "La luz antiniebla delantera, podrá utilizarse...",
+        "options": [
+            "cuando existan condiciones meteorológicas o ambientales que disminuyan sensiblemente la visibilidad.",
+            "siempre que se circule de noche.",
+            "siempre entre la puesta y la salida del sol, para complementar a las otras luces."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P1120.jpg"
+    },
+    {
+        "text": "Está anocheciendo y no hay niebla. ¿Es correcto encender las luces antiniebla delanteras?",
+        "options": [
+            "Sí.",
+            "No."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T511913.jpg"
+    },
+    {
+        "text": "En un tramo recto, de noche, sin condiciones atmosféricas adversas, ¿es correcto el alumbrado que lleva encendido este vehículo?",
+        "options": [
+            "No.",
+            "Sí.",
+            "Únicamente cuando circule por una carretera estrecha."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T513711.jpg"
+    },
+    {
+        "text": "En un tramo señalizado con la señal de curvas peligrosas, ¿está permitido utilizar la luz antiniebla delantera entre la puesta y la salida del sol?",
+        "options": [
+            "Sí, cuando la vía sea muy estrecha.",
+            "Sí, siempre es obligatorio utilizándola junto con la luz de cruce o la de carretera.",
+            "No, si no hay condiciones meteorológicas o ambientales adversas."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T505505.jpg"
+    },
+    {
+        "text": "Su vehículo que no tiene luces antiniebla delanteras, ¿qué alumbrado debe encender cuando hay niebla?",
+        "options": [
+            "El de corto alcance o el de largo alcance.",
+            "El de posición solamente.",
+            "El de largo alcance, solamente."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P1125.jpg"
+    },
+    {
+        "text": "Hay mucha niebla. ¿Qué luces deben llevar encendidas los vehículos?",
+        "options": [
+            "Las luces antiniebla junto con las luces cortas.",
+            "Las luces antiniebla junto con las luces de emergencia.",
+            "Las luces de posición solamente"
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510103_050416.jpg"
+    },
+    {
+        "text": "Hay niebla y lleva la luz antiniebla delantera encendida. ¿Está permitido encender la luz larga?",
+        "options": [
+            "No, porque está prohibido.",
+            "Sí, está permitido, pero no es aconsejable.",
+            "Sí, es obligatorio."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P1124.jpg"
+    },
+    {
+        "text": "Es obligatorio utilizar la luz antiniebla trasera...",
+        "options": [
+            "cuando las condiciones meteorológicas o ambientales sean especialmente desfavorables.",
+            "en caso de lluvia, nevada o nubes de polvo o de humo.",
+            "cuando existan condiciones meteorológicas o ambientales que disminuyan la visibilidad."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P1127.jpg"
+    },
+    {
+        "text": "Circulando con lluvia intensa, ¿es obligatorio utilizar la luz antiniebla trasera?",
+        "options": [
+            "Sí, el trasero y el delantero.",
+            "Sí.",
+            "No."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T501725.jpg"
+    },
+    {
+        "text": "Al circular con lluvia intensa, ¿es obligatorio utilizar algún alumbrado?",
+        "options": [
+            "Sí.",
+            "No, cuando es de día.",
+            "Sólo durante la noche."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T505805.jpg"
+    },
+    {
+        "text": "Circulando con lluvia muy intensa, ¿se pueden utilizar las luces antiniebla delanteras y traseras?",
+        "options": [
+            "No, porque sólo se pueden utilizar con niebla.",
+            "Sí, y además es obligatorio utilizar la luz antiniebla trasera.",
+            "Sí, pero sólo la luz antiniebla delantera."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T510107_051016.jpg"
+    },
+    {
+        "text": "Circula por una vía interurbana y observa que nieva de forma ligera, ¿puede emplear el alumbrado antiniebla?",
+        "options": [
+            "Sí, debe usar obligatoriamente las luces antiniebla traseras.",
+            "Sí, pero sólo las luces antiniebla delanteras, ya que las traseras están prohibidas en este caso.",
+            "No, está prohibido usar las luces antiniebla cuando la nevada es ligera."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T514027.jpg"
+    },
+    {
+        "text": "Circulando con fuerte nevada, ¿qué luz antiniebla se debe utilizar?",
+        "options": [
+            "La luz antiniebla delantera.",
+            "Obligatoriamente la antiniebla delantera y si se dispone de ella la trasera.",
+            "La luz antiniebla trasera y si se dispone de ella también la antiniebla delantera."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T513803.jpg"
+    },
+    {
+        "text": "Con niebla densa, ¿qué luces antiniebla está obligado a utilizar un turismo?",
+        "options": [
+            "La luz antiniebla trasera solamente.",
+            "La luz antiniebla trasera y la delantera si la tiene instalada.",
+            "La luz antiniebla delantera y la luz de largo alcance."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T505405.jpg"
+    },
+    {
+        "text": "¿Qué es un catadióptrico?",
+        "options": [
+            "Una placa de matrícula reflectante.",
+            "Un dispositivo de alumbrado del vehículo.",
+            "Un dispositivo que refleja la luz procedente de una fuente luminosa."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/C702111.jpg"
+    },
+    {
+        "text": "El alumbrado de gálibo es obligatorio para los vehículos...",
+        "options": [
+            "cuya anchura exceda de 2,10 metros.",
+            "que transportan sólo mercancias peligrosas.",
+            "de asistencia en carretera."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510127_250716.jpg"
+    },
+    {
+        "text": "Un vehículo tiene una anchura superior a 2,10 metros. ¿Cuándo es obligatorio encender la luz de gálibo?",
+        "options": [
+            "Sólo cuando circule por un tunel insuficientemente iluminado.",
+            "Sólo cuando circule por un túnel entre la puesta y la salida del sol.",
+            "Cuando circule por un túnel a cualquier hora del día."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P1129.jpg"
+    },
+    {
+        "text": "De día es obligatorio encender el alumbrado que corresponda...",
+        "options": [
+            "sólo cuando existan condiciones que disminuyan la visibilidad.",
+            "cuando se circule por carriles para VAO.",
+            "cuando se circule por pasos inferiores o tramos de vía afectados por la señal túnel."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T505305.jpg"
+    },
+    {
+        "text": "Si circula por un túnel suficientemente iluminado, ¿qué alumbrado debe utilizar?",
+        "options": [
+            "El alumbrado de posición y el de corto alcance.",
+            "Solamente el alumbrado de posición.",
+            "El alumbrado de largo alcance."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P1107.jpg"
+    },
+    {
+        "text": "Las motocicletas cuya cilindrada no supera los 125 centímetros cúbicos, ¿están obligadas a llevar instalada la luz de largo alcance o carretera?",
+        "options": [
+            "No.",
+            "Sí, una o dos luces.",
+            "Sí, si llevan sidecar. En caso contrario, no."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T513021.jpg"
+    },
+    {
+        "text": "Durante el día, ¿cuándo debe llevar las luces de cruce encendidas una motocicleta?",
+        "options": [
+            "Sólo cuando circule de noche o en condiciones meteorológicas adversas.",
+            "Cuando circule por cualquier vía pública.",
+            "Cuando circule por túneles y tramos de vía afectados por la señal de túnel, únicamente."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T502005.jpg"
+    },
+    {
+        "text": "¿Están obligadas las motocicletas a disponer de luz de emergencia?",
+        "options": [
+            "Sí.",
+            "No.",
+            "Sólo las de cilindrada superior a 125 c.c."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T514124.jpg"
+    },
+    {
+        "text": "Una motocicleta, ¿puede llevar instaladas luces antiniebla?",
+        "options": [
+            "Sí, de forma opcional, tanto en la parte delantera como trasera.",
+            "Sí, pero únicamente en la parte trasera.",
+            "No, las motocicletas no pueden llevar luces antiniebla."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P1119.jpg"
+    },
+    {
+        "text": "Los ciclistas, ¿están obligados a encender el alumbrado cuando circulan de noche?",
+        "options": [
+            "Sí.",
+            "Solo cuando circulan por vías interurbanas.",
+            "No, si llevan puestas prendas reflectantes."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T511116.jpg"
+    },
+    {
+        "text": "Los vehículos de motor que no disponen de alumbrado de largo alcance, ¿qué alumbrado utilizarán cuando circulen por la noche por vías insuficientemente iluminadas?",
+        "options": [
+            "El de posición.",
+            "El de corto alcance.",
+            "La señal de emergencia."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T503417.jpg"
+    },
+    {
+        "text": "Las lámparas de xenón...",
+        "options": [
+            "aumentan la fatiga ocular del conductor.",
+            "mejoran la iluminación de la vía y reducen la fatiga ocular del conductor.",
+            "iluminan peor la vía, pero reducen la fatiga ocular del conductor."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T504806.jpg"
+    },
+    {
+        "text": "Las luces adaptativas...",
+        "options": [
+            "emiten más luz que las luces convencionales.",
+            "adaptan su luminosidad a la visibilidad existente.",
+            "mejoran la visibilidad en determinadas situaciones, como una curva o una intersección."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T501517.jpg"
+    },
+    {
+        "text": "Los turismos, deben tener luz para la placa de matrícula...",
+        "options": [
+            "delantera, únicamente.",
+            "trasera, únicamente.",
+            "delantera y trasera."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T505214.jpg"
+    },
+    {
+        "text": "Circula de noche con el alumbrado interior encendido. ¿Es peligroso?",
+        "options": [
+            "Sí, porque veo peor.",
+            "No, porque evita deslumbramiento.",
+            "No, porque descansa la vista."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T513020.jpg"
+    },
+    {
+        "text": "Si circula de noche con una furgoneta que lleva una carga pesada, ¿deberá comprobar la altura de las luces?",
+        "options": [
+            "Solamente si la carga está situada en la parte trasera de la plataforma.",
+            "No, siempre que se distribuya la carga uniformemente.",
+            "Sí, porque puede verse afectada la altura de los faros."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T502905.jpg"
+    }
+]
+            
+            ;
+
+            const container = document.getElementById('test-container');
+            const paginationRow1 = document.getElementById('pagination-row-1');
+            const paginationRow2 = document.getElementById('pagination-row-2');
+
+            // Generar preguntas
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.setAttribute('data-correct', question.correct);
+                questionDiv.innerHTML = `
+                    <div class="question-image">
+                        <img src="${question.image}" alt="Imagen de la pregunta">
+                    </div>
+                    <div class="question-content">
+                        <h3>${index + 1}. ${question.text}</h3>
+                        <div class="options">
+                            ${question.options.map((option, idx) => `
+                                <div class="option" data-answer="${String.fromCharCode(65 + idx)}">
+                                    <span class="option-circle">${String.fromCharCode(65 + idx)}</span>
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+
+            // Generar paginación
+            for (let i = 0; i < questions.length; i++) {
+                const button = document.createElement('button');
+                button.textContent = `${i + 1}`;
+                button.addEventListener('click', () => showQuestion(i));
+                if (i < 15) {
+                    paginationRow1.appendChild(button);
+                } else {
+                    paginationRow2.appendChild(button);
+                }
+            }
+
+            // Mostrar la primera pregunta
+            showQuestion(0);
+
+            // Función para mostrar una pregunta específica
+            function showQuestion(index) {
+                document.querySelectorAll('.question').forEach((q, i) => {
+                    q.style.display = i === index ? 'flex' : 'none';
+                });
+                document.querySelectorAll('.pagination button').forEach((btn, i) => {
+                    btn.style.backgroundColor = i === index ? '#ff7aa2' : '#ffa5c3';
+                });
+            }
+
+            // Evento para las opciones de respuesta
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const question = this.closest('.question');
+                    const questionIndex = Array.from(container.children).indexOf(question);
+                    const isCorrect = this.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    
+                    if (question.dataset.answered) return;
+
+                    question.dataset.answered = true;
+
+                    question.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                        opt.style.pointerEvents = 'none';
+                    });
+                    
+                    this.classList.add('selected', isCorrect ? 'correct' : 'incorrect');
+
+                    if (!isCorrect) {
+                        question.querySelector(`.option[data-answer="${question.getAttribute('data-correct')}"]`).classList.add('correct');
+                    }
+
+                    // Actualizar el botón de paginación
+                    const paginationButton = questionIndex < 15 ? paginationRow1.children[questionIndex] : paginationRow2.children[questionIndex - 15];
+                    paginationButton.classList.add(isCorrect ? 'correct' : 'incorrect');
+                });
+            });
+
+            // Evento para corregir el test
+            document.getElementById('correct-test').addEventListener('click', () => {
+                let wrongAnswers = 0;
+                document.querySelectorAll('.question').forEach((question, index) => {
+                    const selected = question.querySelector('.option.selected');
+                    const isCorrect = selected && selected.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    if (!isCorrect) {
+                        wrongAnswers++;
+                    }
+                    // Actualizar el botón de paginación si no se ha respondido
+                    if (!selected) {
+                        const paginationButton = index < 15 ? paginationRow1.children[index] : paginationRow2.children[index - 15];
+                        paginationButton.classList.add('incorrect');
+                    }
+                });
+                const resultMessage = `Has fallado ${wrongAnswers} respuestas.`;
+
+                const alert = document.getElementById('custom-alert');
+                document.getElementById('alert-message').textContent = resultMessage;
+                alert.style.display = 'block';
+            });
+        });
+
+        function closeAlert() {
+            document.getElementById('custom-alert').style.display = 'none';
+        }
+    </script>
+
+    
+</body>
+</html>

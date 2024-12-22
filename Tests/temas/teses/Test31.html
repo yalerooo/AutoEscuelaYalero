@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Autoescuela</title>
+    <link rel="stylesheet" href="../../../Assets/style.css">
+</head>
+<body>
+
+    
+    <div class="container">
+        <h1 style="text-align: center; color: #ffa5c3;">Test de Autoescuela</h1>
+        <div id="test-container">
+            <!-- Aquí se generarán dinámicamente las preguntas -->
+        </div>
+        <div class="pagination">
+            <div class="pagination-row" id="pagination-row-1"></div>
+            <div class="pagination-row" id="pagination-row-2"></div>
+        </div>
+        <button id="correct-test">Corregir Test</button>
+    </div>
+
+    <!-- Custom Alert HTML -->
+    <div class="custom-alert" id="custom-alert">
+        <h2>Resultado del Test</h2>
+        <p id="alert-message">Aquí irá el mensaje del resultado.</p>
+        <button onclick="closeAlert()">Cerrar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = [
+    {
+        "text": "Esta señal prohíbe el acceso a vehículos destinados al transporte de mercancías, entendiendo como tales...",
+        "options": [
+            "los camiones, exclusivamente.",
+            "los camiones y furgones dependiendo de su masa.",
+            "los camiones y furgones independientemente de su masa."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T503902.jpg"
+    },
+    {
+        "text": "Un camión, ¿puede entrar en una vía con esta señal?",
+        "options": [
+            "Sí, en cualquier caso.",
+            "No, tiene siempre prohibido el paso.",
+            "Sí, siempre que no supere los 5.500 kilogramos de masa máxima autorizada."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T501001.jpg"
+    },
+    {
+        "text": "Conduce un turismo con un remolque de un solo eje, ¿le afecta esta señal vertical?",
+        "options": [
+            "Sí, porque lleva un remolque de un eje.",
+            "No.",
+            "No, salvo que la M.M.A. del remolque supere la cifra indicada en la señal."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T510115_051016.jpg"
+    },
+    {
+        "text": "¿Qué indica esta señal?",
+        "options": [
+            "Entrada prohibida a vehículos que transporten mercancías explosivas o inflamables.",
+            "Entrada prohibida a vehículos que transporten mercancías peligrosas.",
+            "Calzada obligatoria para vehículos que transporten mercancías explosivas."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T500304.jpg"
+    },
+    {
+        "text": "Esta señal prohíbe la entrada a los vehículos que transporten...",
+        "options": [
+            "más de mil litros de productos capaces de contaminar el agua.",
+            "mercancías peligrosas.",
+            "cisternas."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510129_250117.jpg"
+    },
+    {
+        "text": "¿Qué indica esta señal?",
+        "options": [
+            "Que está prohibida la entrada a todos los varones.",
+            "Prohibida la entrada a menores de 18 años.",
+            "Que está prohibida la entrada a los peatones."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T501411.jpg"
+    },
+    {
+        "text": "Esta señal prohíbe:",
+        "options": [
+            "La circulación de vehículos a motor por ser una vía exclusiva para animales de montura.",
+            "Las carreras ecuestres.",
+            "La entrada a animales de montura."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T510129_250116.jpg"
+    },
+    {
+        "text": "¿Qué indica esta señal?",
+        "options": [
+            "Entrada prohibida a animales de montura.",
+            "Entrada prohibida a vehículos de tracción animal.",
+            "Obliga a los vehículos de tracción animal a circular por la vía a cuya entrada esté situada."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T507013.jpg"
+    },
+    {
+        "text": "¿Qué significa esta señal situada a la entrada de una calle?",
+        "options": [
+            "Entrada prohibida a todos los vehículos a motor.",
+            "Entrada prohibida a todos los vehículos excepto motocicletas.",
+            "Zona de bajas emisiones."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T510112_050723.jpg"
+    },
+    {
+        "text": "¿Le está permitido el acceso a un vehículo de motor que disponga del distintivo ambiental C a una zona de bajas emisiones delimitada por estas señales?",
+        "options": [
+            "No, como norma general.",
+            "Solo si el vehículo de motor es una motocicleta.",
+            "Sí."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510117_150623.jpg"
+    },
+    {
+        "text": "¿Qué indica esta señal?",
+        "options": [
+            "Circulación prohibida.",
+            "Prohibición de pasar sin detenerse.",
+            "Entrada prohibida."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T511801.jpg"
+    },
+    {
+        "text": "Esta señal prohíbe el paso a...",
+        "options": [
+            "camiones y furgones, solamente.",
+            "cualquier vehículo cuya masa máxima autorizada sea superior a la indicada.",
+            "los vehículos cuya masa en carga sea superior a la indicada."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T505315.jpg"
+    },
+    {
+        "text": "Esta señal prohíbe el paso a...",
+        "options": [
+            "los vehículos destinados al transporte de mercancías con una MMA superior a 2,4 toneladas.",
+            "los vehículos cuya masa por eje supere las 2,4 toneladas.",
+            "los vehículos con anchura superior, incluida la carga, a 2,4 metros."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T514615.jpg"
+    },
+    {
+        "text": "Esta señal, ¿a qué vehículos prohíbe el paso?",
+        "options": [
+            "Solamente a los automóviles cuya longitud supere los 10 metros.",
+            "Sólo a los camiones cuya longitud, incluida la carga, supere la indicada en la señal.",
+            "A los vehículos o conjuntos de vehículos cuya longitud máxima, incluida la carga, supere la indicada."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T508929.jpg"
+    },
+    {
+        "text": "Esta señal...",
+        "options": [
+            "prohíbe el paso a los vehículos con más anchura de la indicada, incluida la carga.",
+            "obliga a mantener la separación mínima que indica entre vehículos.",
+            "restringe el paso a los vehículos con más altura de la indicada."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T513101.jpg"
+    },
+    {
+        "text": "Esta señal prohíbe el paso a los vehículos que superen...",
+        "options": [
+            "la anchura máxima indicada en la señal.",
+            "la altura máxima, sin incluir la carga, indicada en la señal.",
+            "la altura máxima, incluida la carga, indicada en la señal."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T503801.jpg"
+    },
+    {
+        "text": "Esta señal, ¿qué indica?",
+        "options": [
+            "Que se debe guardar, como mínimo, una distancia de 70 metros con el vehículo que circule delante.",
+            "Recuerda, de forma genérica, que debe guardarse la distancia de seguridad reglamentaria entre vehículos.",
+            "Que está prohibido el adelantamiento."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T500623.jpg"
+    },
+    {
+        "text": "Esta señal, indica...",
+        "options": [
+            "Que se debe guardar, como mínimo, una distancia de 70 metros con el vehículo de delante.",
+            "Que está prohibido el adelantamiento.",
+            "Recuerda, de forma genérica, que debe guardarse la distancia de seguridad reglamentaria entre vehículos."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T514101.jpg"
+    },
+    {
+        "text": "Esta señal indica...",
+        "options": [
+            "la velocidad mínima obligatoria.",
+            "la velocidad máxima permitida.",
+            "la velocidad máxima recomendable."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T511303.jpg"
+    },
+    {
+        "text": "La prohibición de la señal de velocidad máxima, ¿finaliza después de la intersección?",
+        "options": [
+            "Sí.",
+            "No."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T505002.jpg"
+    },
+    {
+        "text": "La prohibición de circular a más de 60 kilómetros por hora, finaliza...",
+        "options": [
+            "cuando encuentre una señal de Fin de limitación de velocidad.",
+            "cuando encuentre la señal de Ceda el paso.",
+            "después de pasar la intersección con prioridad de paso."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T514125.jpg"
+    },
+    {
+        "text": "Esta señal indica que está prohibido...",
+        "options": [
+            "hacer cualquier giro.",
+            "girar a la derecha.",
+            "girar a la izquierda."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T513701.jpg"
+    },
+    {
+        "text": "Este panel con esta señal indica que está prohibido...",
+        "options": [
+            "el giro a la derecha a todos los vehículos.",
+            "que circulen vehículos con remolque.",
+            "el giro a la derecha a vehículos con remolque."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T504001.jpg"
+    },
+    {
+        "text": "Esta señal, ¿qué indica?",
+        "options": [
+            "Prohibido girar a la izquierda, solamente.",
+            "Prohibido girar a la izquierda y cambiar de sentido.",
+            "Prohibido girar a la izquierda y a la derecha."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T510103_150216.jpg"
+    },
+    {
+        "text": "La señal circular prohíbe...",
+        "options": [
+            "cambiar de sentido.",
+            "girar a la izquierda.",
+            "cambiar de sentido y girar a la izquierda."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T511527.jpg"
+    },
+    {
+        "text": "¿Puede adelantar a partir de la señal vertical?",
+        "options": [
+            "No, porque está prohibido.",
+            "Sí, por la parte izquierda de la calzada.",
+            "Sí, por el arcén derecho."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T504527.jpg"
+    },
+    {
+        "text": "¿La señal permite realizar la maniobra de adelantamiento?",
+        "options": [
+            "No, salvo que se adelante a motocicletas de dos ruedas y no se invada el sentido contrario.",
+            "No, en ningún caso.",
+            "No, salvo que se adelante a un turismo."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T503304.jpg"
+    },
+    {
+        "text": "A la vista de la señalización, ¿cuándo puede volver a adelantar?",
+        "options": [
+            "Cuando encuentre la señal de 'Fin de prohibición de adelantamiento' o 'Fin de prohibiciones'.",
+            "Cuando encuentre la señal de 'Fin de prohibición de adelantamiento', únicamente",
+            "Cuando finalice el peligro indicado."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510101_250716.jpg"
+    },
+    {
+        "text": "En esta carretera de dos sentidos, ¿se puede adelantar al vehículo de la fotografía?",
+        "options": [
+            "No, porque en curva está prohibido adelantar.",
+            "No, porque la señal lo prohíbe.",
+            "Sí, porque no necesito ocupar el carril de sentido contrario."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T505627.jpg"
+    },
+    {
+        "text": "¿Cuándo termina la prohibición de adelantar?",
+        "options": [
+            "Cuando llegue al estrechamiento.",
+            "Cuando salga del estrechamiento.",
+            "Cuando rebase la vertical de la señal de fin de prohibición de adelantamiento."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T500414.jpg"
+    }
+]
+            
+            ;
+
+            const container = document.getElementById('test-container');
+            const paginationRow1 = document.getElementById('pagination-row-1');
+            const paginationRow2 = document.getElementById('pagination-row-2');
+
+            // Generar preguntas
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.setAttribute('data-correct', question.correct);
+                questionDiv.innerHTML = `
+                    <div class="question-image">
+                        <img src="${question.image}" alt="Imagen de la pregunta">
+                    </div>
+                    <div class="question-content">
+                        <h3>${index + 1}. ${question.text}</h3>
+                        <div class="options">
+                            ${question.options.map((option, idx) => `
+                                <div class="option" data-answer="${String.fromCharCode(65 + idx)}">
+                                    <span class="option-circle">${String.fromCharCode(65 + idx)}</span>
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+
+            // Generar paginación
+            for (let i = 0; i < questions.length; i++) {
+                const button = document.createElement('button');
+                button.textContent = `${i + 1}`;
+                button.addEventListener('click', () => showQuestion(i));
+                if (i < 15) {
+                    paginationRow1.appendChild(button);
+                } else {
+                    paginationRow2.appendChild(button);
+                }
+            }
+
+            // Mostrar la primera pregunta
+            showQuestion(0);
+
+            // Función para mostrar una pregunta específica
+            function showQuestion(index) {
+                document.querySelectorAll('.question').forEach((q, i) => {
+                    q.style.display = i === index ? 'flex' : 'none';
+                });
+                document.querySelectorAll('.pagination button').forEach((btn, i) => {
+                    btn.style.backgroundColor = i === index ? '#ff7aa2' : '#ffa5c3';
+                });
+            }
+
+            // Evento para las opciones de respuesta
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const question = this.closest('.question');
+                    const questionIndex = Array.from(container.children).indexOf(question);
+                    const isCorrect = this.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    
+                    if (question.dataset.answered) return;
+
+                    question.dataset.answered = true;
+
+                    question.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                        opt.style.pointerEvents = 'none';
+                    });
+                    
+                    this.classList.add('selected', isCorrect ? 'correct' : 'incorrect');
+
+                    if (!isCorrect) {
+                        question.querySelector(`.option[data-answer="${question.getAttribute('data-correct')}"]`).classList.add('correct');
+                    }
+
+                    // Actualizar el botón de paginación
+                    const paginationButton = questionIndex < 15 ? paginationRow1.children[questionIndex] : paginationRow2.children[questionIndex - 15];
+                    paginationButton.classList.add(isCorrect ? 'correct' : 'incorrect');
+                });
+            });
+
+            // Evento para corregir el test
+            document.getElementById('correct-test').addEventListener('click', () => {
+                let wrongAnswers = 0;
+                document.querySelectorAll('.question').forEach((question, index) => {
+                    const selected = question.querySelector('.option.selected');
+                    const isCorrect = selected && selected.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    if (!isCorrect) {
+                        wrongAnswers++;
+                    }
+                    // Actualizar el botón de paginación si no se ha respondido
+                    if (!selected) {
+                        const paginationButton = index < 15 ? paginationRow1.children[index] : paginationRow2.children[index - 15];
+                        paginationButton.classList.add('incorrect');
+                    }
+                });
+                const resultMessage = `Has fallado ${wrongAnswers} respuestas.`;
+
+                const alert = document.getElementById('custom-alert');
+                document.getElementById('alert-message').textContent = resultMessage;
+                alert.style.display = 'block';
+            });
+        });
+
+        function closeAlert() {
+            document.getElementById('custom-alert').style.display = 'none';
+        }
+    </script>
+
+    
+</body>
+</html>

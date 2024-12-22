@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Autoescuela</title>
+    <link rel="stylesheet" href="../../../Assets/style.css">
+</head>
+<body>
+
+    
+    <div class="container">
+        <h1 style="text-align: center; color: #ffa5c3;">Test de Autoescuela</h1>
+        <div id="test-container">
+            <!-- Aquí se generarán dinámicamente las preguntas -->
+        </div>
+        <div class="pagination">
+            <div class="pagination-row" id="pagination-row-1"></div>
+            <div class="pagination-row" id="pagination-row-2"></div>
+        </div>
+        <button id="correct-test">Corregir Test</button>
+    </div>
+
+    <!-- Custom Alert HTML -->
+    <div class="custom-alert" id="custom-alert">
+        <h2>Resultado del Test</h2>
+        <p id="alert-message">Aquí irá el mensaje del resultado.</p>
+        <button onclick="closeAlert()">Cerrar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = [
+    {
+        "text": "¿Es conveniente la utilización de botas por parte del conductor de una motocicleta?",
+        "options": [
+            "Sí, siempre.",
+            "Solamente en verano.",
+            "Únicamente en invierno."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T513114.jpg"
+    },
+    {
+        "text": "¿Es adecuado conducir una motocicleta llevando sandalias?",
+        "options": [
+            "Sí, porque el calzado debe permitir la ventilación del pie.",
+            "Es indiferente, ya que el calzado no influye en la conducción de las motocicletas.",
+            "No, en ningún caso."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T504609.jpg"
+    },
+    {
+        "text": "Es conveniente que el traje del conductor o pasajero de una motocicleta sea...",
+        "options": [
+            "de piel u otro material similar que proteja de lesiones en caso de accidente.",
+            "poco vistoso y de colores apagados, para no distraer a los demás conductores.",
+            "muy amplio y suelto porque lo más importante es la estética y la comodidad."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T501502.jpg"
+    },
+    {
+        "text": "Si conduce una motocicleta, ¿es aconsejable utilizar guantes?",
+        "options": [
+            "No, porque pueden dificultar la conducción.",
+            "Sí, incluso en verano, para proteger las manos en caso de caída.",
+            "Sí, su uso es obligatorio en todo tipo de vías."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T501907.jpg"
+    },
+    {
+        "text": "Es recomendable que los guantes que se utilicen para conducir una motocicleta...",
+        "options": [
+            "sean muy gruesos.",
+            "permitan un agarre firme.",
+            "sean reflectantes."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T511222.jpg"
+    },
+    {
+        "text": "Para los conductores y pasajeros de motocicletas, ¿tiene importancia el vestuario a utilizar?",
+        "options": [
+            "Sí, es fundamental porque el cuerpo está directamente expuesto a las inclemencias del tiempo.",
+            "No, es indiferente siempre que lleven el casco.",
+            "No, porque no aporta nada a la seguridad."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T501705.jpg"
+    },
+    {
+        "text": "En los accidentes de circulación con motocicletas y ciclomotores implicados, una de las principales causas de mortalidad es...",
+        "options": [
+            "la fricción con el asfalto.",
+            "no llevar casco.",
+            "el peso del vehículo."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T505818.jpg"
+    },
+    {
+        "text": "En una caída conduciendo un vehículo de dos ruedas, el casco...",
+        "options": [
+            "evita la abrasión de la cara y la cabeza al arrastrar por el pavimento.",
+            "reduce las lesiones lumbares.",
+            "protege de golpes articulares."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T502319.jpg"
+    },
+    {
+        "text": "Están obligados a utilizar casco...",
+        "options": [
+            "los conductores y pasajeros de las motocicletas de dos ruedas, con o sin sidecar.",
+            "solamente los conductores de las motocicletas de dos ruedas sin sidecar.",
+            "solamente los pasajeros de las motocicletas de dos ruedas sin sidecar."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T502422.jpg"
+    },
+    {
+        "text": "El conductor de un ciclomotor no está obligado a utilizar el casco de protección...",
+        "options": [
+            "en vías urbanas.",
+            "cuando el ciclomotor disponga de estructura de protección y cinturón de seguridad.",
+            "en verano."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T503617.jpg"
+    },
+    {
+        "text": "En este ciclomotor, ¿es obligatorio utilizar casco?",
+        "options": [
+            "Solamente en vías interurbanas.",
+            "Sí, siempre.",
+            "No, sólo cuando el conductor lo considere necesario."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T507008.jpg"
+    },
+    {
+        "text": "Conduce un ciclomotor. ¿Dónde es obligatorio ponerse el casco?",
+        "options": [
+            "Sólo cuando circulo a más de 40 kilómetros por hora.",
+            "En todas las vías.",
+            "Sólo en carreteras."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T514915.jpg"
+    },
+    {
+        "text": "¿En qué caso puede el conductor de una motocicleta circular sin casco?",
+        "options": [
+            "Cuando la motocicleta tenga estructura de autoprotección, cinturón de seguridad y así conste en su tarjeta ITV.",
+            "En ningún caso ya que el casco siempre es obligatorio.",
+            "Cuando circule en vías urbanas a velocidad reducida."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T508028.jpg"
+    },
+    {
+        "text": "En un vehículo de tres ruedas que tiene cinturones de seguridad, ¿es obligatorio ponerse el casco?",
+        "options": [
+            "Sí, cuando sea descapotable.",
+            "No, hay que ponerse el cinturón.",
+            "Sí, pero únicamente en carretera."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T514824.jpg"
+    },
+    {
+        "text": "Si conduce este vehículo, ¿tiene obligación de utilizar el casco?",
+        "options": [
+            "Solamente cuando circule por vías interurbanas.",
+            "No, en ningún caso.",
+            "Cuando circule tanto en vías urbanas como interurbanas."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T513130.jpg"
+    },
+    {
+        "text": "Si el pasajero de una motocicleta no usa el casco, la responsabilidad es del...",
+        "options": [
+            "pasajero.",
+            "titular del vehículo.",
+            "conductor."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T501522.jpg"
+    },
+    {
+        "text": "El uso adecuado del casco implica que la correa de sujeción...",
+        "options": [
+            "no debe abrocharse.",
+            "puede llevarse desabrochada en vía urbana.",
+            "debe llevarse correctamente abrochada para que el casco cumpla eficazmente su función."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T501726.jpg"
+    },
+    {
+        "text": "Conduciendo un ciclomotor, ¿puede llevar desabrochado el casco?",
+        "options": [
+            "No.",
+            "Sí.",
+            "Sí, pero sólo en vías urbanas."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T500823.jpg"
+    },
+    {
+        "text": "Conduciendo una motocicleta, ¿está permitido llevar el casco desabrochado?",
+        "options": [
+            "No, en ningún caso.",
+            "Únicamente en vías urbanas, si la velocidad es inferior a 40 km/h.",
+            "Sí, cuando sea un casco integral."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T502021.jpg"
+    },
+    {
+        "text": "Un requisito obligatorio que debe cumplir todo casco que sea utilizado por un motorista o su acompañante es que sea...",
+        "options": [
+            "convencional, porque es más cómodo que el integral.",
+            "integral, porque protege más que el convencional.",
+            "homologado."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T504704.jpg"
+    },
+    {
+        "text": "Al comprar un casco, ¿qué debe tener en cuenta?",
+        "options": [
+            "Que esté homologado, además de su talla y el material con que esté fabricado.",
+            "Únicamente que esté homologado.",
+            "La marca."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T502615.jpg"
+    },
+    {
+        "text": "Al elegir un casco para conducir una motocicleta, ¿qué debe tener en cuenta?",
+        "options": [
+            "Que se pueda sujetar sin tener que llevarlo abrochado.",
+            "Que proteja convenientemente de los ruidos.",
+            "Que tenga buena ventilación para que no se empañe."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T503325.jpg"
+    },
+    {
+        "text": "En un casco, ¿es importante la ventilación?",
+        "options": [
+            "Sí.",
+            "No.",
+            "Es importante en verano, el resto del año es indiferente."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T512110.jpg"
+    },
+    {
+        "text": "El color del casco, ¿influye en la seguridad del motorista?",
+        "options": [
+            "Sí, los más seguros son los de colores claros.",
+            "Sí, son más seguros los colores oscuros.",
+            "No, el color del casco no influye en la seguridad."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T503418.jpg"
+    },
+    {
+        "text": "Cuando el casco no tiene visera, ¿es conveniente ponerse unas gafas de seguridad?",
+        "options": [
+            "No.",
+            "Sí, porque es obligatorio.",
+            "Sí, para proteger los ojos."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T503105.jpg"
+    },
+    {
+        "text": "En las motocicletas, es conveniente que la visera del casco sea...",
+        "options": [
+            "oscura.",
+            "antivaho.",
+            "polarizada."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T504302.jpg"
+    },
+    {
+        "text": "Un casco integral, ¿qué protege?",
+        "options": [
+            "Sólo la parte superior del cráneo.",
+            "Únicamente la parte trasera del cráneo.",
+            "La cara y la cabeza."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T513424.jpg"
+    },
+    {
+        "text": "Los conductores de motocicletas, ¿tienen permitido utilizar, durante la conducción, auriculares conectados a aparatos reproductores de sonido?",
+        "options": [
+            "Como norma general no.",
+            "Sí, si los llevan integrados en el casco.",
+            "Sí, porque son dispositivos de manos libres."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T513018.jpg"
+    },
+    {
+        "text": "¿Pueden estar exentas de utilizar el casco las personas provistas de un certificado médico adecuado?",
+        "options": [
+            "Únicamente en vías urbanas y travesías.",
+            "Sí, en todas las vías, si así lo indica el certificado.",
+            "Sí, en vías de poblado, pero no en vías interurbanas."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T506030.jpg"
+    },
+    {
+        "text": "El ciclista, ¿puede quitarse el casco en vías interurbanas?",
+        "options": [
+            "No.",
+            "En caso de rampas ascendentes prolongadas, en condiciones extremas de calor o por razones médicas.",
+            "Sólo en rampas ascendentes prolongadas."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T503216.jpg"
+    }
+]
+            
+            ;
+
+            const container = document.getElementById('test-container');
+            const paginationRow1 = document.getElementById('pagination-row-1');
+            const paginationRow2 = document.getElementById('pagination-row-2');
+
+            // Generar preguntas
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.setAttribute('data-correct', question.correct);
+                questionDiv.innerHTML = `
+                    <div class="question-image">
+                        <img src="${question.image}" alt="Imagen de la pregunta">
+                    </div>
+                    <div class="question-content">
+                        <h3>${index + 1}. ${question.text}</h3>
+                        <div class="options">
+                            ${question.options.map((option, idx) => `
+                                <div class="option" data-answer="${String.fromCharCode(65 + idx)}">
+                                    <span class="option-circle">${String.fromCharCode(65 + idx)}</span>
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+
+            // Generar paginación
+            for (let i = 0; i < questions.length; i++) {
+                const button = document.createElement('button');
+                button.textContent = `${i + 1}`;
+                button.addEventListener('click', () => showQuestion(i));
+                if (i < 15) {
+                    paginationRow1.appendChild(button);
+                } else {
+                    paginationRow2.appendChild(button);
+                }
+            }
+
+            // Mostrar la primera pregunta
+            showQuestion(0);
+
+            // Función para mostrar una pregunta específica
+            function showQuestion(index) {
+                document.querySelectorAll('.question').forEach((q, i) => {
+                    q.style.display = i === index ? 'flex' : 'none';
+                });
+                document.querySelectorAll('.pagination button').forEach((btn, i) => {
+                    btn.style.backgroundColor = i === index ? '#ff7aa2' : '#ffa5c3';
+                });
+            }
+
+            // Evento para las opciones de respuesta
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const question = this.closest('.question');
+                    const questionIndex = Array.from(container.children).indexOf(question);
+                    const isCorrect = this.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    
+                    if (question.dataset.answered) return;
+
+                    question.dataset.answered = true;
+
+                    question.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                        opt.style.pointerEvents = 'none';
+                    });
+                    
+                    this.classList.add('selected', isCorrect ? 'correct' : 'incorrect');
+
+                    if (!isCorrect) {
+                        question.querySelector(`.option[data-answer="${question.getAttribute('data-correct')}"]`).classList.add('correct');
+                    }
+
+                    // Actualizar el botón de paginación
+                    const paginationButton = questionIndex < 15 ? paginationRow1.children[questionIndex] : paginationRow2.children[questionIndex - 15];
+                    paginationButton.classList.add(isCorrect ? 'correct' : 'incorrect');
+                });
+            });
+
+            // Evento para corregir el test
+            document.getElementById('correct-test').addEventListener('click', () => {
+                let wrongAnswers = 0;
+                document.querySelectorAll('.question').forEach((question, index) => {
+                    const selected = question.querySelector('.option.selected');
+                    const isCorrect = selected && selected.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    if (!isCorrect) {
+                        wrongAnswers++;
+                    }
+                    // Actualizar el botón de paginación si no se ha respondido
+                    if (!selected) {
+                        const paginationButton = index < 15 ? paginationRow1.children[index] : paginationRow2.children[index - 15];
+                        paginationButton.classList.add('incorrect');
+                    }
+                });
+                const resultMessage = `Has fallado ${wrongAnswers} respuestas.`;
+
+                const alert = document.getElementById('custom-alert');
+                document.getElementById('alert-message').textContent = resultMessage;
+                alert.style.display = 'block';
+            });
+        });
+
+        function closeAlert() {
+            document.getElementById('custom-alert').style.display = 'none';
+        }
+    </script>
+
+    
+</body>
+</html>

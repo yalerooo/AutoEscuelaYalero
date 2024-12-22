@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Autoescuela</title>
+    <link rel="stylesheet" href="../../../Assets/style.css">
+</head>
+<body>
+
+    
+    <div class="container">
+        <h1 style="text-align: center; color: #ffa5c3;">Test de Autoescuela</h1>
+        <div id="test-container">
+            <!-- Aquí se generarán dinámicamente las preguntas -->
+        </div>
+        <div class="pagination">
+            <div class="pagination-row" id="pagination-row-1"></div>
+            <div class="pagination-row" id="pagination-row-2"></div>
+        </div>
+        <button id="correct-test">Corregir Test</button>
+    </div>
+
+    <!-- Custom Alert HTML -->
+    <div class="custom-alert" id="custom-alert">
+        <h2>Resultado del Test</h2>
+        <p id="alert-message">Aquí irá el mensaje del resultado.</p>
+        <button onclick="closeAlert()">Cerrar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = [
+    {
+        "text": "Si circula en esta vía con tráfico denso, no puede cambiar de carril para...",
+        "options": [
+            "salir de la calzada.",
+            "adelantar.",
+            "girar a la derecha."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T500918.jpg"
+    },
+    {
+        "text": "En un cambio de carril, ¿qué vehículo tiene preferencia de paso?",
+        "options": [
+            "El vehículo que cambia de carril, en cualquier caso.",
+            "El vehículo que ya circulaba por el carril.",
+            "El vehículo que cambia de carril, si circula a gran velocidad."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T511321.jpg"
+    },
+    {
+        "text": "Si el conductor de un vehículo va a desplazarse lateralmente invadiendo otro carril...",
+        "options": [
+            "debe respetar la prioridad de los vehículos que circulan por el carril y no cortarles el paso.",
+            "dispone de la prioridad sobre los vehículos que circulan por el otro carril.",
+            "tendrá prioridad sobre otros vehículos si existe carril de aceleración."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T502020.jpg"
+    },
+    {
+        "text": "Si la vía está acondicionada con una raqueta u otro elemento similar, ¿debe utilizar dicho elemento para realizar un giro?",
+        "options": [
+            "Sí, aunque no haya señal que lo indique.",
+            "No, es indiferente.",
+            "Sí, pero sólo si lo indica una señal."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P0213.jpg"
+    },
+    {
+        "text": "En las glorietas se circulará...",
+        "options": [
+            "dejando a la izquierda el centro.",
+            "dejando a la derecha el centro.",
+            "indistintamente, tanto por la derecha como por la izquierda."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T507005.jpg"
+    },
+    {
+        "text": "En una glorieta de una vía interurbana con dos carriles para su sentido, ¿por dónde debe circular?",
+        "options": [
+            "Por el carril de la derecha, usando el otro carril si las circunstancias lo aconsejan, sin cortar la trayectoria a otros vehículos.",
+            "Por cualquiera de los carriles, es indiferente.",
+            "Por el carril de la izquierda."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T511203.jpg"
+    },
+    {
+        "text": "Al entrar en una glorieta que no dispone de señalización que regule la preferencia de paso, debe...",
+        "options": [
+            "ceder el paso a los vehículos que circulan dentro de la glorieta.",
+            "incorporarse antes que los vehículos que se aproximen por su izquierda.",
+            "parar a observar el tráfico."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T513017.jpg"
+    },
+    {
+        "text": "El vehículo que circula dentro de una glorieta. ¿Debe ceder el paso a un vehículo que quiere entrar por la derecha?",
+        "options": [
+            "Sí, cuando no hay señales de prioridad.",
+            "Sí, porque el que entra tiene prioridad.",
+            "No, porque tiene preferencia de paso."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T505811.jpg"
+    },
+    {
+        "text": "Los peatones deberán cruzar las plazas y glorietas...",
+        "options": [
+            "rodeándolas.",
+            "por el centro de la calzada.",
+            "por el recorrido más corto."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T500217.jpg"
+    },
+    {
+        "text": "En una vía de doble sentido, ¿por qué lado de una isleta se circulará?",
+        "options": [
+            "Por su derecha.",
+            "Por su izquierda.",
+            "Por su derecha o por su izquierda, indistintamente."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P0216.jpg"
+    },
+    {
+        "text": "En una calzada con un sentido de circulación, en el centro hay una isleta. ¿Por dónde se puede circular?",
+        "options": [
+            "Por la derecha o por la izquierda, indistintamente.",
+            "Solamente por la parte derecha del refugio.",
+            "Solamente por la parte izquierda del refugio."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P0217.jpg"
+    },
+    {
+        "text": "En una calzada con dos sentidos hay un refugio en el centro. ¿Por qué lado está permitido circular?",
+        "options": [
+            "Por el lado derecho del refugio.",
+            "Por cualquiera de ellos, indistintamente.",
+            "Por el lado izquierdo del refugio."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T514417.jpg"
+    },
+    {
+        "text": "En las isletas de canalización del tráfico situadas en la calzada, ¿se puede parar o estacionar?",
+        "options": [
+            "Sólo parar.",
+            "Ni parar ni estacionar.",
+            "Sólo estacionar."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P0218.jpg"
+    },
+    {
+        "text": "En este puesto de peaje, ¿qué se debe hacer?",
+        "options": [
+            "Pasar sin detenerse porque la flecha está verde.",
+            "Pasar sin detenerse porque no hay barrera.",
+            "Detenerse en el puesto de control porque lo indica la señal."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P0219.jpg"
+    },
+    {
+        "text": "Para pagar en un puesto de peaje, debe pasar...",
+        "options": [
+            "por el carril que indica la flecha verde.",
+            "por cualquier carril, indistintamente.",
+            "por el carril que indica el aspa roja."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P0220.jpg"
+    },
+    {
+        "text": "En un puesto de peaje, entra por un carril con luz verde. ¿Qué debe hacer?",
+        "options": [
+            "Pasar sin detenerme porque la luz está verde.",
+            "Detenerme para pagar o coger el ticket de entrada."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P0221.jpg"
+    },
+    {
+        "text": "¿Para qué sirve el carril de aceleración?",
+        "options": [
+            "Para incorporarse a la vía a una velocidad adecuada a las circunstancias de la circulación.",
+            "Para incorporarse lentamente a la vía.",
+            "Para alcanzar 120 Km/h antes de incorporarse a la vía."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P0222.jpg"
+    },
+    {
+        "text": "Si circula por un carril de aceleración, ¿debe ceder el paso a los vehículos que circulan por la vía a la que pretende incorporarse?",
+        "options": [
+            "No, si me incorporo por la derecha.",
+            "Sí.",
+            "No, porque tengo prioridad."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P0223.jpg"
+    },
+    {
+        "text": "Al incorporarse a la autopista por el carril de aceleración, debe...",
+        "options": [
+            "acelerar hasta alcanzar la velocidad adecuada al final del carril.",
+            "disminuir la velocidad y detenerse al final del carril, obligatoriamente.",
+            "acelerar hasta alcanzar obligatoriamente 120 km/h al final del carril."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P0224.jpg"
+    },
+    {
+        "text": "Al incorporarse a una autopista, los conductores deberán...",
+        "options": [
+            "detenerse siempre al final del carril.",
+            "aumentar la velocidad para incorporarse rápidamente, no siendo obligatorio ceder el paso a los vehículos que circulen por la autopista.",
+            "tener en cuenta la posición, trayectoria y velocidad de los vehículos que puedan aproximarse."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T503729.jpg"
+    },
+    {
+        "text": "En un carril de aceleración, ¿dónde hay que detenerse para ceder el paso en caso necesario?",
+        "options": [
+            "Al principio del carril.",
+            "Es indiferente, únicamente no se debe obstaculizar la marcha de ningún usuario.",
+            "Al final de dicho carril."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P0225.jpg"
+    },
+    {
+        "text": "Para incorporarse a una vía por un carril de aceleración, ¿dónde debe cerciorarse de que puede realizar la maniobra sin peligro?",
+        "options": [
+            "El lugar es indiferente.",
+            "Al final del carril de aceleración.",
+            "Al principio del carril de aceleración."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T505123.jpg"
+    },
+    {
+        "text": "Para entrar en una autopista, ¿a qué velocidad debe circular?",
+        "options": [
+            "Siempre muy despacio para entrar con seguridad.",
+            "A la máxima velocidad permitida en la autopista.",
+            "A la velocidad adecuada que permita incorporarse con seguridad."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T501329.jpg"
+    },
+    {
+        "text": "En una autopista, ¿se puede circular por el carril de aceleración a mayor velocidad que los vehículos que circulan por el carril normal?",
+        "options": [
+            "No, se estaría realizando un adelantamiento por la derecha.",
+            "No, salvo las motocicletas.",
+            "Sí."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P0226.jpg"
+    },
+    {
+        "text": "En un tramo de vía con un carril de aceleración, ¿se considera adelantamiento que un vehículo avance más rápidamente que otro que lo hace por el carril normal?",
+        "options": [
+            "No.",
+            "Sí, como otro adelantamiento cualquiera.",
+            "Sí, porque se trata de una vía interurbana."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P0227.jpg"
+    },
+    {
+        "text": "Si observa que un vehículo quiere incorporarse por el carril de aceleración, ¿qué debe hacer?",
+        "options": [
+            "Nada, porque tengo preferencia.",
+            "Facilitar la incorporación cuando sea posible.",
+            "Cederle el paso."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P0228.jpg"
+    },
+    {
+        "text": "El turismo número 1, ¿tiene alguna obligación?",
+        "options": [
+            "SÍ, deberá detenerse para que el vehículo Nº 2 pueda incorporarse.",
+            "Sí, deberá facilitar, en la medida de lo posible, la incorporación del vehículo Nº 2.",
+            "No tiene ninguna obligación."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T505230.jpg"
+    },
+    {
+        "text": "Para abandonar una autovía por un carril de deceleración, debe situarse con la suficiente antelación en el carril...",
+        "options": [
+            "de la izquierda.",
+            "de la derecha.",
+            "más próximo a la salida."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P0229.jpg"
+    },
+    {
+        "text": "Para abandonar la vía, ¿en qué momento debe entrar en el carril de deceleración?",
+        "options": [
+            "Lo antes posible para adaptar la velocidad.",
+            "Lo más tarde posible para favorecer la fluidez.",
+            "En cualquier momento mientras la línea sea discontinua, porque es indiferente."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P0230.jpg"
+    },
+    {
+        "text": "Al abandonar una autovía deberá...",
+        "options": [
+            "reducir la velocidad a 60 km/h.",
+            "cambiar al carril más próximo a la salida y entrar en el carril de deceleración lo antes posible.",
+            "continuar por su carril hasta la salida."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T505325.jpg"
+    }
+]
+            
+            ;
+
+            const container = document.getElementById('test-container');
+            const paginationRow1 = document.getElementById('pagination-row-1');
+            const paginationRow2 = document.getElementById('pagination-row-2');
+
+            // Generar preguntas
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.setAttribute('data-correct', question.correct);
+                questionDiv.innerHTML = `
+                    <div class="question-image">
+                        <img src="${question.image}" alt="Imagen de la pregunta">
+                    </div>
+                    <div class="question-content">
+                        <h3>${index + 1}. ${question.text}</h3>
+                        <div class="options">
+                            ${question.options.map((option, idx) => `
+                                <div class="option" data-answer="${String.fromCharCode(65 + idx)}">
+                                    <span class="option-circle">${String.fromCharCode(65 + idx)}</span>
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+
+            // Generar paginación
+            for (let i = 0; i < questions.length; i++) {
+                const button = document.createElement('button');
+                button.textContent = `${i + 1}`;
+                button.addEventListener('click', () => showQuestion(i));
+                if (i < 15) {
+                    paginationRow1.appendChild(button);
+                } else {
+                    paginationRow2.appendChild(button);
+                }
+            }
+
+            // Mostrar la primera pregunta
+            showQuestion(0);
+
+            // Función para mostrar una pregunta específica
+            function showQuestion(index) {
+                document.querySelectorAll('.question').forEach((q, i) => {
+                    q.style.display = i === index ? 'flex' : 'none';
+                });
+                document.querySelectorAll('.pagination button').forEach((btn, i) => {
+                    btn.style.backgroundColor = i === index ? '#ff7aa2' : '#ffa5c3';
+                });
+            }
+
+            // Evento para las opciones de respuesta
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const question = this.closest('.question');
+                    const questionIndex = Array.from(container.children).indexOf(question);
+                    const isCorrect = this.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    
+                    if (question.dataset.answered) return;
+
+                    question.dataset.answered = true;
+
+                    question.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                        opt.style.pointerEvents = 'none';
+                    });
+                    
+                    this.classList.add('selected', isCorrect ? 'correct' : 'incorrect');
+
+                    if (!isCorrect) {
+                        question.querySelector(`.option[data-answer="${question.getAttribute('data-correct')}"]`).classList.add('correct');
+                    }
+
+                    // Actualizar el botón de paginación
+                    const paginationButton = questionIndex < 15 ? paginationRow1.children[questionIndex] : paginationRow2.children[questionIndex - 15];
+                    paginationButton.classList.add(isCorrect ? 'correct' : 'incorrect');
+                });
+            });
+
+            // Evento para corregir el test
+            document.getElementById('correct-test').addEventListener('click', () => {
+                let wrongAnswers = 0;
+                document.querySelectorAll('.question').forEach((question, index) => {
+                    const selected = question.querySelector('.option.selected');
+                    const isCorrect = selected && selected.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    if (!isCorrect) {
+                        wrongAnswers++;
+                    }
+                    // Actualizar el botón de paginación si no se ha respondido
+                    if (!selected) {
+                        const paginationButton = index < 15 ? paginationRow1.children[index] : paginationRow2.children[index - 15];
+                        paginationButton.classList.add('incorrect');
+                    }
+                });
+                const resultMessage = `Has fallado ${wrongAnswers} respuestas.`;
+
+                const alert = document.getElementById('custom-alert');
+                document.getElementById('alert-message').textContent = resultMessage;
+                alert.style.display = 'block';
+            });
+        });
+
+        function closeAlert() {
+            document.getElementById('custom-alert').style.display = 'none';
+        }
+    </script>
+
+    
+</body>
+</html>

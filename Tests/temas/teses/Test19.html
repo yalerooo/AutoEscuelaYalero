@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Autoescuela</title>
+    <link rel="stylesheet" href="../../../Assets/style.css">
+</head>
+<body>
+
+    
+    <div class="container">
+        <h1 style="text-align: center; color: #ffa5c3;">Test de Autoescuela</h1>
+        <div id="test-container">
+            <!-- Aquí se generarán dinámicamente las preguntas -->
+        </div>
+        <div class="pagination">
+            <div class="pagination-row" id="pagination-row-1"></div>
+            <div class="pagination-row" id="pagination-row-2"></div>
+        </div>
+        <button id="correct-test">Corregir Test</button>
+    </div>
+
+    <!-- Custom Alert HTML -->
+    <div class="custom-alert" id="custom-alert">
+        <h2>Resultado del Test</h2>
+        <p id="alert-message">Aquí irá el mensaje del resultado.</p>
+        <button onclick="closeAlert()">Cerrar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = [
+    {
+        "text": "Si circulando se le pincha una rueda debe...",
+        "options": [
+            "abandonar inmediatamente el vehículo, cualquiera que sea el lugar en que se encuentre.",
+            "inmovilizar rápidamente el vehículo fuera de la calzada, o en lugar seguro.",
+            "continuar el viaje hasta el taller más próximo."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T503202.jpg"
+    },
+    {
+        "text": "¿Cómo debe inmovilizar los vehículos accidentados?",
+        "options": [
+            "Con el freno de mano y cortando el contacto.",
+            "Con unos calzos o cualquier elemento que sirva como tal.",
+            "Quitando el contacto de la batería."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T505518.jpg"
+    },
+    {
+        "text": "Si la caída de la carga supone un obstáculo para la circulación, debe...",
+        "options": [
+            "avisar en primer lugar a las autoridades para que ordenen retirarla.",
+            "señalizarla, como única medida.",
+            "señalizarla e intentar retirarla lo antes posible."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P1022.jpg"
+    },
+    {
+        "text": "Si por circunstancias del tráfico prevé que va a tener que reducir considerablemente la velocidad, ¿qué debe hacer?",
+        "options": [
+            "Circular con la marcha más corta posible.",
+            "Deberá advertirlo mediante el empleo reiterado de las luces de frenado.",
+            "Advertirlo mediante señales acústicas."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T514619.jpg"
+    },
+    {
+        "text": "El conductor de un vehículo, detenido en el interior de un tunel por necesidades de la circulación deberá...",
+        "options": [
+            "detenerse lo más lejos posible del vehículo que le precede.",
+            "apagar el motor y mantener encendidas todas las luces.",
+            "detenerse lo más cerca posible del vehículo que le precede."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T501027.jpg"
+    },
+    {
+        "text": "Cuando en el interior de un túnel se produce una detención motivada por una emergencia, es obligatorio...",
+        "options": [
+            "dejar el motor encendido y la llave puesta.",
+            "que todos los ocupantes permanezcan siempre en el vehículo.",
+            "apagar el motor, conectar la señal de emergencia y mantener encendidas las luces de posición."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P1026.jpg"
+    },
+    {
+        "text": "¿Qué debe hacer si sufre una avería en un túnel?",
+        "options": [
+            "Encender las luces de largo alcance para que se vea mejor y que todos los ocupantes desciendan del vehículo.",
+            "Si la avería permite la marcha del vehículo, debe continuar hasta salir del túnel o hasta una zona reservada para emergencias.",
+            "Detener el vehículo en cualquier lugar del túnel para evitar el peligro, aunque la avería permita la marcha del vehículo."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P1027.jpg"
+    },
+    {
+        "text": "Al averiarse el vehículo que conduce dentro de un túnel debe...",
+        "options": [
+            "esperar dentro del túnel y no abandonar el vehículo en ningún caso.",
+            "solicitar el auxilio de otros conductores llegando a ordenar su detención si es preciso.",
+            "abandonar el vehículo dentro del túnel y dirigirse al refugio o salida más próximos."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P1028.jpg"
+    },
+    {
+        "text": "En caso de incendio en un túnel debe...",
+        "options": [
+            "abandonar el vehículo, dejando las puertas cerradas con llave.",
+            "aproximar el vehículo todo lo posible a la derecha, apagar el motor, dejar las llaves puestas y las puertas abiertas.",
+            "encender las luces de emergencia y las de posición, sin abandonar el vehículo hasta que no lleguen los servicios de emergencia."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P1030.jpg"
+    },
+    {
+        "text": "Si por accidente u otra emergencia un vehículo tiene que ser inmovilizado en una autovía o autopista...",
+        "options": [
+            "sus ocupantes pueden transitar por la calzada, tomando las debidas precauciones.",
+            "ninguno de los ocupantes del vehículo puede transitar por la calzada.",
+            "los ocupantes del vehículo pueden transitar por la calzada, excepto los menores de edad."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T506225.jpg"
+    },
+    {
+        "text": "¿Pueden los ocupantes de un vehículo transitar por el arcén de una autopista?",
+        "options": [
+            "No.",
+            "No, excepto en caso de una avería.",
+            "Sí."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T512801.jpg"
+    },
+    {
+        "text": "En el arcén de esta autovía, ¿qué está permitido?",
+        "options": [
+            "Inmovilizar el vehículo por emergencia o avería.",
+            "Parar para hablar por el teléfono móvil.",
+            "Adelantar por la derecha."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T513501.jpg"
+    },
+    {
+        "text": "En una autopista en caso de avería, ¿está permitido que continúe circulando por el arcén izquierdo?",
+        "options": [
+            "No, se debe circular por el arcén de la derecha.",
+            "No, porque está prohibido que los turismos circulen por el arcén.",
+            "Sí, cuando el vehículo haya sufrido la avería circulando por el carril izquierdo."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510125_050116.jpg"
+    },
+    {
+        "text": "En una autopista o autovía, ¿se puede utilizar la mediana en algún caso?",
+        "options": [
+            "No, nunca.",
+            "Sí, para inmovilizar el vehículo por emergencia cuando no es posible hacerlo en el arcén de la derecha.",
+            "Sí, para adelantar cuando los carriles estén ocupados."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T513705.jpg"
+    },
+    {
+        "text": "Circula por una autovía y sufre una avería que le obliga a llevar una velocidad anormalmente reducida, ¿qué debe hacer?",
+        "options": [
+            "Encender el alumbrado de cruce y continuar la marcha hasta llegar al destino.",
+            "No detenerse en ningún caso.",
+            "Circular hasta la primera salida por la que pueda abandonar la vía."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T501128.jpg"
+    },
+    {
+        "text": "¿Está permitido remolcar con un turismo a un vehículo averiado por una autopista?",
+        "options": [
+            "Sí, hasta el taller más próximo.",
+            "No, debe hacerlo una grúa.",
+            "Sí, cuando la grúa tarde más de media hora."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T512109.jpg"
+    },
+    {
+        "text": "Excepcionalmente, en vías que no sean autopistas o autovías, ¿se permite el arrastre de un vehículo por otro no destinado a este fin?",
+        "options": [
+            "Sí, pero sólo hasta el lugar más próximo donde pueda quedar convenientemente inmovilizado.",
+            "No.",
+            "Sí, siempre que no se recorran más de 10 kilómetros."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P1025.jpg"
+    },
+    {
+        "text": "¿Debe señalizarse un vehículo inmovilizado por avería en el arcén?",
+        "options": [
+            "Sí, con la señal de emergencia del vehículo, el dispositivo de preseñalización de peligro y, en su caso, con las luces de posición.",
+            "No, porque el lugar utilizado para inmovilizarlo, es el apropiado para ese tipo de situaciones.",
+            "No, porque el vehículo no está en la calzada."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T513605.jpg"
+    },
+    {
+        "text": "¿Es obligatorio emplear el dispositivo o dispositivos de preseñalización de peligro para advertir la presencia de un turismo averiado en la calzada?",
+        "options": [
+            "No.",
+            "Sí.",
+            "Sólo si la visibilidad es insuficiente."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T512927.jpg"
+    },
+    {
+        "text": "En caso de avería en la calzada, ¿dónde debe colocarse el dispositivo luminoso de preseñalización de peligro?",
+        "options": [
+            "En la parte delantera del vehículo, siempre.",
+            "En la parte posterior del vehículo, siempre.",
+            "En la parte más alta posible del vehículo inmovilizado garantizado su máxima visibilidad."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T510105_010721.jpg"
+    },
+    {
+        "text": "¿De qué color es el dispositivo luminoso de preseñalización de peligro?",
+        "options": [
+            "Azul.",
+            "Amarillo auto.",
+            "Rojo."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T510106_010721.jpg"
+    },
+    {
+        "text": "En caso de inmovilización de un vehículo en la calzada por emergencia, si no se dispone del dispositivo luminoso de preseñalización de peligro, ¿a qué distancia deben colocarse los triángulos de preseñalización de peligro?",
+        "options": [
+            "A 100 metros y visibles a 150 metros.",
+            "A 50 metros como mínimo y visibles a 100 metros.",
+            "A 50 metros como máximo y visibles a 100 metros."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T505507.jpg"
+    },
+    {
+        "text": "Si queda detenido por avería en autopista o autovía y no dispone del dispositivo de preseñalización de peligro luminoso, ¿debe colocar los triángulos de preseñalización de peligro?",
+        "options": [
+            "No,  ya que compromete gravemente la seguridad de la persona que tiene que transitar por la calzada para su colocación.",
+            "Sí, uno por delante y otro por detrás del vehículo a 50 metros.",
+            "Sí, uno por detrás del vehículo a 50 metros como mínimo."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T503604.jpg"
+    },
+    {
+        "text": "Cuando deba colocarse un triángulo de preseñalización de peligro, ¿en qué lado de la calzada lo hará?",
+        "options": [
+            "En cualquier lugar en el que sea visible desde 100 metros, por lo menos.",
+            "En el borde derecho de la calzada en el sentido de la marcha.",
+            "En el centro de la calzada en las vías de doble sentido. En el izquierdo en las vías de un solo sentido."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T513721.jpg"
+    },
+    {
+        "text": "En caso de avería de su motocicleta en una calzada, ¿cómo debe señalizarlo si representa un obstáculo para la circulación?",
+        "options": [
+            "Obligatoriamente con las luces de posición.",
+            "Con el dispositivo de preseñalización de peligro que está obligado a llevar consigo.",
+            "Con la luz de emergencia si la tiene instalada."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T504312.jpg"
+    },
+    {
+        "text": "El chaleco reflectante. ¿Cuándo es obligatorio ponérselo?",
+        "options": [
+            "Cuando salgo del vehículo en vías urbanas.",
+            "Cuando salgo del vehículo en autopistas y autovías solamente.",
+            "Cuando salgo del vehículo en vías interurbanas."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T507026.jpg"
+    },
+    {
+        "text": "¿Cuándo hay que ponerse el chaleco reflectante?",
+        "options": [
+            "Antes de salir del vehículo.",
+            "Después de salir del vehículo.",
+            "Es indiferente."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T507518.jpg"
+    },
+    {
+        "text": "Durante el día, un conductor que ocupe la calzada, ¿está obligado a ponerse el chaleco reflectante?",
+        "options": [
+            "Sí, en vías interurbanas.",
+            "No, cuando la visibilidad es buena.",
+            "Sí, en toda clase de vías."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T502128.jpg"
+    },
+    {
+        "text": "A causa de una avería detiene su vehículo en el arcén de una vía interurbana, ¿debe ponerse el chaleco reflectante?",
+        "options": [
+            "No, el chaleco sólo es obligatorio en vía urbana.",
+            "No, si la vía está suficientemente iluminada.",
+            "Sí, antes de bajar del vehículo."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T503930.jpg"
+    },
+    {
+        "text": "Cuando un peatón deba llevar elementos luminosos o reflectantes, ¿a qué distancia mínima debe ser visto por un conductor?",
+        "options": [
+            "A 50 metros.",
+            "A 150 metros.",
+            "A 100 metros."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T505308.jpg"
+    }
+]
+            
+            ;
+
+            const container = document.getElementById('test-container');
+            const paginationRow1 = document.getElementById('pagination-row-1');
+            const paginationRow2 = document.getElementById('pagination-row-2');
+
+            // Generar preguntas
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.setAttribute('data-correct', question.correct);
+                questionDiv.innerHTML = `
+                    <div class="question-image">
+                        <img src="${question.image}" alt="Imagen de la pregunta">
+                    </div>
+                    <div class="question-content">
+                        <h3>${index + 1}. ${question.text}</h3>
+                        <div class="options">
+                            ${question.options.map((option, idx) => `
+                                <div class="option" data-answer="${String.fromCharCode(65 + idx)}">
+                                    <span class="option-circle">${String.fromCharCode(65 + idx)}</span>
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+
+            // Generar paginación
+            for (let i = 0; i < questions.length; i++) {
+                const button = document.createElement('button');
+                button.textContent = `${i + 1}`;
+                button.addEventListener('click', () => showQuestion(i));
+                if (i < 15) {
+                    paginationRow1.appendChild(button);
+                } else {
+                    paginationRow2.appendChild(button);
+                }
+            }
+
+            // Mostrar la primera pregunta
+            showQuestion(0);
+
+            // Función para mostrar una pregunta específica
+            function showQuestion(index) {
+                document.querySelectorAll('.question').forEach((q, i) => {
+                    q.style.display = i === index ? 'flex' : 'none';
+                });
+                document.querySelectorAll('.pagination button').forEach((btn, i) => {
+                    btn.style.backgroundColor = i === index ? '#ff7aa2' : '#ffa5c3';
+                });
+            }
+
+            // Evento para las opciones de respuesta
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const question = this.closest('.question');
+                    const questionIndex = Array.from(container.children).indexOf(question);
+                    const isCorrect = this.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    
+                    if (question.dataset.answered) return;
+
+                    question.dataset.answered = true;
+
+                    question.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                        opt.style.pointerEvents = 'none';
+                    });
+                    
+                    this.classList.add('selected', isCorrect ? 'correct' : 'incorrect');
+
+                    if (!isCorrect) {
+                        question.querySelector(`.option[data-answer="${question.getAttribute('data-correct')}"]`).classList.add('correct');
+                    }
+
+                    // Actualizar el botón de paginación
+                    const paginationButton = questionIndex < 15 ? paginationRow1.children[questionIndex] : paginationRow2.children[questionIndex - 15];
+                    paginationButton.classList.add(isCorrect ? 'correct' : 'incorrect');
+                });
+            });
+
+            // Evento para corregir el test
+            document.getElementById('correct-test').addEventListener('click', () => {
+                let wrongAnswers = 0;
+                document.querySelectorAll('.question').forEach((question, index) => {
+                    const selected = question.querySelector('.option.selected');
+                    const isCorrect = selected && selected.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    if (!isCorrect) {
+                        wrongAnswers++;
+                    }
+                    // Actualizar el botón de paginación si no se ha respondido
+                    if (!selected) {
+                        const paginationButton = index < 15 ? paginationRow1.children[index] : paginationRow2.children[index - 15];
+                        paginationButton.classList.add('incorrect');
+                    }
+                });
+                const resultMessage = `Has fallado ${wrongAnswers} respuestas.`;
+
+                const alert = document.getElementById('custom-alert');
+                document.getElementById('alert-message').textContent = resultMessage;
+                alert.style.display = 'block';
+            });
+        });
+
+        function closeAlert() {
+            document.getElementById('custom-alert').style.display = 'none';
+        }
+    </script>
+
+    
+</body>
+</html>

@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Autoescuela</title>
+    <link rel="stylesheet" href="../../../Assets/style.css">
+</head>
+<body>
+
+    
+    <div class="container">
+        <h1 style="text-align: center; color: #ffa5c3;">Test de Autoescuela</h1>
+        <div id="test-container">
+            <!-- Aquí se generarán dinámicamente las preguntas -->
+        </div>
+        <div class="pagination">
+            <div class="pagination-row" id="pagination-row-1"></div>
+            <div class="pagination-row" id="pagination-row-2"></div>
+        </div>
+        <button id="correct-test">Corregir Test</button>
+    </div>
+
+    <!-- Custom Alert HTML -->
+    <div class="custom-alert" id="custom-alert">
+        <h2>Resultado del Test</h2>
+        <p id="alert-message">Aquí irá el mensaje del resultado.</p>
+        <button onclick="closeAlert()">Cerrar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = [
+    {
+        "text": "En los vehículos de uso compartido o “carsharing”, los menores de edad de estatura igual o inferior a 135 centímetros, ¿están obligados a utilizar sistemas de retención infantil?",
+        "options": [
+            "No.",
+            "Sólo si el vehículo tiene.",
+            "Sí."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T510101_250623.jpg"
+    },
+    {
+        "text": "¿Puede adelantar al vehículo negro por la derecha?",
+        "options": [
+            "No, porque está prohibido.",
+            "Sí, porque es una autovía.",
+            "Sí, porque circula incorrectamente."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T501117.jpg"
+    },
+    {
+        "text": "Algunos hospitales disponen de una unidad de atención a las víctimas de lesiones físicas y emocionales en caso de siniestros por accidentes de tráfico. ¿Cómo se llama esta unidad?",
+        "options": [
+            "Unidad de tráfico.",
+            "Unidad de urgencias traumatológicas.",
+            "Unidad de apoyo a las víctimas."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510124_150623.jpg"
+    },
+    {
+        "text": "En una vía de doble sentido de circulación y tres carriles separados por marcas longitudinales discontinuas, ¿qué carril se utilizará para girar a la izquierda?",
+        "options": [
+            "El carril derecho.",
+            "El carril central.",
+            "El carril izquierdo."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T514617.jpg"
+    },
+    {
+        "text": "Un pick-up, ¿se puede conducir con el permiso B?",
+        "options": [
+            "No.",
+            "Sí, con una antigüedad del permiso superior a 3 años.",
+            "Sí, hasta 9 plazas incluido el conductor."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T510107_150723.jpg"
+    },
+    {
+        "text": "Un turismo circula por una vía preferente y por la derecha se le aproxima un tranvía, ¿quién tiene preferencia de paso?",
+        "options": [
+            "El tranvía, porque circula sobre raíles.",
+            "El turismo, porque circula por una vía preferente.",
+            "El tranvía, porque se aproxima por la derecha del turismo."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T501902.jpg"
+    },
+    {
+        "text": "¿Cuándo debe iniciar las advertencias para realizar una maniobra?",
+        "options": [
+            "Justo antes de iniciar la maniobra.",
+            "Cuando haya iniciado la maniobra.",
+            "Con antelación suficiente a la iniciación de la maniobra."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T500610.jpg"
+    },
+    {
+        "text": "Conducir un vehículo a motor o ciclomotor cuando se ha declarado la pérdida de vigencia del permiso o licencia de conducción por la pérdida total de los puntos asignados legalmente, ¿podrá ser castigado con pena de prisión?",
+        "options": [
+            "Sí, por un período de 3 a 6 meses.",
+            "Sí, por un período de 12 a 24 meses, además de realizar trabajos en beneficio de la comunidad.",
+            "No, únicamente se impondrá una sanción administrativa."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510111_150723.jpg"
+    },
+    {
+        "text": "Para incorporarse a la circulación dando marcha atrás, ¿se puede invadir un cruce de vías?",
+        "options": [
+            "No.",
+            "Sí, siempre que no se recorran más de 15 metros.",
+            "Sí, cuando se sigan las indicaciones de otra persona."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T512725.jpg"
+    },
+    {
+        "text": "Ante un paso a nivel cuyas barreras están en movimiento, ¿es obligatorio detenerse?",
+        "options": [
+            "Sí, pero solamente cuando el vehículo no pueda pasar por debajo.",
+            "No, puesto que no se encuentran en posición horizontal.",
+            "Sí."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T510117_250116.jpg"
+    },
+    {
+        "text": "¿Cuándo está permitido estacionar en un túnel?",
+        "options": [
+            "Cuando la calzada tiene dos carriles de circulación para cada sentido.",
+            "Nunca.",
+            "Cuando el túnel está suficientemente iluminado."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T512301.jpg"
+    },
+    {
+        "text": "El motor de un vehículo que dispone del sistema Start-Stop está diseñado para tener un mayor rendimiento, aunque el número de arranques también es mayor, ¿qué ventaja presenta este sistema?",
+        "options": [
+            "Aumenta la potencia del motor sobre todo cuando se encuentra parado.",
+            "Ninguna, ya que el soportar continuos arranques disminuye su vida útil.",
+            "Se reducen las emisiones de CO2 y se produce un ahorro de combustible."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T500116_ADAS.jpg"
+    },
+    {
+        "text": "El conductor de un vehículo que se vea obligado a realizar un servicio de urgencia...",
+        "options": [
+            "no está obligado a respetar las normas de circulación, pero sí las señales.",
+            "está obligado a respetar las normas y señales de circulación.",
+            "está obligado a advertir su presencia con las señales de los vehículos prioritarios."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T510128.jpg"
+    },
+    {
+        "text": "En una vía urbana, las operaciones de carga y descarga se realizarán...",
+        "options": [
+            "respetando las disposiciones que dicten las autoridades municipales.",
+            "depositando la mercancía en la calzada o en zonas peatonales.",
+            "por el lado del vehículo más alejado del borde de la calzada."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T502905.jpg"
+    },
+    {
+        "text": "¿Qué medidas como norma general tendrá la señal V-13 \"Conductor novel\"?",
+        "options": [
+            "15 cm de alto y 13 cm de ancho.",
+            "19, 5 cm de alto y 15 cm de ancho.",
+            "19,5 cm de alto y 13 cm de ancho."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T504830.jpg"
+    },
+    {
+        "text": "Se entiende por vía insuficientemente iluminada aquella en la que...",
+        "options": [
+            "no puede leerse la matrícula a 50 metros o no se distingue un vehículo oscuro a 10 metros de distancia.",
+            "no puede distinguirse un vehículo a 20 metros de distancia.",
+            "no puede leerse la matrícula a 10 metros o no se distingue un vehículo oscuro a 50 metros de distancia."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T514521.jpg"
+    },
+    {
+        "text": "¿Qué indica un agente desde un vehículo si emite una luz amarilla intermitente o destellante hacia delante?",
+        "options": [
+            "Que debe extremar la atención porque se aproxima a un peligro.",
+            "Que debe detenerse en el lado derecho detrás del vehículo policial.",
+            "Que debe detenerse en el lado derecho delante del vehículo policial."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T504611.jpg"
+    },
+    {
+        "text": "Si ha instalado en su vehículo neumáticos de invierno, ¿es conveniente sustituirlos cuando las temperaturas comiencen a ser más cálidas?",
+        "options": [
+            "Sí, porque en tiempo cálido disminuye considerablemente la distancia de frenado.",
+            "Sí, porque cuando la temperatura es más cálida se desgastan con más rapidez.",
+            "No, porque se adaptan progresivamente a los cambios de temperatura."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T501322.jpg"
+    },
+    {
+        "text": "Esta línea discontinua, ¿qué indica?",
+        "options": [
+            "Un carril especial.",
+            "La cercanía a una línea longitudinal continua.",
+            "Un carril reversible."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T501413.jpg"
+    },
+    {
+        "text": "En caso de contradicción entre señales del mismo tipo, ¿cuál prevalecerá?",
+        "options": [
+            "La menos restrictiva.",
+            "Ninguna de las señales.",
+            "La más restrictiva."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T505723.jpg"
+    },
+    {
+        "text": "El sistema E-CALL o sistema de aviso a emergencias en caso de accidente...",
+        "options": [
+            "solo se puede activar manualmente, pulsando el botón SOS que llevan los vehículos equipados con este sistema.",
+            "solo se activa si saltan los airbags del vehículo.",
+            "se activa si saltan los airbags del vehículo o manualmente, pulsando el botón SOS que llevan los vehículos equipados con este sistema."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T503911.jpg"
+    },
+    {
+        "text": "Conduce una motocicleta con un pasajero. ¿Qué debe tener en cuenta?",
+        "options": [
+            "Que aumentará el tiempo de reacción.",
+            "Que será más difícil que, al frenar, la rueda trasera se quede bloqueada.",
+            "Que la distancia de frenado será menor."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T513526.jpg"
+    },
+    {
+        "text": "¿Es recomendable tener especial cuidado al adelantar a un grupo de ciclistas en los ascensos prolongados?",
+        "options": [
+            "Solo si algún ciclista va bebiendo algún líquido o tomando alimentos sólidos.",
+            "Sí, porque debido al esfuerzo y pedaleo pueden realizar cambios bruscos de trayectoria.",
+            "No; los adelantamientos a ciclistas no implican riesgo alguno."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T506409.jpg"
+    },
+    {
+        "text": "¿Qué está obligado a utilizar un peatón que circule de noche por una vía interurbana?",
+        "options": [
+            "Ropa de tonos claros que sea visible desde una distancia de 150 metros.",
+            "Una linterna con luz blanca hacia delante y roja hacia atrás.",
+            "Un elemento luminoso o reflectante visible a una distancia mínima de 150 metros."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T505629.jpg"
+    },
+    {
+        "text": "Esta señal vertical prohíbe...",
+        "options": [
+            "la parada y el estacionamiento a toda clase de vehículos.",
+            "la circulación a toda clase de vehículos en ambos sentidos.",
+            "el paso a toda clase de vehículos en un solo sentido."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T511427.jpg"
+    },
+    {
+        "text": "Cuando haya obstáculos y ciclistas circulando deberá...",
+        "options": [
+            "pensar que los ciclistas pueden realizar un movimiento brusco.",
+            "al acercarnos a los ciclistas hacer señales acústicas para indicar nuestra presencia.",
+            "mantener la velocidad y estar atento al cumplimiento de la señalización vertical."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T512616.jpg"
+    },
+    {
+        "text": "Un cuadriciclo de motor, ¿a qué velocidad máxima puede circular fuera de poblado?",
+        "options": [
+            "A 45 km/h.",
+            "A 70 km/h.",
+            "A 50 km/h."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T512819.jpg"
+    },
+    {
+        "text": "En una carretera convencional con varios carriles para el mismo sentido de circulación y separación física de los mismos, ¿cuándo podrá circular con su turismo a una velocidad máxima de 100 km/h?",
+        "options": [
+            "A partir de la señal de velocidad máxima de 100 km/h.",
+            "Nunca.",
+            "Siempre que las circunstancias de la vía lo aconsejen."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510110_0512.jpg"
+    },
+    {
+        "text": "Un vehículo de movilidad personal, ¿puede circular por vías interurbanas?",
+        "options": [
+            "No.",
+            "No, solo pueden circular por vías urbanas y travesías.",
+            "Sí, siempre que tengan arcén suficiente."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510102_0512.jpg"
+    },
+    {
+        "text": "El titular de permiso de conducción de clase B con una antigüedad mayor de 3 años, ¿puede conducir una motocicleta de 125 cc.?",
+        "options": [
+            "No, porque es necesario obtener el permiso de la clase A1.",
+            "Sí, el permiso de la clase B autoriza a conducir cualquier motocicleta.",
+            "Sí, pero sólo por el territorio nacional."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T505820.jpg"
+    }
+]
+            
+            ;
+
+            const container = document.getElementById('test-container');
+            const paginationRow1 = document.getElementById('pagination-row-1');
+            const paginationRow2 = document.getElementById('pagination-row-2');
+
+            // Generar preguntas
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.setAttribute('data-correct', question.correct);
+                questionDiv.innerHTML = `
+                    <div class="question-image">
+                        <img src="${question.image}" alt="Imagen de la pregunta">
+                    </div>
+                    <div class="question-content">
+                        <h3>${index + 1}. ${question.text}</h3>
+                        <div class="options">
+                            ${question.options.map((option, idx) => `
+                                <div class="option" data-answer="${String.fromCharCode(65 + idx)}">
+                                    <span class="option-circle">${String.fromCharCode(65 + idx)}</span>
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+
+            // Generar paginación
+            for (let i = 0; i < questions.length; i++) {
+                const button = document.createElement('button');
+                button.textContent = `${i + 1}`;
+                button.addEventListener('click', () => showQuestion(i));
+                if (i < 15) {
+                    paginationRow1.appendChild(button);
+                } else {
+                    paginationRow2.appendChild(button);
+                }
+            }
+
+            // Mostrar la primera pregunta
+            showQuestion(0);
+
+            // Función para mostrar una pregunta específica
+            function showQuestion(index) {
+                document.querySelectorAll('.question').forEach((q, i) => {
+                    q.style.display = i === index ? 'flex' : 'none';
+                });
+                document.querySelectorAll('.pagination button').forEach((btn, i) => {
+                    btn.style.backgroundColor = i === index ? '#ff7aa2' : '#ffa5c3';
+                });
+            }
+
+            // Evento para las opciones de respuesta
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const question = this.closest('.question');
+                    const questionIndex = Array.from(container.children).indexOf(question);
+                    const isCorrect = this.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    
+                    if (question.dataset.answered) return;
+
+                    question.dataset.answered = true;
+
+                    question.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                        opt.style.pointerEvents = 'none';
+                    });
+                    
+                    this.classList.add('selected', isCorrect ? 'correct' : 'incorrect');
+
+                    if (!isCorrect) {
+                        question.querySelector(`.option[data-answer="${question.getAttribute('data-correct')}"]`).classList.add('correct');
+                    }
+
+                    // Actualizar el botón de paginación
+                    const paginationButton = questionIndex < 15 ? paginationRow1.children[questionIndex] : paginationRow2.children[questionIndex - 15];
+                    paginationButton.classList.add(isCorrect ? 'correct' : 'incorrect');
+                });
+            });
+
+            // Evento para corregir el test
+            document.getElementById('correct-test').addEventListener('click', () => {
+                let wrongAnswers = 0;
+                document.querySelectorAll('.question').forEach((question, index) => {
+                    const selected = question.querySelector('.option.selected');
+                    const isCorrect = selected && selected.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    if (!isCorrect) {
+                        wrongAnswers++;
+                    }
+                    // Actualizar el botón de paginación si no se ha respondido
+                    if (!selected) {
+                        const paginationButton = index < 15 ? paginationRow1.children[index] : paginationRow2.children[index - 15];
+                        paginationButton.classList.add('incorrect');
+                    }
+                });
+                const resultMessage = `Has fallado ${wrongAnswers} respuestas.`;
+
+                const alert = document.getElementById('custom-alert');
+                document.getElementById('alert-message').textContent = resultMessage;
+                alert.style.display = 'block';
+            });
+        });
+
+        function closeAlert() {
+            document.getElementById('custom-alert').style.display = 'none';
+        }
+    </script>
+
+    
+</body>
+</html>

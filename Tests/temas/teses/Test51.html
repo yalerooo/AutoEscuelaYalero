@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Autoescuela</title>
+    <link rel="stylesheet" href="../../../Assets/style.css">
+</head>
+<body>
+
+    
+    <div class="container">
+        <h1 style="text-align: center; color: #ffa5c3;">Test de Autoescuela</h1>
+        <div id="test-container">
+            <!-- Aquí se generarán dinámicamente las preguntas -->
+        </div>
+        <div class="pagination">
+            <div class="pagination-row" id="pagination-row-1"></div>
+            <div class="pagination-row" id="pagination-row-2"></div>
+        </div>
+        <button id="correct-test">Corregir Test</button>
+    </div>
+
+    <!-- Custom Alert HTML -->
+    <div class="custom-alert" id="custom-alert">
+        <h2>Resultado del Test</h2>
+        <p id="alert-message">Aquí irá el mensaje del resultado.</p>
+        <button onclick="closeAlert()">Cerrar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = [
+    {
+        "text": "Una adecuada posición al volante permite al conductor...",
+        "options": [
+            "aumentar su tiempo de reacción.",
+            "relajar su atención.",
+            "actuar mejor y más rápido, ante un imprevisto."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P2601.jpg"
+    },
+    {
+        "text": "¿Cuándo está bien colocado en el asiento para conducir?",
+        "options": [
+            "Cuando llevo las piernas dobladas y el cuerpo hacia adelante.",
+            "Cuando llevo las piernas un poco dobladas y el cuerpo recto.",
+            "Cuando llevo las piernas rectas y el cuerpo hacia atrás."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P2602.jpg"
+    },
+    {
+        "text": "Las palancas del asiento del conductor, ¿para qué sirven?",
+        "options": [
+            "Para hacer más cómodos los asientos traseros.",
+            "Para que el cinturón de seguridad me sujete mejor.",
+            "Para colocarme a la distancia adecuada de los mandos."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T508916.jpg"
+    },
+    {
+        "text": "Conducir muy cerca del volante, ¿es más seguro?",
+        "options": [
+            "Sí, porque los movimientos son más precisos al tener los mandos más cerca.",
+            "No, porque los movimientos son más forzados y menos rápidos.",
+            "Es sólo una cuestión de costumbre."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P2604.jpg"
+    },
+    {
+        "text": "¿Cómo se debe agarrar el volante?",
+        "options": [
+            "Con los brazos muy estirados.",
+            "Con los brazos un poco doblados.",
+            "Con los brazos muy doblados."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P2603.jpg"
+    },
+    {
+        "text": "¿Cuál es la posición correcta de las manos en el volante?",
+        "options": [
+            "La posición A.",
+            "La posición B.",
+            "La A y la C, según la maniobra."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T505013.jpg"
+    },
+    {
+        "text": "A baja velocidad, la dirección asistida progresiva...",
+        "options": [
+            "permite un control más preciso del vehículo.",
+            "reduce al mínimo el esfuerzo necesario para mover el volante.",
+            "hace que la dirección se endurezca."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T503319.jpg"
+    },
+    {
+        "text": "¿Qué velocidades o marchas dan más fuerza al vehículo?",
+        "options": [
+            "La 1ª y la 2ª.",
+            "La 3ª y la 4ª.",
+            "La 4ª y la 5ª."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P2606.jpg"
+    },
+    {
+        "text": "En un turismo, ¿qué marchas alcanzan mayor velocidad?",
+        "options": [
+            "La 1ª y la 2ª.",
+            "La 3º y la 4ª.",
+            "La 4ª y la 5ª."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P2607.jpg"
+    },
+    {
+        "text": "¿Cuál es la función del freno de mano?",
+        "options": [
+            "Inmovilizar el vehículo al estacionar.",
+            "Reducir la velocidad del vehículo cuando circule por una vía con una pendiente prolongada.",
+            "Reducir la velocidad del vehículo en ciudad."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T500119.jpg"
+    },
+    {
+        "text": "El freno de pie, ¿sobre qué ruedas actúa?",
+        "options": [
+            "Las ruedas motrices.",
+            "Las cuatro ruedas.",
+            "Las ruedas delanteras."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T503323.jpg"
+    },
+    {
+        "text": "Si su vehículo es de tracción delantera...",
+        "options": [
+            "la fuerza del motor, se transmite a las ruedas delanteras.",
+            "la fuerza del motor, se transmite a las cuatro ruedas.",
+            "La caja de velocidades, será automática."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T504014.jpg"
+    },
+    {
+        "text": "Los indicadores de dirección, ¿para qué se utilizan?",
+        "options": [
+            "No tienen mucha utilidad salvo en vías con mucho tráfico.",
+            "Únicamente para indicar los cambios de dirección a la derecha o a la izquierda.",
+            "Para comunicarse con los demás conductores."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T512609.jpg"
+    },
+    {
+        "text": "La luneta térmica de la ventanilla posterior del vehículo, ¿qué función tiene?",
+        "options": [
+            "Eliminar el hielo y el vaho que se pueden formar por circunstancias climatológicas adversas.",
+            "Producir calor para el mejor confort de los pasajeros de los asientos traseros.",
+            "Evitar la rotura de la luneta posterior que refuerzan los filamentos."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510112_150316.jpg"
+    },
+    {
+        "text": "¿Está permitido colocar adhesivos en el parabrisas de un turismo?",
+        "options": [
+            "No, si no han sido previamente homologados.",
+            "No, está prohibido.",
+            "Sí, mientras sea posible la visibilidad diáfana del conductor sobre toda la vía."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T502207.jpg"
+    },
+    {
+        "text": "¿Puede instalar en su turismo vidrios tintados o coloreados no homologados?",
+        "options": [
+            "Sí, pero sólo si no circula de noche.",
+            "No, está prohibido.",
+            "Sí, siempre que la visibilidad no disminuya sensiblemente."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T507113.jpg"
+    },
+    {
+        "text": "En el campo de visión definido por la normativa, ¿cuál es la finalidad del retrovisor de un vehículo?",
+        "options": [
+            "Permitir una visibilidad clara hacia atrás del vehículo pero no hacia los lados.",
+            "Reducir la resistencia al viento del vehículo.",
+            "Permitir una visibilidad clara hacia atrás y hacia los lados del vehículo."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T511321.jpg"
+    },
+    {
+        "text": "¿Debe verificar con frecuencia el reglaje de los espejos retrovisores exteriores?",
+        "options": [
+            "No, porque una vez colocados correctamente ya quedan fijos.",
+            "Sí, cada vez que vaya a conducir y antes de iniciar la marcha.",
+            "Sólo cuando conduzca de noche, porque las distancias se aprecian de modo diferente."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T504530.jpg"
+    },
+    {
+        "text": "¿Cómo se deben colocar los espejos?",
+        "options": [
+            "Con el coche parado en calzada recta.",
+            "Parado o en movimiento, es igual.",
+            "Con el coche en movimiento para ver mejor."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T504918.jpg"
+    },
+    {
+        "text": "Todos los turismos están obligados a llevar dos espejos como mínimo. ¿Qué espejo es siempre obligatorio?",
+        "options": [
+            "El derecho.",
+            "El izquierdo.",
+            "El central."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T500325.jpg"
+    },
+    {
+        "text": "A un turismo, ¿le está permitido circular si tiene roto el espejo retrovisor exterior izquierdo?",
+        "options": [
+            "Solo si el vehículo tiene espejo retrovisor interior.",
+            "No, cuando el conductor no pueda ver la circulación por detrás del vehículo.",
+            "Sí, porque el retrovisor exterior izquierdo no es obligatorio."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T510104_150723.jpg"
+    },
+    {
+        "text": "El espejo retrovisor izquierdo está bien reglado cuando permite ver...",
+        "options": [
+            "una zona muy amplia del costado del vehículo.",
+            "la calzada con un ligero movimiento de la cabeza, sin mover el cuerpo.",
+            "lo mínimo indispensable del costado del vehículo y lo máximo de la calzada."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T505025.jpg"
+    },
+    {
+        "text": "Un turismo, ¿puede llevar sólo el espejo exterior izquierdo y el interior?",
+        "options": [
+            "Sí.",
+            "No, también debe llevar el espejo exterior derecho.",
+            "No, sólo son obligatorios el espejo interior y el exterior derecho."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T502109.jpg"
+    },
+    {
+        "text": "¿Cuántos espejos retrovisores llevará como máximo un turismo?",
+        "options": [
+            "3",
+            "4",
+            "2"
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T501104.jpg"
+    },
+    {
+        "text": "Un turismo, ¿puede circular sin uno de los espejos retrovisores exteriores si coloca uno interior panorámico?",
+        "options": [
+            "Únicamente sin el espejo derecho y sólo cuando su uso no sea obligatorio por las condiciones del vehículo o del conductor.",
+            "Sí, cuando el que falta es el izquierdo.",
+            "No, siempre deberá circular con los dos espejos retrovisores exteriores."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T504118.jpg"
+    },
+    {
+        "text": "El ángulo muerto es...",
+        "options": [
+            "es una zona alrededor del vehículo que no se ve con los retrovisores.",
+            "es la zona sin visibilidad que tiene el conductor al tomar una curva.",
+            "es una parte de los coches que puede producir accidentes."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510114_050116.jpg"
+    },
+    {
+        "text": "Para controlar el ángulo muerto, ¿qué se puede hacer?",
+        "options": [
+            "Girar levemente la cabeza para completar la visión del retrovisor.",
+            "Circular por el centro del carril.",
+            "Mover los retrovisores hacia afuera."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T505812.jpg"
+    },
+    {
+        "text": "En los desplazamientos laterales, ¿es suficiente con mirar por los espejos retrovisores?",
+        "options": [
+            "Sí, en cualquier caso.",
+            "No, no es necesario.",
+            "No, es conveniente girar la cabeza para controlar adecuadamente el ángulo muerto."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T511522.jpg"
+    },
+    {
+        "text": "A un turismo, ¿le está permitido circular con láminas adhesivas o cortinillas contra el sol en las ventanillas traseras?",
+        "options": [
+            "Sí, en todo caso.",
+            "Solo si el vehículo lleva dos espejos retrovisores exteriores.",
+            "No, en ningún caso."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T501908.jpg"
+    },
+    {
+        "text": "Si el equipaje disminuye la visibilidad por el espejo interior, ¿a qué está obligado?",
+        "options": [
+            " En ningún caso la carga puede disminuir la visibilidad.",
+            "A tener instalados el espejo retrovisor interior y el exterior izquierdo.",
+            "A tener instalados dos espejos retrovisores exteriores, uno a cada lado del vehículo."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T503327.jpg"
+    }
+]
+            
+            ;
+
+            const container = document.getElementById('test-container');
+            const paginationRow1 = document.getElementById('pagination-row-1');
+            const paginationRow2 = document.getElementById('pagination-row-2');
+
+            // Generar preguntas
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.setAttribute('data-correct', question.correct);
+                questionDiv.innerHTML = `
+                    <div class="question-image">
+                        <img src="${question.image}" alt="Imagen de la pregunta">
+                    </div>
+                    <div class="question-content">
+                        <h3>${index + 1}. ${question.text}</h3>
+                        <div class="options">
+                            ${question.options.map((option, idx) => `
+                                <div class="option" data-answer="${String.fromCharCode(65 + idx)}">
+                                    <span class="option-circle">${String.fromCharCode(65 + idx)}</span>
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+
+            // Generar paginación
+            for (let i = 0; i < questions.length; i++) {
+                const button = document.createElement('button');
+                button.textContent = `${i + 1}`;
+                button.addEventListener('click', () => showQuestion(i));
+                if (i < 15) {
+                    paginationRow1.appendChild(button);
+                } else {
+                    paginationRow2.appendChild(button);
+                }
+            }
+
+            // Mostrar la primera pregunta
+            showQuestion(0);
+
+            // Función para mostrar una pregunta específica
+            function showQuestion(index) {
+                document.querySelectorAll('.question').forEach((q, i) => {
+                    q.style.display = i === index ? 'flex' : 'none';
+                });
+                document.querySelectorAll('.pagination button').forEach((btn, i) => {
+                    btn.style.backgroundColor = i === index ? '#ff7aa2' : '#ffa5c3';
+                });
+            }
+
+            // Evento para las opciones de respuesta
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const question = this.closest('.question');
+                    const questionIndex = Array.from(container.children).indexOf(question);
+                    const isCorrect = this.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    
+                    if (question.dataset.answered) return;
+
+                    question.dataset.answered = true;
+
+                    question.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                        opt.style.pointerEvents = 'none';
+                    });
+                    
+                    this.classList.add('selected', isCorrect ? 'correct' : 'incorrect');
+
+                    if (!isCorrect) {
+                        question.querySelector(`.option[data-answer="${question.getAttribute('data-correct')}"]`).classList.add('correct');
+                    }
+
+                    // Actualizar el botón de paginación
+                    const paginationButton = questionIndex < 15 ? paginationRow1.children[questionIndex] : paginationRow2.children[questionIndex - 15];
+                    paginationButton.classList.add(isCorrect ? 'correct' : 'incorrect');
+                });
+            });
+
+            // Evento para corregir el test
+            document.getElementById('correct-test').addEventListener('click', () => {
+                let wrongAnswers = 0;
+                document.querySelectorAll('.question').forEach((question, index) => {
+                    const selected = question.querySelector('.option.selected');
+                    const isCorrect = selected && selected.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    if (!isCorrect) {
+                        wrongAnswers++;
+                    }
+                    // Actualizar el botón de paginación si no se ha respondido
+                    if (!selected) {
+                        const paginationButton = index < 15 ? paginationRow1.children[index] : paginationRow2.children[index - 15];
+                        paginationButton.classList.add('incorrect');
+                    }
+                });
+                const resultMessage = `Has fallado ${wrongAnswers} respuestas.`;
+
+                const alert = document.getElementById('custom-alert');
+                document.getElementById('alert-message').textContent = resultMessage;
+                alert.style.display = 'block';
+            });
+        });
+
+        function closeAlert() {
+            document.getElementById('custom-alert').style.display = 'none';
+        }
+    </script>
+
+    
+</body>
+</html>

@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Autoescuela</title>
+    <link rel="stylesheet" href="../../../Assets/style.css">
+</head>
+<body>
+
+    
+    <div class="container">
+        <h1 style="text-align: center; color: #ffa5c3;">Test de Autoescuela</h1>
+        <div id="test-container">
+            <!-- Aquí se generarán dinámicamente las preguntas -->
+        </div>
+        <div class="pagination">
+            <div class="pagination-row" id="pagination-row-1"></div>
+            <div class="pagination-row" id="pagination-row-2"></div>
+        </div>
+        <button id="correct-test">Corregir Test</button>
+    </div>
+
+    <!-- Custom Alert HTML -->
+    <div class="custom-alert" id="custom-alert">
+        <h2>Resultado del Test</h2>
+        <p id="alert-message">Aquí irá el mensaje del resultado.</p>
+        <button onclick="closeAlert()">Cerrar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = [
+    {
+        "text": "Todo conductor de un vehículo que circule detrás de otro está obligado a dejar entre ambos, como mínimo...",
+        "options": [
+            "un espacio libre que le permita detenerse, en caso de frenado brusco, sin colisionar con él.",
+            "una distancia de 50 metros.",
+            "una distancia que permita a los vehículos que le sigan adelantarlo con seguridad."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P0501.jpg"
+    },
+    {
+        "text": "¿Dónde se debe mantener la distancia de seguridad?",
+        "options": [
+            "Sólo en las calzadas en mal estado.",
+            "Sólo en las calzadas con dos sentidos de circulación.",
+            "En todas las vías."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T509019.jpg"
+    },
+    {
+        "text": "A la hora de determinar la distancia de seguridad con el vehículo que circula delante...",
+        "options": [
+            "debe tener en cuenta la velocidad, la visibilidad y el estado de la calzada.",
+            "debe tener en cuenta la velocidad, exclusivamente.",
+            "debe tener en cuenta las características del vehículo que circula delante."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P0508.jpg"
+    },
+    {
+        "text": "La distancia de seguridad con el vehículo que circula delante depende de...",
+        "options": [
+            "el tipo de vehículo que circula delante.",
+            "la velocidad y las condiciones de adherencia y de frenado.",
+            "la densidad del tráfico."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T501007.jpg"
+    },
+    {
+        "text": "En vías urbanas, si no pretende adelantar, ¿qué distancia de seguridad se debe mantener con el turismo que circula delante?",
+        "options": [
+            "Aquella que permita que una motocicleta adelante con seguridad.",
+            "La que permita detenerse sin colisionar con el vehículo que va delante en caso de que frene bruscamente.",
+            "Siempre 50 metros."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P0505.jpg"
+    },
+    {
+        "text": "Si pretende adelantar al vehículo de la fotografía, ¿está permitido disminuir la distancia de seguridad?",
+        "options": [
+            "Sí, para hacer el adelantamiento más seguro.",
+            "Sí, porque así tiene mejor visión del sentido contrario.",
+            "No, se debe mantener siempre la distancia de seguridad."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T514211.jpg"
+    },
+    {
+        "text": "En una carretera convencional, ¿qué distancia se debe dejar con el vehículo que circula delante, al que no se pretende adelantar?",
+        "options": [
+            "La que permita detenerse en caso de frenado brusco del vehículo que va delante sin colisionar con él y permita a los demás adelantar con seguridad.",
+            "50 metros.",
+            "La que permita detenerse en caso de frenado brusco del vehículo que va delante sin colisionar con él."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T511122.jpg"
+    },
+    {
+        "text": "En una autopista con tres carriles para cada sentido, ¿qué distancia de seguridad debe dejar un turismo con el vehículo que circula delante?",
+        "options": [
+            "50 metros.",
+            "La que permita detener el vehículo en caso de frenado brusco y permita que los demás adelanten con seguridad.",
+            "La que permita detener el vehículo en caso de frenado brusco del que va delante sin colisionar con él."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P0503.jpg"
+    },
+    {
+        "text": "Un camión de 3.300 Kgs. de M.M.A. circula por una autovía. ¿Cuál debe ser la distancia de seguridad que debe guardar con el vehículo que le precede?",
+        "options": [
+            "La suficiente para no colisionar en caso de frenazo brusco.",
+            "50 metros.",
+            "La suficiente para no colisionar en caso de frenazo brusco, además de la suficiente para que el vehículo de detrás nos adelante con seguridad."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510111_151215.jpg"
+    },
+    {
+        "text": "La obligación de dejar espacio suficiente para permitir el adelantamiento no será aplicable...",
+        "options": [
+            "en vías con un único carril para cada sentido.",
+            "donde esté prohibido el adelantamiento.",
+            "en carreteras convencionales."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T505707.jpg"
+    },
+    {
+        "text": "En esta situación, ¿cuál es la distancia de seguridad entre vehículos?",
+        "options": [
+            "60 metros.",
+            "Aquella que me permita detenerme, sin colisionar con él.",
+            "90 metros."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P0504.jpg"
+    },
+    {
+        "text": "En un túnel con un carril para cada sentido, ¿qué distancia de seguridad mínima es obligatoria para turismos?",
+        "options": [
+            "50 metros.",
+            "100 metros.",
+            "200 metros."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P0506.jpg"
+    },
+    {
+        "text": "En un túnel, ¿qué distancia de seguridad se debe dejar con el vehículo que circula delante?",
+        "options": [
+            "100 metros, al menos, cuando no se pretenda adelantar.",
+            "Únicamente la distancia suficiente para no colisionar en caso de frenado brusco.",
+            "200 metros."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T501929.jpg"
+    },
+    {
+        "text": "Con la calzada mojada, la distancia de separación con el vehículo que va delante, debe ser...",
+        "options": [
+            "diez veces mayor que con el suelo seco.",
+            "la misma que si la calzada estuviera seca.",
+            "el doble que con el suelo seco."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T514309.jpg"
+    },
+    {
+        "text": "La distancia de seguridad de 50 metros, ¿a quién pertenece?",
+        "options": [
+            "A camiones con una MMA superior a 3.500 kilogramos.",
+            "A turismos.",
+            "A todos los conjuntos de vehículos."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T511823.jpg"
+    },
+    {
+        "text": "Se recomienda mantener con el vehículo que circula delante, como norma general, ...",
+        "options": [
+            "un intervalo mínimo de 4 segundos.",
+            "un intervalo mínimo de 2 segundos, aunque se recomienda ampliarlo a 3 segundos cuando circulamos fuera de poblado.",
+            "un intervalo mínimo de 1 segundo, debiendo ampliarse a 2 segundos cuando se circula fuera de poblado."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T514515.jpg"
+    },
+    {
+        "text": "Se debe mantener una separación lateral adecuada...",
+        "options": [
+            "solo al adelantar a los vehículos que circulen delante.",
+            "siempre, tanto al adelantar como al cruzarse con otros usuarios.",
+            "solo al cruzarse con otros usuarios."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T501505.jpg"
+    },
+    {
+        "text": "Conduciendo un turismo, al adelantar a otro turismo en una vía urbana, ¿qué separación lateral debe guardar con el vehículo adelantado?",
+        "options": [
+            "Una separación proporcional a la velocidad y a la anchura y características de la calzada.",
+            "Una separación de 1,5 metros como máximo.",
+            "Una separación de 1,5 metros como mínimo."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T513809.jpg"
+    },
+    {
+        "text": "Al adelantar a un peatón, es obligatorio dejar una separación lateral mínima de 1,50 metros cuando circule...",
+        "options": [
+            "por cualquier vía, fuera o dentro de poblado.",
+            "en vías interurbanas, solamente.",
+            "por poblado, exclusivamente."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T510111_150116.jpg"
+    },
+    {
+        "text": "Cuando se adelante a vehículos de tracción animal, la separación lateral...",
+        "options": [
+            "no debe ser inferior a 1,5 metros, cuando el adelantamiento se realice fuera de poblado.",
+            "debe ser, al menos, de 1,5 metros en todos los casos.",
+            "debe ser siempre proporcional a la anchura y características de la vía."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T503612.jpg"
+    },
+    {
+        "text": "Al adelantar a un ciclista que lleva a un pasajero, es importante...",
+        "options": [
+            "dejar una separación lateral suficiente, ya que se pueden desestabilizar con facilidad.",
+            "mantener la velocidad y estar atento al cumplimiento de la señalización vertical.",
+            "al estar cerca de ellos hacer señales acústicas para indicar nuestra presencia."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T513505.jpg"
+    },
+    {
+        "text": "Se debe dejar una separación lateral mínima de 1,50 metros cuando se adelante fuera de poblado...",
+        "options": [
+            "a peatones, animales o a vehículos de dos ruedas o de tracción animal.",
+            "a cualquier tipo de vehículo.",
+            "a vehículos de dos ruedas o a vehículos pesados."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510101_150217.jpg"
+    },
+    {
+        "text": "Al adelantar a una motocicleta en vía urbana, ¿cómo debe hacerlo?",
+        "options": [
+            "Ocupando siempre parte del carril contiguo.",
+            "Dejando una distancia lateral de seguridad suficiente, proporcional a la velocidad, anchura y características de la vía.",
+            "Dejando una distancia lateral mínima de 1,50 metros."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T514819.jpg"
+    },
+    {
+        "text": "Si conduce una motocicleta en zona urbana, ¿qué distancia lateral debe mantener con el resto de vehículos?",
+        "options": [
+            "La distancia lateral no importa en zona urbana.",
+            "Una distancia proporcional a la velocidad, a la anchura y a las características de la calzada.",
+            "Un espacio no inferior a 1,5 metros."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T503303.jpg"
+    },
+    {
+        "text": "Una motocicleta adelanta a un turismo en carretera. ¿Qué distancia lateral debe dejar?",
+        "options": [
+            "1,5 metros o más.",
+            "No hay distancia mínima obligatoria.",
+            "2 metros o más."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T512705.jpg"
+    },
+    {
+        "text": "¿Qué separación lateral están obligadas a dejar las motocicletas al cruzarse con otros vehículos que circulen en sentido contrario?",
+        "options": [
+            "1,5 metros como máximo.",
+            "1,5 metros como mínimo en cualquier caso.",
+            "Una separación lateral suficiente para que el cruce pueda realizarse con seguridad y sin peligro."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T503524.jpg"
+    },
+    {
+        "text": "Si queda detenido en un atasco, ¿qué distancia es aconsejable mantener con el vehículo de delante?",
+        "options": [
+            "Mínimo 2 ó 3 metros, para evitar golpear al vehículo de delante en caso de alcance trasero.",
+            "Un metro como máximo.",
+            "Un espacio mínimo para ocupar menos espacio."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T506005.jpg"
+    },
+    {
+        "text": "El conductor de un vehículo, detenido en el interior de un tunel por necesidades de la circulación deberá...",
+        "options": [
+            "detenerse lo más lejos posible del vehículo que le precede.",
+            "apagar el motor y mantener encendidas todas las luces.",
+            "detenerse lo más cerca posible del vehículo que le precede."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P1007.jpg"
+    },
+    {
+        "text": "Si existe gravilla en la calzada, ¿qué se debe hacer para evitar la rotura del parabrisas?",
+        "options": [
+            "Nada, porque si el parabrisas está limpio se reduce el riesgo de rotura por gravilla.",
+            "Aumentar la separación con los vehículos que nos preceden.",
+            "Aumentar la velocidad para disminuir los efectos del impacto."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T503103.jpg"
+    },
+    {
+        "text": "Si el vehículo de detrás se aproxima demasiado, debemos...",
+        "options": [
+            "reducir la separación con el vehículo de delante.",
+            "aumentar la separación con el vehículo de delante.",
+            "mantener la misma separación con el vehículo de delante."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T505511.jpg"
+    }
+]
+            
+            ;
+
+            const container = document.getElementById('test-container');
+            const paginationRow1 = document.getElementById('pagination-row-1');
+            const paginationRow2 = document.getElementById('pagination-row-2');
+
+            // Generar preguntas
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.setAttribute('data-correct', question.correct);
+                questionDiv.innerHTML = `
+                    <div class="question-image">
+                        <img src="${question.image}" alt="Imagen de la pregunta">
+                    </div>
+                    <div class="question-content">
+                        <h3>${index + 1}. ${question.text}</h3>
+                        <div class="options">
+                            ${question.options.map((option, idx) => `
+                                <div class="option" data-answer="${String.fromCharCode(65 + idx)}">
+                                    <span class="option-circle">${String.fromCharCode(65 + idx)}</span>
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+
+            // Generar paginación
+            for (let i = 0; i < questions.length; i++) {
+                const button = document.createElement('button');
+                button.textContent = `${i + 1}`;
+                button.addEventListener('click', () => showQuestion(i));
+                if (i < 15) {
+                    paginationRow1.appendChild(button);
+                } else {
+                    paginationRow2.appendChild(button);
+                }
+            }
+
+            // Mostrar la primera pregunta
+            showQuestion(0);
+
+            // Función para mostrar una pregunta específica
+            function showQuestion(index) {
+                document.querySelectorAll('.question').forEach((q, i) => {
+                    q.style.display = i === index ? 'flex' : 'none';
+                });
+                document.querySelectorAll('.pagination button').forEach((btn, i) => {
+                    btn.style.backgroundColor = i === index ? '#ff7aa2' : '#ffa5c3';
+                });
+            }
+
+            // Evento para las opciones de respuesta
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const question = this.closest('.question');
+                    const questionIndex = Array.from(container.children).indexOf(question);
+                    const isCorrect = this.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    
+                    if (question.dataset.answered) return;
+
+                    question.dataset.answered = true;
+
+                    question.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                        opt.style.pointerEvents = 'none';
+                    });
+                    
+                    this.classList.add('selected', isCorrect ? 'correct' : 'incorrect');
+
+                    if (!isCorrect) {
+                        question.querySelector(`.option[data-answer="${question.getAttribute('data-correct')}"]`).classList.add('correct');
+                    }
+
+                    // Actualizar el botón de paginación
+                    const paginationButton = questionIndex < 15 ? paginationRow1.children[questionIndex] : paginationRow2.children[questionIndex - 15];
+                    paginationButton.classList.add(isCorrect ? 'correct' : 'incorrect');
+                });
+            });
+
+            // Evento para corregir el test
+            document.getElementById('correct-test').addEventListener('click', () => {
+                let wrongAnswers = 0;
+                document.querySelectorAll('.question').forEach((question, index) => {
+                    const selected = question.querySelector('.option.selected');
+                    const isCorrect = selected && selected.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    if (!isCorrect) {
+                        wrongAnswers++;
+                    }
+                    // Actualizar el botón de paginación si no se ha respondido
+                    if (!selected) {
+                        const paginationButton = index < 15 ? paginationRow1.children[index] : paginationRow2.children[index - 15];
+                        paginationButton.classList.add('incorrect');
+                    }
+                });
+                const resultMessage = `Has fallado ${wrongAnswers} respuestas.`;
+
+                const alert = document.getElementById('custom-alert');
+                document.getElementById('alert-message').textContent = resultMessage;
+                alert.style.display = 'block';
+            });
+        });
+
+        function closeAlert() {
+            document.getElementById('custom-alert').style.display = 'none';
+        }
+    </script>
+
+    
+</body>
+</html>

@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Autoescuela</title>
+    <link rel="stylesheet" href="../../../Assets/style.css">
+</head>
+<body>
+
+    
+    <div class="container">
+        <h1 style="text-align: center; color: #ffa5c3;">Test de Autoescuela</h1>
+        <div id="test-container">
+            <!-- Aquí se generarán dinámicamente las preguntas -->
+        </div>
+        <div class="pagination">
+            <div class="pagination-row" id="pagination-row-1"></div>
+            <div class="pagination-row" id="pagination-row-2"></div>
+        </div>
+        <button id="correct-test">Corregir Test</button>
+    </div>
+
+    <!-- Custom Alert HTML -->
+    <div class="custom-alert" id="custom-alert">
+        <h2>Resultado del Test</h2>
+        <p id="alert-message">Aquí irá el mensaje del resultado.</p>
+        <button onclick="closeAlert()">Cerrar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = [
+    {
+        "text": "¿Qué indica esta señal?",
+        "options": [
+            "Prioridad respecto al sentido contrario.",
+            "Peligro por circulación en los dos sentidos.",
+            "Peligro por estrechamiento de la calzada."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P1423.jpg"
+    },
+    {
+        "text": "La señal...",
+        "options": [
+            "indica desnivel a lo largo de la vía en el lado derecho.",
+            "indica que la vía desemboca en un muelle o en una corriente de agua.",
+            "indica una zona con baches y en obras."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T505827.jpg"
+    },
+    {
+        "text": "¿Qué significa esta señal?",
+        "options": [
+            "Peligro por tramo con posible proyección de gravilla.",
+            "Peligro por tramo con visibilidad reducida.",
+            "Peligro por zona con frecuentes desprendimientos."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P1424.jpg"
+    },
+    {
+        "text": "Esta señal...",
+        "options": [
+            "prohíbe entrar en esta vía por congestión de vehículos.",
+            "indica peligro por la aproximación a un lugar estrecho en el que se debe ir en fila.",
+            "advierte que debo circular con precaución por congestión del tráfico."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P1425.jpg"
+    },
+    {
+        "text": "¿Qué peligro indica esta señal?",
+        "options": [
+            "Firme deslizante.",
+            "Curva peligrosa.",
+            "Obstrucción en la calzada."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P1426.jpg"
+    },
+    {
+        "text": "¿Qué indica esta señal?",
+        "options": [
+            "Peligro por la proximidad de un tramo cuyo pavimento puede resultar muy deslizante a causa del hielo o la nieve.",
+            "Peligro por la posible existencia de obstáculos en la vía.",
+            "Peligro por la proximidad de una zona de la calzada cuyo pavimento puede resultar muy deslizante."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P1427.jpg"
+    },
+    {
+        "text": "Esta señal nos indica...",
+        "options": [
+            "Peligro por ser una zona con frecuentes bancos de niebla.",
+            "Peligro porque en este momento hay hielo o nieve en la calzada.",
+            "Peligro porque puede haber nieve o hielo en la calzada."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T511915.jpg"
+    },
+    {
+        "text": "Esta señal indica peligro por...",
+        "options": [
+            "pavimento deslizante por nieve.",
+            "la proximidad de un tramo de la vía con visibilidad reducida por niebla, lluvia o nieve.",
+            "la proximidad de un tramo de la vía con desprendimientos frecuentes y la presencia de obstáculos en la calzada."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T504903.jpg"
+    },
+    {
+        "text": "¿De qué peligro advierte esta señal?",
+        "options": [
+            "De la proximidad de una zona en la que sopla frecuentemente viento fuerte en dirección transversal.",
+            "De posibles desprendimientos en la calzada.",
+            "De la proximidad de un desnivel."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P1429.jpg"
+    },
+    {
+        "text": "¿Qué indica esta señal?",
+        "options": [
+            "Peligro por viento transversal ocasionado por la proximidad del vuelo de aeronaves.",
+            "Peligro por ruidos imprevistos originados por aeronaves que vuelan a baja altura.",
+            "Advierte de la situación cercana del parking del aeropuerto."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T514715.jpg"
+    },
+    {
+        "text": "La señal...",
+        "options": [
+            "reitera la información dada por otra señal de peligro anterior.",
+            "indica la proximidad de un peligro distinto de los advertidos por otras señales.",
+            "indica la proximidad de un tramo con tráfico denso."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P1430.jpg"
+    },
+    {
+        "text": "El panel bajo la señal indica...",
+        "options": [
+            "la distancia al comienzo del peligro o prescripción.",
+            "la longitud del tramo peligroso o sujeto a prescripción.",
+            "la extensión del peligro o prescripción a ambos lados de la calzada."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T503427.jpg"
+    },
+    {
+        "text": "¿A qué obliga esta señal?",
+        "options": [
+            "A detenerse.",
+            "A ceder el paso a todos los vehículos que circulen por la vía preferente.",
+            "A ceder el paso a los vehículos que se acerquen por la derecha."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T509329.jpg"
+    },
+    {
+        "text": "Esta señal, ¿obliga siempre a detenerse?",
+        "options": [
+            "No, sólo cuando la visibilidad en el cruce sea reducida.",
+            "Sí, salvo que un semáforo indique lo contrario.",
+            "No, sólo cuando se aproximen vehículos por la vía transversal."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T502926.jpg"
+    },
+    {
+        "text": "Al llegar a una intersección sin línea de detención, regulada por la señal de la fotografía, y tras asegurarnos de que no viene ningún vehículo... ¿Estamos obligados a detener el vehículo?",
+        "options": [
+            "Sí, inmediatamente antes de la intersección.",
+            "Sí, siempre a la altura de la señal de STOP.",
+            "No, ya que no viene ningún vehículo."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T511315.jpg"
+    },
+    {
+        "text": "El vehículo estacionado le dificulta la visibilidad, ¿puede no detenerse antes de la línea transversal de detención y hacerlo un poco después de la misma?",
+        "options": [
+            "Sí, puedo detenerme directamente en un lugar desde el que hay visibilidad.",
+            "No, y puedo cruzar sin detenerme si no circulan vehículos en la vía transversal.",
+            "No, debo detenerme primero antes de la línea de detención."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T510116_050723.jpg"
+    },
+    {
+        "text": "Esta señalización, le indica la distancia...",
+        "options": [
+            "al lugar donde tiene que ceder el paso en la próxima intersección.",
+            "a la próxima intersección donde encontrará la señal de detención obligatoria.",
+            "a la próxima intersección donde tendrá preferencia de paso sobre los demás vehículos."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T500205.jpg"
+    },
+    {
+        "text": "Si desde la línea de detención no hay visibilidad, ¿dónde deberá detenerse?",
+        "options": [
+            "En la línea de detención.",
+            "Primero en la línea de detención y luego donde haya visibilidad.",
+            "Sólo donde haya visibilidad."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T512713.jpg"
+    },
+    {
+        "text": "Esta señal indica...",
+        "options": [
+            "vía pública calificada de atención preferente.",
+            "prioridad de paso de los vehículos que se acerquen por la derecha.",
+            "calzada con prioridad de paso en las intersecciones."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T501902.jpg"
+    },
+    {
+        "text": "Esta señal indica...",
+        "options": [
+            "fin de calzada con prioridad.",
+            "proximidad de paso a nivel provisto de barreras o semibarreras.",
+            "fin de todas la limitaciones de señales anteriores."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T514315.jpg"
+    },
+    {
+        "text": "¿Qué indica esta señal?",
+        "options": [
+            "Obliga a seguir circulando de frente.",
+            "Obliga a ceder el paso a la circulación del sentido contrario.",
+            "Calzada con doble sentido de circulación."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T512829.jpg"
+    },
+    {
+        "text": "Esta señal indica...",
+        "options": [
+            "prioridad respecto al sentido contrario.",
+            "que no se puede pasar cuando se obligue a los vehículos que vengan en sentido contrario a detenerse.",
+            "que hay que detenerse siempre."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T513615.jpg"
+    },
+    {
+        "text": "Esta señal vertical prohíbe...",
+        "options": [
+            "la parada y el estacionamiento a toda clase de vehículos.",
+            "la circulación a toda clase de vehículos en ambos sentidos.",
+            "el paso a toda clase de vehículos en un solo sentido."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T511427.jpg"
+    },
+    {
+        "text": "La señal prohíbe la entrada a...",
+        "options": [
+            "toda clase de vehículos.",
+            "vehículos de motor.",
+            "turismos y motocicletas."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T505713.jpg"
+    },
+    {
+        "text": "¿Qué indica esta señal?",
+        "options": [
+            "Entrada prohibida a todos los vehículos, salvo ciclomotores.",
+            "Calle cortada.",
+            "Entrada prohibida a toda clase de vehículos."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T510115_150316.jpg"
+    },
+    {
+        "text": "Esta señal indica entrada prohibida a...",
+        "options": [
+            "vehículos automóviles.",
+            "vehículos de motor, excepto motocicletas de dos ruedas sin sidecar.",
+            "turismos."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T501603.jpg"
+    },
+    {
+        "text": "¿Qué indica esta señal?",
+        "options": [
+            "Entrada prohibida a motocicletas.",
+            "Entrada prohibida a ciclomotores.",
+            "Entrada prohibida a vehículos de dos ruedas."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T500915.jpg"
+    },
+    {
+        "text": "Esta señal prohíbe la entrada a:",
+        "options": [
+            "Ciclomotores.",
+            "Ciclos.",
+            "Cualquier vehículo de dos ruedas."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T504013.jpg"
+    },
+    {
+        "text": "Si circula con un vehículo para personas de movilidad reducida, ¿le afectará esta señal?",
+        "options": [
+            "No, sólo prohíbe el acceso a los ciclomotores.",
+            "No, sólo prohíbe el acceso a las motocicletas.",
+            "Sí."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T510115_250716.jpg"
+    },
+    {
+        "text": "A una vía así señalizada, ¿qué vehículos no pueden acceder?",
+        "options": [
+            "Turismos.",
+            "Bicicletas.",
+            "Motocicletas."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T510127_050216.jpg"
+    }
+]
+            
+            ;
+
+            const container = document.getElementById('test-container');
+            const paginationRow1 = document.getElementById('pagination-row-1');
+            const paginationRow2 = document.getElementById('pagination-row-2');
+
+            // Generar preguntas
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.setAttribute('data-correct', question.correct);
+                questionDiv.innerHTML = `
+                    <div class="question-image">
+                        <img src="${question.image}" alt="Imagen de la pregunta">
+                    </div>
+                    <div class="question-content">
+                        <h3>${index + 1}. ${question.text}</h3>
+                        <div class="options">
+                            ${question.options.map((option, idx) => `
+                                <div class="option" data-answer="${String.fromCharCode(65 + idx)}">
+                                    <span class="option-circle">${String.fromCharCode(65 + idx)}</span>
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+
+            // Generar paginación
+            for (let i = 0; i < questions.length; i++) {
+                const button = document.createElement('button');
+                button.textContent = `${i + 1}`;
+                button.addEventListener('click', () => showQuestion(i));
+                if (i < 15) {
+                    paginationRow1.appendChild(button);
+                } else {
+                    paginationRow2.appendChild(button);
+                }
+            }
+
+            // Mostrar la primera pregunta
+            showQuestion(0);
+
+            // Función para mostrar una pregunta específica
+            function showQuestion(index) {
+                document.querySelectorAll('.question').forEach((q, i) => {
+                    q.style.display = i === index ? 'flex' : 'none';
+                });
+                document.querySelectorAll('.pagination button').forEach((btn, i) => {
+                    btn.style.backgroundColor = i === index ? '#ff7aa2' : '#ffa5c3';
+                });
+            }
+
+            // Evento para las opciones de respuesta
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const question = this.closest('.question');
+                    const questionIndex = Array.from(container.children).indexOf(question);
+                    const isCorrect = this.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    
+                    if (question.dataset.answered) return;
+
+                    question.dataset.answered = true;
+
+                    question.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                        opt.style.pointerEvents = 'none';
+                    });
+                    
+                    this.classList.add('selected', isCorrect ? 'correct' : 'incorrect');
+
+                    if (!isCorrect) {
+                        question.querySelector(`.option[data-answer="${question.getAttribute('data-correct')}"]`).classList.add('correct');
+                    }
+
+                    // Actualizar el botón de paginación
+                    const paginationButton = questionIndex < 15 ? paginationRow1.children[questionIndex] : paginationRow2.children[questionIndex - 15];
+                    paginationButton.classList.add(isCorrect ? 'correct' : 'incorrect');
+                });
+            });
+
+            // Evento para corregir el test
+            document.getElementById('correct-test').addEventListener('click', () => {
+                let wrongAnswers = 0;
+                document.querySelectorAll('.question').forEach((question, index) => {
+                    const selected = question.querySelector('.option.selected');
+                    const isCorrect = selected && selected.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    if (!isCorrect) {
+                        wrongAnswers++;
+                    }
+                    // Actualizar el botón de paginación si no se ha respondido
+                    if (!selected) {
+                        const paginationButton = index < 15 ? paginationRow1.children[index] : paginationRow2.children[index - 15];
+                        paginationButton.classList.add('incorrect');
+                    }
+                });
+                const resultMessage = `Has fallado ${wrongAnswers} respuestas.`;
+
+                const alert = document.getElementById('custom-alert');
+                document.getElementById('alert-message').textContent = resultMessage;
+                alert.style.display = 'block';
+            });
+        });
+
+        function closeAlert() {
+            document.getElementById('custom-alert').style.display = 'none';
+        }
+    </script>
+
+    
+</body>
+</html>

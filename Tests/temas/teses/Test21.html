@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Autoescuela</title>
+    <link rel="stylesheet" href="../../../Assets/style.css">
+</head>
+<body>
+
+    
+    <div class="container">
+        <h1 style="text-align: center; color: #ffa5c3;">Test de Autoescuela</h1>
+        <div id="test-container">
+            <!-- Aquí se generarán dinámicamente las preguntas -->
+        </div>
+        <div class="pagination">
+            <div class="pagination-row" id="pagination-row-1"></div>
+            <div class="pagination-row" id="pagination-row-2"></div>
+        </div>
+        <button id="correct-test">Corregir Test</button>
+    </div>
+
+    <!-- Custom Alert HTML -->
+    <div class="custom-alert" id="custom-alert">
+        <h2>Resultado del Test</h2>
+        <p id="alert-message">Aquí irá el mensaje del resultado.</p>
+        <button onclick="closeAlert()">Cerrar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = [
+    {
+        "text": "Como norma general, los pasajeros y el equipaje deberán colocarse en el vehículo de tal forma que...",
+        "options": [
+            "ocupen el menor espacio posible.",
+            "el mayor peso de la carga recaiga sobre la parte delantera.",
+            "no afecte al campo visual y a la libertad de movimientos del conductor."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T504913.jpg"
+    },
+    {
+        "text": "En un vehículo es obligatorio colocar y sujetar la carga de forma que no pueda...",
+        "options": [
+            "desplazarse de manera peligrosa, únicamente.",
+            "arrastrar, caer o desplazarse de manera peligrosa.",
+            "caer o desplazarse de manera peligrosa, únicamente."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T507809.jpg"
+    },
+    {
+        "text": "¿Qué debe tener en cuenta para transportar una carga en su vehículo?",
+        "options": [
+            "Que la carga no debe arrastrar, ni desplazarse de manera peligrosa.",
+            "Que no puede transportar cargas que sobresalgan.",
+            "Que debe emplear un dispositivo adecuado como un remolque."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T505907.jpg"
+    },
+    {
+        "text": "Las materias que produzcan polvo o puedan caer, es obligatorio transportarlas...",
+        "options": [
+            "cubriéndolas total y eficazmente.",
+            "en vehículos totalmente cerrados.",
+            "en contenedores de pequeño tamaño."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T500929.jpg"
+    },
+    {
+        "text": "Preferentemente, ¿dónde debe colocar la carga en su turismo?",
+        "options": [
+            "En el interior del vehículo.",
+            "En el maletero.",
+            "En la baca, correctamente señalizada."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P1912.jpg"
+    },
+    {
+        "text": "Los vehículos que están autorizados a transportar simultáneamente personas y carga deberán...",
+        "options": [
+            "en ningún caso se puede transportar personas y mercancías al mismo tiempo.",
+            "ir provistos de una protección adecuada a la carga que se transporte para no causar daños a los ocupantes.",
+            "estar dotados de un sistema especial para los frenos."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T514119.jpg"
+    },
+    {
+        "text": "Un vehículo lleva más carga que la Masa Máxima Autorizada (M.M.A.). ¿Está permitido circular así?",
+        "options": [
+            "Sí, pero solamente cuando transporta equipaje y personas dentro de poblado.",
+            "Sí, cuando es un vehículo de transporte de mercancías.",
+            "No, porque es peligroso."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P1921.jpg"
+    },
+    {
+        "text": "Un turismo, ¿puede transportar carga en la baca?",
+        "options": [
+            "Sí, cuando no comprometa la estabilidad del vehículo.",
+            "Sí, pero sólo si circula de día.",
+            "No."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P1911.jpg"
+    },
+    {
+        "text": "Cuando tenga que bajar del vehículo para descargar el equipaje, ¿debe apagar el motor?",
+        "options": [
+            "No, no es necesario si se trata de una parada breve.",
+            "No, sólo debe dejar accionado el freno de mano.",
+            "Sí, y además debe desconectar el sistema de arranque o contacto."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T511905.jpg"
+    },
+    {
+        "text": "En una vía urbana, es obligatorio realizar las operaciones de carga y descarga...",
+        "options": [
+            "respetando las disposiciones que dicten las autoridades municipales.",
+            "respetando únicamente las disposiciones sobre paradas y estacionamientos.",
+            "siempre por el lado más próximo al borde de la calzada."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T504616.jpg"
+    },
+    {
+        "text": "¿Cómo debe realizar la operación de carga y descarga, ya sea de personas o de mercancías?",
+        "options": [
+            "Rápidamente, pero sólo en las zonas donde esté permitido.",
+            "Sin ocasionar peligros y, si es posible, por el lado del vehículo más próximo al borde de la calzada.",
+            "Señalizando correctamente, pudiendo realizarla por cualquier lado del vehículo."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P1926.jpg"
+    },
+    {
+        "text": "Las operaciones de carga y descarga se llevarán a cabo...",
+        "options": [
+            "por el lado del vehículo más próximo al centro de la calzada.",
+            "dentro de la vía.",
+            "procurando evitar ruidos y molestias innecesarias."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T512905.jpg"
+    },
+    {
+        "text": "Durante las operaciones de carga y descarga, ¿está permitido depositar las mercancías en la calzada?",
+        "options": [
+            "En la calzada no, pero en los arcenes y en las zonas peatonales sí.",
+            "No, como norma general.",
+            "Sí."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P1927.jpg"
+    },
+    {
+        "text": "¿Se pueden llevar objetos o paquetes que salgan por las ventanillas de los lados?",
+        "options": [
+            "No.",
+            "Sí, hasta 30 centímetros.",
+            "Sí, con una tela de color rojo."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T504220.jpg"
+    },
+    {
+        "text": "¿Está permitido llevar las puertas o el maletero abiertos para aumentar la capacidad de carga?",
+        "options": [
+            "Las puertas no, pero sí el maletero si está sujeto de forma que no pueda caer la carga.",
+            "No, excepto en los vehículos destinados al transporte de mercancías.",
+            "No."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P1923.jpg"
+    },
+    {
+        "text": "¿Cómo debe distribuir la carga en una furgoneta?",
+        "options": [
+            "Encima del eje trasero, un poco hacia atrás.",
+            "Encima del eje trasero, un poco hacia delante.",
+            "Lo más próximo al conductor."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T510123_050617.jpg"
+    },
+    {
+        "text": "Para un vehículo con carga, ¿cuál es la altura máxima permitida?",
+        "options": [
+            "4 metros como norma general.",
+            "3 metros.",
+            "2,5 metros."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T505613.jpg"
+    },
+    {
+        "text": "En los vehículos no destinados al transporte de mercancías, ¿podrá sobresalir la carga por la parte delantera?",
+        "options": [
+            "Sí, hasta un 10 por ciento si la carga es divisible.",
+            "No.",
+            "Sí, hasta un 15 por ciento si la carga es indivisible."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P1913.jpg"
+    },
+    {
+        "text": "¿Está permitido que la carga de un turismo sobresalga por los laterales?",
+        "options": [
+            "Sí, señalizada con un panel de franjas rojas y blancas.",
+            "No.",
+            "Sí, cuando no comprometa la estabilidad del vehículo."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P1914.jpg"
+    },
+    {
+        "text": "En los vehículos no destinados al transporte de mercancías, ¿podrá sobresalir una carga indivisible por la parte posterior?",
+        "options": [
+            "No.",
+            "Sí, hasta un 10% de la longitud del vehículo.",
+            "Sí, hasta un 15% de la longitud del vehículo."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T513107.jpg"
+    },
+    {
+        "text": "En un camión de longitud inferior a 5 metros, una carga indivisible no podrá sobresalir más de...",
+        "options": [
+            "3 metros por delante y 2 metros por detrás.",
+            "2 metros por delante y 3 metros por detrás.",
+            "un tercio de la longitud del vehículo, tanto por delante como por detrás."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T512411.jpg"
+    },
+    {
+        "text": "En un vehículo de más de 5 metros, destinado al transporte de mercancías, una carga de longitud indivisible puede sobresalir...",
+        "options": [
+            "3 metros por la parte anterior y 2 por la posterior.",
+            "el 15% de la longitud del vehículo por delante y por detrás.",
+            "2 metros por la parte anterior y 3 por la posterior."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T514107.jpg"
+    },
+    {
+        "text": "En las motocicletas, ¿qué es obligatorio tener en cuenta con el equipaje transportado?",
+        "options": [
+            "Que no sobresalga por la parte trasera.",
+            "Que no sobresalga lateralmente.",
+            "Que vaya colocado y sujeto de forma que no afecte a estabilidad de la motocicleta."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T505719.jpg"
+    },
+    {
+        "text": "¿Cómo debe señalizar la carga que sobresale de una motocicleta?",
+        "options": [
+            "En las motocicletas la carga no es necesario señalizarla.",
+            "Con un panel reglamentario en el extremo de la carga.",
+            "De noche con una luz roja por la parte trasera."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T511307.jpg"
+    },
+    {
+        "text": "En los vehículos de anchura inferior a un metro la carga no debe sobresalir lateralmente más de...",
+        "options": [
+            "0,50 metros a cada lado del eje longitudinal del vehículo.",
+            "0,50 metros a cada lado del vehículo.",
+            "0,40 metros a cada lado del vehículo."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T508519.jpg"
+    },
+    {
+        "text": "En un vehículo de anchura inferior a un metro, ¿puede sobresalir la carga por delante o por detrás?",
+        "options": [
+            "No, en ningún caso.",
+            "Sólo por detrás hasta 25 centímetros.",
+            "Sí, hasta 25 centímetros, por delante y por detrás."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T513005.jpg"
+    },
+    {
+        "text": "Las motocicletas, ciclomotores o vehículos de tres ruedas,\n¿pueden arrastrar un remolque o semirremolque?",
+        "options": [
+            "No.",
+            "Sí, siempre que, entre otros requisitos, sea de día y en condiciones que no disminuyan la visibilidad.",
+            "Sí, y además pueden transportar personas en el remolque."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T503503.jpg"
+    },
+    {
+        "text": "¿Puede un vehículo de tres ruedas, arrastrar un remolque?",
+        "options": [
+            "Sí.",
+            "Sí, cualquier remolque.",
+            "No, nunca."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T502627.jpg"
+    },
+    {
+        "text": "Entre la puesta y la salida del sol, ¿está permitido conducir una motocicleta que arrastra un remolque?",
+        "options": [
+            "Sí, si se hace a una velocidad un 10 por ciento por debajo de la genérica de la vía.",
+            "Sí, como a cualquier otra hora del día.",
+            "No."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T503224.jpg"
+    },
+    {
+        "text": "Una bicicleta, ¿puede arrastrar un remolque?",
+        "options": [
+            "No, está prohibido que arrastre un remolque.",
+            "Sí, con la única condición de no llevar personas en el remolque.",
+            "Sí, cuando además de lo anterior lo haga de día y el peso del remolque no supere el 50% de la masa en vacío de la bicicleta."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T504708.jpg"
+    }
+]
+            
+            ;
+
+            const container = document.getElementById('test-container');
+            const paginationRow1 = document.getElementById('pagination-row-1');
+            const paginationRow2 = document.getElementById('pagination-row-2');
+
+            // Generar preguntas
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.setAttribute('data-correct', question.correct);
+                questionDiv.innerHTML = `
+                    <div class="question-image">
+                        <img src="${question.image}" alt="Imagen de la pregunta">
+                    </div>
+                    <div class="question-content">
+                        <h3>${index + 1}. ${question.text}</h3>
+                        <div class="options">
+                            ${question.options.map((option, idx) => `
+                                <div class="option" data-answer="${String.fromCharCode(65 + idx)}">
+                                    <span class="option-circle">${String.fromCharCode(65 + idx)}</span>
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+
+            // Generar paginación
+            for (let i = 0; i < questions.length; i++) {
+                const button = document.createElement('button');
+                button.textContent = `${i + 1}`;
+                button.addEventListener('click', () => showQuestion(i));
+                if (i < 15) {
+                    paginationRow1.appendChild(button);
+                } else {
+                    paginationRow2.appendChild(button);
+                }
+            }
+
+            // Mostrar la primera pregunta
+            showQuestion(0);
+
+            // Función para mostrar una pregunta específica
+            function showQuestion(index) {
+                document.querySelectorAll('.question').forEach((q, i) => {
+                    q.style.display = i === index ? 'flex' : 'none';
+                });
+                document.querySelectorAll('.pagination button').forEach((btn, i) => {
+                    btn.style.backgroundColor = i === index ? '#ff7aa2' : '#ffa5c3';
+                });
+            }
+
+            // Evento para las opciones de respuesta
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const question = this.closest('.question');
+                    const questionIndex = Array.from(container.children).indexOf(question);
+                    const isCorrect = this.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    
+                    if (question.dataset.answered) return;
+
+                    question.dataset.answered = true;
+
+                    question.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                        opt.style.pointerEvents = 'none';
+                    });
+                    
+                    this.classList.add('selected', isCorrect ? 'correct' : 'incorrect');
+
+                    if (!isCorrect) {
+                        question.querySelector(`.option[data-answer="${question.getAttribute('data-correct')}"]`).classList.add('correct');
+                    }
+
+                    // Actualizar el botón de paginación
+                    const paginationButton = questionIndex < 15 ? paginationRow1.children[questionIndex] : paginationRow2.children[questionIndex - 15];
+                    paginationButton.classList.add(isCorrect ? 'correct' : 'incorrect');
+                });
+            });
+
+            // Evento para corregir el test
+            document.getElementById('correct-test').addEventListener('click', () => {
+                let wrongAnswers = 0;
+                document.querySelectorAll('.question').forEach((question, index) => {
+                    const selected = question.querySelector('.option.selected');
+                    const isCorrect = selected && selected.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    if (!isCorrect) {
+                        wrongAnswers++;
+                    }
+                    // Actualizar el botón de paginación si no se ha respondido
+                    if (!selected) {
+                        const paginationButton = index < 15 ? paginationRow1.children[index] : paginationRow2.children[index - 15];
+                        paginationButton.classList.add('incorrect');
+                    }
+                });
+                const resultMessage = `Has fallado ${wrongAnswers} respuestas.`;
+
+                const alert = document.getElementById('custom-alert');
+                document.getElementById('alert-message').textContent = resultMessage;
+                alert.style.display = 'block';
+            });
+        });
+
+        function closeAlert() {
+            document.getElementById('custom-alert').style.display = 'none';
+        }
+    </script>
+
+    
+</body>
+</html>

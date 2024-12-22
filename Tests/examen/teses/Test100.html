@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Autoescuela</title>
+    <link rel="stylesheet" href="../../../Assets/style.css">
+</head>
+<body>
+
+    
+    <div class="container">
+        <h1 style="text-align: center; color: #ffa5c3;">Test de Autoescuela</h1>
+        <div id="test-container">
+            <!-- Aquí se generarán dinámicamente las preguntas -->
+        </div>
+        <div class="pagination">
+            <div class="pagination-row" id="pagination-row-1"></div>
+            <div class="pagination-row" id="pagination-row-2"></div>
+        </div>
+        <button id="correct-test">Corregir Test</button>
+    </div>
+
+    <!-- Custom Alert HTML -->
+    <div class="custom-alert" id="custom-alert">
+        <h2>Resultado del Test</h2>
+        <p id="alert-message">Aquí irá el mensaje del resultado.</p>
+        <button onclick="closeAlert()">Cerrar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = [
+    {
+        "text": "¿Qué relación existe entre la velocidad y el campo de visión del conductor?",
+        "options": [
+            "A menor velocidad, menor campo visual.",
+            "A mayor velocidad, mayor campo visual.",
+            "A mayor velocidad, menor campo visual."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T505001.jpg"
+    },
+    {
+        "text": "La prohibición de la señal de velocidad máxima, ¿finaliza después de la intersección?",
+        "options": [
+            "Sí.",
+            "No."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T505002.jpg"
+    },
+    {
+        "text": "¿Cada cuánto tiempo debe controlar la presión de los neumáticos de su vehículo?",
+        "options": [
+            "Una o dos veces al mes, con los neumáticos en caliente.",
+            "Sólo cuando vaya a realizar un viaje largo.",
+            "Una o dos veces al mes con los neumáticos en frío."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T505003.jpg"
+    },
+    {
+        "text": "¿Está permitido realizar una parada delante de un vado señalizado?",
+        "options": [
+            "Sí.",
+            "No.",
+            "Sí, únicamente para subir o bajar pasajeros."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T505004.jpg"
+    },
+    {
+        "text": "¿Cómo debe ir sentado el pasajero de una motocicleta?",
+        "options": [
+            "De cualquier forma, siempre que vaya cómodo.",
+            "A horcajadas y con los pies apoyados en los reposapiés laterales.",
+            "Entre el conductor y el manillar."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T505005.jpg"
+    },
+    {
+        "text": "¿Está correctamente parado este vehículo?",
+        "options": [
+            "No, ya que no se puede parar en una isleta.",
+            "Sí, ya que no supone ningún obstáculo a la circulación.",
+            "Sí, está permitida la parada, pero no el estacionamiento."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510125_150216.jpg"
+    },
+    {
+        "text": "Si al accionar la puesta en marcha, el motor de arranque no gira y las luces tienden a apagarse, será debido a que...",
+        "options": [
+            "hay un interruptor defectuoso.",
+            "la batería tenga muy poca carga.",
+            "la correa del ventilador está floja o rota."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T505007.jpg"
+    },
+    {
+        "text": "Cuando se encienda la luz verde del semáforo, ¿qué deben hacer estos vehículos?",
+        "options": [
+            "Girar a la derecha o continuar de frente.",
+            "Girar a la derecha o girar a la izquierda.",
+            "Girar a la izquierda o continuar de frente."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T505008.jpg"
+    },
+    {
+        "text": "Por debajo de las tasas permitidas de alcoholemia...",
+        "options": [
+            "es muy poco probable tener un accidente debido a los efectos del alcohol.",
+            "no es posible tener un accidente debido a los efectos del alcohol.",
+            "también es posible tener un accidente debido a los efectos del alcohol."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T505009.jpg"
+    },
+    {
+        "text": "Un turismo circula por una vía preferente y por la derecha se le aproxima un tranvía, ¿quién tiene preferencia de paso?",
+        "options": [
+            "El tranvía, porque circula sobre raíles.",
+            "El turismo, porque circula por una vía preferente.",
+            "El tranvía, porque se aproxima por la derecha del turismo."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T501902.jpg"
+    },
+    {
+        "text": "Si el motor de su vehículo es de gasolina, será conveniente...",
+        "options": [
+            "esperar unos minutos antes de iniciar la marcha para que el motor se caliente.",
+            "iniciar la marcha inmediatamente después del arranque.",
+            "acelerar en vacío para que el motor se pueda calentar cuanto antes."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T505011.jpg"
+    },
+    {
+        "text": "Al circular bajo condiciones de visibilidad especialmente desfavorables, ¿es obligatorio encender la luz antiniebla trasera?",
+        "options": [
+            "No, es sólo opcional.",
+            "Sí, siendo también obligatorio encender la luz de largo alcance.",
+            "Sí, para indicar su posición al resto de los usuasios."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T505012.jpg"
+    },
+    {
+        "text": "¿Cuál es la posición correcta de las manos en el volante?",
+        "options": [
+            "La posición A.",
+            "La posición B.",
+            "La A y la C, según la maniobra."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T505013.jpg"
+    },
+    {
+        "text": "Un sistema de frenos como el de la fotografía, ¿qué mantenimiento precisa?",
+        "options": [
+            "Engrasar el disco periódicamente.",
+            "Sustituir periódicamente las pastillas y el disco si fuera necesario.",
+            "Comprobar y regular periódicamente la separación entre disco y las pastillas."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T505015.jpg"
+    },
+    {
+        "text": "En una intersección con esta señal, ¿está permitido cambiar el sentido de la marcha?",
+        "options": [
+            "Sí.",
+            "No."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T505014.jpg"
+    },
+    {
+        "text": "Con lluvia intensa, una motocicleta, ¿puede sufrir aquaplaning?",
+        "options": [
+            "Sí, especialmente al circular a velocidad elevada.",
+            "No, porque eso sólo les sucede a los turismos.",
+            "No, debido al poco peso de la motocicleta."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T505016.jpg"
+    },
+    {
+        "text": "¿Cuál es la velocidad máxima permitida a cuadriciclos ligeros?",
+        "options": [
+            "90 Km/h.",
+            "70 Km/h.",
+            "45 Km/h."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T505017.jpg"
+    },
+    {
+        "text": "En esta calle con dos carriles para cada sentido, ¿por qué carril se puede circular?",
+        "options": [
+            "Por el de la derecha y por los otros sólo para adelantar.",
+            "Por el carril que me convenga para ir a mi destino.",
+            "Siempre por el carril de la derecha."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T505018.jpg"
+    },
+    {
+        "text": "¿Qué aumenta la distancia de frenado?\n",
+        "options": [
+            "Únicamente la velocidad.",
+            "Que haya nieve o hielo en la calzada.",
+            "Que el vehículo lleve frenos de disco."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T505019.jpg"
+    },
+    {
+        "text": "En una autopista, ¿está permitido utilizar los pasos que hay en la mediana para hacer un cambio de sentido de la marcha?",
+        "options": [
+            "Sí, salvo que esté expresamente prohibido por una señal.",
+            "No, porque está prohibido.",
+            "Sí, cuando estén abiertos."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T505020.jpg"
+    },
+    {
+        "text": "¿Qué es un microsueño?",
+        "options": [
+            "Un periodo de apenas unos segundos durante el cual el conductor queda ligeramente dormido sin darse cuenta.",
+            "Un periodo de apenas unos segundos durante el cual el conductor sueña mientras está conduciendo.",
+            "Un periodo corto de descanso que el conductor realiza cuando siente fatiga."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T505021.jpg"
+    },
+    {
+        "text": "¿De qué forma responde el sistema avanzado de ayuda a la conducción conocido como “LDW o Mantenimiento de carril” cuando el conductor realiza una maniobra de dirección evasiva?",
+        "options": [
+            "Permanece desactivado.",
+            "Activa el sistema “e-Call o Aviso a los servicios de emergencia” como medida preventiva de accidente.",
+            "Calcula la trayectoria más favorable del vehículo y corrige la maniobra del conductor."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T500107_ADAS.jpg"
+    },
+    {
+        "text": "¿En qué momento deberá finalizar la señalización óptica este vehículo?",
+        "options": [
+            "Tan pronto como el vehículo haya tomado la nueva trayectoria.",
+            "No es necesario quitarla porque se quita sola.",
+            "A los 30 metros después del giro."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T505022.jpg"
+    },
+    {
+        "text": "De noche, ¿cómo se debe señalizar la carga que sobresale por delante y por detrás?",
+        "options": [
+            "Solamente con el panel de franjas oblicuas rojas y blancas.",
+            "Con una luz blanca por delante, una luz roja por detrás y el panel de franjas oblicuas rojas y blancas.",
+            "Con un catadióptrico blanco por delante y uno rojo por detrás."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T505024.jpg"
+    },
+    {
+        "text": "El espejo retrovisor izquierdo está bien reglado cuando permite ver...",
+        "options": [
+            "una zona muy amplia del costado del vehículo.",
+            "la calzada con un ligero movimiento de la cabeza, sin mover el cuerpo.",
+            "lo mínimo indispensable del costado del vehículo y lo máximo de la calzada."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T505025.jpg"
+    },
+    {
+        "text": "Después de adelantar al camión, ¿debe regresar inmediatamente al carril de la derecha si pretende seguir adelantando?",
+        "options": [
+            "Sí, en cualquier caso.",
+            "No, no es obligatorio.",
+            "No, salvo cuando detrás circule otro vehículo a mayor velocidad."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T505026.jpg"
+    },
+    {
+        "text": "El permiso de conducción de la clase A1, ¿autoriza a conducir motocicletas con sidecar?",
+        "options": [
+            "Sí, si tiene una antigüedad de 2 años.",
+            "No.",
+            "Sí."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T505027.jpg"
+    },
+    {
+        "text": "Esta señal advierte del peligro de ángulos muertos a...",
+        "options": [
+            "todos los usuarios de la vía.",
+            "los usuarios vulnerables de la vía.",
+            "los vehículos de grandes dimensiones."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T510101_050623.jpg"
+    },
+    {
+        "text": "¿Alguna de estas señales indica que finaliza un carril destinado a la circulación?",
+        "options": [
+            "Sí, la señal A.",
+            "Sí, la señal B.",
+            "No, ninguna de las dos."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T505028.jpg"
+    },
+    {
+        "text": "Si conduce una motocicleta y la calzada está mojada, ¿es necesario incrementar la presión de inflado de los neumáticos por encima de la recomendada por el fabricante?",
+        "options": [
+            "Sí, porque aumenta la adherencia de los neumáticos y mejorará la seguridad de circulación.",
+            "Sí, ya que aumenta la seguridad de circulación y así se evitan los derrapes.",
+            "No, ya que una mayor presión de inflado no contribuye a aumentar la seguridad de circulación."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/300313.jpg"
+    }
+]
+            
+            ;
+
+            const container = document.getElementById('test-container');
+            const paginationRow1 = document.getElementById('pagination-row-1');
+            const paginationRow2 = document.getElementById('pagination-row-2');
+
+            // Generar preguntas
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.setAttribute('data-correct', question.correct);
+                questionDiv.innerHTML = `
+                    <div class="question-image">
+                        <img src="${question.image}" alt="Imagen de la pregunta">
+                    </div>
+                    <div class="question-content">
+                        <h3>${index + 1}. ${question.text}</h3>
+                        <div class="options">
+                            ${question.options.map((option, idx) => `
+                                <div class="option" data-answer="${String.fromCharCode(65 + idx)}">
+                                    <span class="option-circle">${String.fromCharCode(65 + idx)}</span>
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+
+            // Generar paginación
+            for (let i = 0; i < questions.length; i++) {
+                const button = document.createElement('button');
+                button.textContent = `${i + 1}`;
+                button.addEventListener('click', () => showQuestion(i));
+                if (i < 15) {
+                    paginationRow1.appendChild(button);
+                } else {
+                    paginationRow2.appendChild(button);
+                }
+            }
+
+            // Mostrar la primera pregunta
+            showQuestion(0);
+
+            // Función para mostrar una pregunta específica
+            function showQuestion(index) {
+                document.querySelectorAll('.question').forEach((q, i) => {
+                    q.style.display = i === index ? 'flex' : 'none';
+                });
+                document.querySelectorAll('.pagination button').forEach((btn, i) => {
+                    btn.style.backgroundColor = i === index ? '#ff7aa2' : '#ffa5c3';
+                });
+            }
+
+            // Evento para las opciones de respuesta
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const question = this.closest('.question');
+                    const questionIndex = Array.from(container.children).indexOf(question);
+                    const isCorrect = this.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    
+                    if (question.dataset.answered) return;
+
+                    question.dataset.answered = true;
+
+                    question.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                        opt.style.pointerEvents = 'none';
+                    });
+                    
+                    this.classList.add('selected', isCorrect ? 'correct' : 'incorrect');
+
+                    if (!isCorrect) {
+                        question.querySelector(`.option[data-answer="${question.getAttribute('data-correct')}"]`).classList.add('correct');
+                    }
+
+                    // Actualizar el botón de paginación
+                    const paginationButton = questionIndex < 15 ? paginationRow1.children[questionIndex] : paginationRow2.children[questionIndex - 15];
+                    paginationButton.classList.add(isCorrect ? 'correct' : 'incorrect');
+                });
+            });
+
+            // Evento para corregir el test
+            document.getElementById('correct-test').addEventListener('click', () => {
+                let wrongAnswers = 0;
+                document.querySelectorAll('.question').forEach((question, index) => {
+                    const selected = question.querySelector('.option.selected');
+                    const isCorrect = selected && selected.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    if (!isCorrect) {
+                        wrongAnswers++;
+                    }
+                    // Actualizar el botón de paginación si no se ha respondido
+                    if (!selected) {
+                        const paginationButton = index < 15 ? paginationRow1.children[index] : paginationRow2.children[index - 15];
+                        paginationButton.classList.add('incorrect');
+                    }
+                });
+                const resultMessage = `Has fallado ${wrongAnswers} respuestas.`;
+
+                const alert = document.getElementById('custom-alert');
+                document.getElementById('alert-message').textContent = resultMessage;
+                alert.style.display = 'block';
+            });
+        });
+
+        function closeAlert() {
+            document.getElementById('custom-alert').style.display = 'none';
+        }
+    </script>
+
+    
+</body>
+</html>

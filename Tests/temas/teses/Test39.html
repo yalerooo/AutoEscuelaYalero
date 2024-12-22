@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Autoescuela</title>
+    <link rel="stylesheet" href="../../../Assets/style.css">
+</head>
+<body>
+
+    
+    <div class="container">
+        <h1 style="text-align: center; color: #ffa5c3;">Test de Autoescuela</h1>
+        <div id="test-container">
+            <!-- Aquí se generarán dinámicamente las preguntas -->
+        </div>
+        <div class="pagination">
+            <div class="pagination-row" id="pagination-row-1"></div>
+            <div class="pagination-row" id="pagination-row-2"></div>
+        </div>
+        <button id="correct-test">Corregir Test</button>
+    </div>
+
+    <!-- Custom Alert HTML -->
+    <div class="custom-alert" id="custom-alert">
+        <h2>Resultado del Test</h2>
+        <p id="alert-message">Aquí irá el mensaje del resultado.</p>
+        <button onclick="closeAlert()">Cerrar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = [
+    {
+        "text": "¿Qué vehículos tienen la obligación de contratar una póliza de seguro?",
+        "options": [
+            "Los vehículos automóviles y los remolques cuando vayan enganchados.",
+            "Todos los vehículos  motor, los ciclomototores, los remolques y los semiremolques cuya MMA supere los 750 Kg.",
+            "Todos los vehículos automóviles."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T506102.jpg"
+    },
+    {
+        "text": "¿Cuáles son los daños no cubiertos por el seguro obligatorio al causante de un accidente?",
+        "options": [
+            "Los daños personales que sufra el conductor responsable.",
+            "Los daños personales que sufran los ocupantes del vehículo causante del accidente.",
+            "Los daños que se produzcan en el vehículo contrario."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T513528.jpg"
+    },
+    {
+        "text": "En caso de accidente, el seguro obligatorio de nuestro vehículo, ¿cubre los daños producidos a la parte contraria?",
+        "options": [
+            "Sí, siempre, pues así se contempla en la póliza del seguro obligatorio.",
+            "Sí, cuando nosotros resultamos civilmente responsable del accidente.",
+            "Sí, en todo caso, si los gastos no superan los límites establecidos en la póliza."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T510708.jpg"
+    },
+    {
+        "text": "En caso de siniestro, el seguro obligatorio del vehículo responsable del accidente cubrirá los daños producidos a la parte contraria...",
+        "options": [
+            "en todo caso, excepto si el vehículo causante hubiera sido robado.",
+            "en todo caso, hasta los límites máximos establecidos en la póliza.",
+            "sólo cuando el conductor del vehículo causante sea el tomador del seguro."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T510102_150317.jpg"
+    },
+    {
+        "text": "El seguro de suscripción obligatoria, ¿cubre los daños causados al conductor no culpable de un accidente?",
+        "options": [
+            "Sí, los personales pero no los materiales.",
+            "No, ni los personales ni los materiales.",
+            "Sí, los personales y materiales."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T500909.jpg"
+    },
+    {
+        "text": "El seguro obligatorio, ¿cubre los daños ocasionados en el vehículo asegurado?",
+        "options": [
+            "Sí.",
+            "No.",
+            "Sí, cuando su conductor no sea culpable del accidente."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T510110_150116.jpg"
+    },
+    {
+        "text": "¿Cuáles son los daños que cubre el seguro obligatorio al causante de un accidente?",
+        "options": [
+            "Los daños del vehículo del causante.",
+            "Los daños del otro vehículo.",
+            "Los daños de los dos vehículos."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P2030.jpg"
+    },
+    {
+        "text": "El seguro obligatorio, ¿cubre los daños en la persona del conductor del vehículo asegurado?",
+        "options": [
+            "Sí, en todo caso.",
+            "Sí, salvo cuando el conductor es el tomador del seguro.",
+            "No."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T505702.jpg"
+    },
+    {
+        "text": "Para que pueda circular un ciclomotor, ¿es obligatorio que esté asegurado?",
+        "options": [
+            "Sí, pero solamente los que tienen más de dos ruedas.",
+            "Sí.",
+            "No."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T512408.jpg"
+    },
+    {
+        "text": "¿Todos los remolques deben disponer de seguro de responsabilidad civil?",
+        "options": [
+            "Sí, todos los remolques deben disponer de seguro obligatorio.",
+            "No, sólo aquéllos cuya MMA supere 750 kg.",
+            "Los remolque no precisan seguro obligatorio."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T513906.jpg"
+    },
+    {
+        "text": "Si el seguro del vehículo presenta alguna irregularidad, ¿quién es la persona responsable?",
+        "options": [
+            "El titular.",
+            "El tomador.",
+            "El que lo conduce en ese momento."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P2028.jpg"
+    },
+    {
+        "text": "¿Qué sanción se impondrá a un turismo que circula sin seguro?",
+        "options": [
+            "Solamente una multa al titular del vehículo.",
+            "La inmovilización inmediata del vehículo.",
+            "Una multa al titular del turismo y los agentes podrán inmovilizar el vehículo."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T505215.jpg"
+    },
+    {
+        "text": "El conductor de un vehículo está obligado a mostrar a los agentes de la autoridad que se lo soliciten...",
+        "options": [
+            "únicamente el permiso de circulación.",
+            "el permiso de circulación, la tarjeta de inspección técnica y el seguro obligatorio.",
+            "solamente la tarjeta de inspección técnica."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P2001.jpg"
+    },
+    {
+        "text": "¿Cuál es el crédito inicial de puntos asignados a un conductor que obtiene su primer permiso de conducción?",
+        "options": [
+            "12 puntos.",
+            "15 puntos.",
+            "8 puntos."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T507002.jpg"
+    },
+    {
+        "text": "Cuando una persona obtiene por primera vez un permiso de conducción, ¿de cuántos puntos dispone?",
+        "options": [
+            "De 8 puntos, durante los tres primeros años.",
+            "De 8 puntos, durante los dos primeros años.",
+            "De 6 puntos, durante los dos primeros años."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P2010.jpg"
+    },
+    {
+        "text": "¿Cuál es el crédito máximo de puntos que puede acumular un conductor?",
+        "options": [
+            "8 puntos.",
+            "15 puntos.",
+            "12 puntos."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T510130_050116.jpg"
+    },
+    {
+        "text": "¿Cuántos puntos se pueden perder en un día?",
+        "options": [
+            "Un máximo de 8 puntos, salvo que las infracciones cometidas sean muy graves.",
+            "Un máximo de 10 puntos.",
+            "No existe límite."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P2011.jpg"
+    },
+    {
+        "text": "Cuando el titular de un permiso de conducir pierda parte de su asignación total de puntos, ¿puede recuperarlos?",
+        "options": [
+            "No, una vez perdidos no es posible recuperarlos.",
+            "Sí, obteniendo de nuevo el permiso de conducción.",
+            "Sí, realizando un curso de sensibilización y reeducación vial."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T500330.jpg"
+    },
+    {
+        "text": "¿Cuántos puntos, como máximo, se pueden recuperar mediante la realización de un curso de recuperación parcial?",
+        "options": [
+            "4 puntos.",
+            "8 puntos.",
+            "6 puntos."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P2012.jpg"
+    },
+    {
+        "text": "Para recuperar la pérdida de la totalidad de los puntos del permiso de conducir se debe asistir a un curso. Si supera la prueba tipo test recuperará...",
+        "options": [
+            "los 12 puntos.",
+            "sólo 8 puntos.",
+            "sólo un máximo de 6 puntos."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T514008.jpg"
+    },
+    {
+        "text": "La vigencia del permiso de conducción, ¿está condicionada a que su titular no haya perdido su asignación total de puntos?",
+        "options": [
+            "No, los puntos sólo afectan a las sanciones impuestas.",
+            "Sí.",
+            "No, su vigencia sólo está limitada en el tiempo."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T514130.jpg"
+    },
+    {
+        "text": "La retirada del permiso debido a la pérdida de todos los puntos, ¿cuándo surte efecto?",
+        "options": [
+            "Cuando se comete la infracción.",
+            "Cuando el agente formula la denuncia.",
+            "Cuando se le comunica al titular del permiso."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T510120_150116.jpg"
+    },
+    {
+        "text": "Conducir un vehículo a motor o ciclomotor cuando se ha declarado la pérdida de vigencia del permiso o licencia de conducción por la pérdida total de los puntos asignados legalmente, ¿podrá ser castigado con pena de prisión?",
+        "options": [
+            "Sí, por un período de 3 a 6 meses.",
+            "Sí, por un período de 12 a 24 meses, además de realizar trabajos en beneficio de la comunidad.",
+            "No, únicamente se impondrá una sanción administrativa."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510111_150723.jpg"
+    },
+    {
+        "text": "Conducir de forma temeraria...",
+        "options": [
+            "es una infracción muy grave que conlleva pérdida de puntos.",
+            "es una infracción muy grave aunque no conlleva pérdida de puntos.",
+            "es recomendable en algunas situaciones de emergencia."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T505223.jpg"
+    },
+    {
+        "text": "Realizar por las vías públicas carreras y competiciones no autorizadas, ¿puede acarrear la pérdida de puntos del permiso de conducción?",
+        "options": [
+            "Sí, además están prohibidas.",
+            "No, solamente tendrían una sanción económica.",
+            "No, puesto que se trata de competiciones deportivas."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P2013.jpg"
+    },
+    {
+        "text": "De las siguientes, ¿cuál es una obligación que corresponde al titular del vehículo?",
+        "options": [
+            "Identificar ante la Administración al conductor del vehículo en el momento de cometerse una infracción.",
+            "Comprobar que todos los ocupantes del vehículo hacen uso del cinturón de seguridad.",
+            "Verificar que las placas de matrícula del vehículo no presentan obstáculos que impidan su lectura."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510124_250317.jpg"
+    },
+    {
+        "text": "¿Quién es el responsable de las infracciones cometidas durante la conducción?",
+        "options": [
+            "El titular del vehículo.",
+            "En todos los casos el conductor.",
+            "El conductor, excepto si es menor de 18 años, en cuyo caso lo son sus padres o tutores."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T505828.jpg"
+    },
+    {
+        "text": "¿Puede perder puntos de su saldo si pone en peligro a un grupo de ciclistas durante un adelantamiento?",
+        "options": [
+            "No; es una infracción que no supone la pérdida de puntos.",
+            "No, porque es un delito contra la seguridad vial no una infracción administrativa.",
+            "Sí, es una infracción que supone la pérdida de 6 puntos."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T506409.jpg"
+    },
+    {
+        "text": "La celebración de pruebas y marchas ciclistas, ¿requieren autorización previa?",
+        "options": [
+            "Sólo las que se celebren en festivo.",
+            "Sí.",
+            "No."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T512507.jpg"
+    },
+    {
+        "text": "La celebración de marchas ciclistas organizadas, ¿requieren autorización previa?",
+        "options": [
+            "Sí, siempre que el número de participantes sea superior a 50.",
+            "No.",
+            "Sólo en días festivos."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510106_150117.jpg"
+    }
+]
+            
+            ;
+
+            const container = document.getElementById('test-container');
+            const paginationRow1 = document.getElementById('pagination-row-1');
+            const paginationRow2 = document.getElementById('pagination-row-2');
+
+            // Generar preguntas
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.setAttribute('data-correct', question.correct);
+                questionDiv.innerHTML = `
+                    <div class="question-image">
+                        <img src="${question.image}" alt="Imagen de la pregunta">
+                    </div>
+                    <div class="question-content">
+                        <h3>${index + 1}. ${question.text}</h3>
+                        <div class="options">
+                            ${question.options.map((option, idx) => `
+                                <div class="option" data-answer="${String.fromCharCode(65 + idx)}">
+                                    <span class="option-circle">${String.fromCharCode(65 + idx)}</span>
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+
+            // Generar paginación
+            for (let i = 0; i < questions.length; i++) {
+                const button = document.createElement('button');
+                button.textContent = `${i + 1}`;
+                button.addEventListener('click', () => showQuestion(i));
+                if (i < 15) {
+                    paginationRow1.appendChild(button);
+                } else {
+                    paginationRow2.appendChild(button);
+                }
+            }
+
+            // Mostrar la primera pregunta
+            showQuestion(0);
+
+            // Función para mostrar una pregunta específica
+            function showQuestion(index) {
+                document.querySelectorAll('.question').forEach((q, i) => {
+                    q.style.display = i === index ? 'flex' : 'none';
+                });
+                document.querySelectorAll('.pagination button').forEach((btn, i) => {
+                    btn.style.backgroundColor = i === index ? '#ff7aa2' : '#ffa5c3';
+                });
+            }
+
+            // Evento para las opciones de respuesta
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const question = this.closest('.question');
+                    const questionIndex = Array.from(container.children).indexOf(question);
+                    const isCorrect = this.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    
+                    if (question.dataset.answered) return;
+
+                    question.dataset.answered = true;
+
+                    question.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                        opt.style.pointerEvents = 'none';
+                    });
+                    
+                    this.classList.add('selected', isCorrect ? 'correct' : 'incorrect');
+
+                    if (!isCorrect) {
+                        question.querySelector(`.option[data-answer="${question.getAttribute('data-correct')}"]`).classList.add('correct');
+                    }
+
+                    // Actualizar el botón de paginación
+                    const paginationButton = questionIndex < 15 ? paginationRow1.children[questionIndex] : paginationRow2.children[questionIndex - 15];
+                    paginationButton.classList.add(isCorrect ? 'correct' : 'incorrect');
+                });
+            });
+
+            // Evento para corregir el test
+            document.getElementById('correct-test').addEventListener('click', () => {
+                let wrongAnswers = 0;
+                document.querySelectorAll('.question').forEach((question, index) => {
+                    const selected = question.querySelector('.option.selected');
+                    const isCorrect = selected && selected.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    if (!isCorrect) {
+                        wrongAnswers++;
+                    }
+                    // Actualizar el botón de paginación si no se ha respondido
+                    if (!selected) {
+                        const paginationButton = index < 15 ? paginationRow1.children[index] : paginationRow2.children[index - 15];
+                        paginationButton.classList.add('incorrect');
+                    }
+                });
+                const resultMessage = `Has fallado ${wrongAnswers} respuestas.`;
+
+                const alert = document.getElementById('custom-alert');
+                document.getElementById('alert-message').textContent = resultMessage;
+                alert.style.display = 'block';
+            });
+        });
+
+        function closeAlert() {
+            document.getElementById('custom-alert').style.display = 'none';
+        }
+    </script>
+
+    
+</body>
+</html>

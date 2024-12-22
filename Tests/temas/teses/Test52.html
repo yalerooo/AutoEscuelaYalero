@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Autoescuela</title>
+    <link rel="stylesheet" href="../../../Assets/style.css">
+</head>
+<body>
+
+    
+    <div class="container">
+        <h1 style="text-align: center; color: #ffa5c3;">Test de Autoescuela</h1>
+        <div id="test-container">
+            <!-- Aquí se generarán dinámicamente las preguntas -->
+        </div>
+        <div class="pagination">
+            <div class="pagination-row" id="pagination-row-1"></div>
+            <div class="pagination-row" id="pagination-row-2"></div>
+        </div>
+        <button id="correct-test">Corregir Test</button>
+    </div>
+
+    <!-- Custom Alert HTML -->
+    <div class="custom-alert" id="custom-alert">
+        <h2>Resultado del Test</h2>
+        <p id="alert-message">Aquí irá el mensaje del resultado.</p>
+        <button onclick="closeAlert()">Cerrar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = [
+    {
+        "text": "Cuando conduce una motocicleta, debe tener en cuenta que...",
+        "options": [
+            "cuanto mayor es la velocidad, hay mayor dificultad para mantener el equilibrio.",
+            "es menos estable y más frágil que el resto de los vehículos.",
+            "es más visible que otros automóviles."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T500406.jpg"
+    },
+    {
+        "text": "¿Qué vehículos son los más afectados por el viento lateral?",
+        "options": [
+            "Las motocicletas y los ciclomotores.",
+            "Los camiones.",
+            "Los turismos."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P3317.jpg"
+    },
+    {
+        "text": "Conduciendo una motocicleta, ¿cuándo es especialmente peligroso el viento?",
+        "options": [
+            "Cuando sopla de frente, porque puede frenar la marcha.",
+            "Cuando sopla de costado.",
+            "Cuando sopla desde atrás, porque aumenta la velocidad."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P3318.jpg"
+    },
+    {
+        "text": "Las malas condiciones meteorológicas, como lluvia, viento o hielo, ¿pueden influir en los accidentes de motocicleta?",
+        "options": [
+            "No, las condiciones meteorológicas no influyen en la conducción de motocicletas.",
+            "Sí, pero solamente cuando el conductor no va bien equipado.",
+            "Sí, ya que existe mayor probabilidad de movimientos bruscos o caídas de los motoristas."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P3319.jpg"
+    },
+    {
+        "text": "Circular en motocicleta bajo una lluvia intensa, obliga a...",
+        "options": [
+            "encender la luz de largo alcance incluso circulando dentro de poblado.",
+            "circular lo más cerca posible del vehículo que va delante para tener mayor protección y visibilidad.",
+            "moderar la velocidad, llegando a detenerse si fuera preciso."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P3320.jpg"
+    },
+    {
+        "text": "Circulando en moto, si la carretera se encuentra mojada, ¿cómo se debe tomar una curva?",
+        "options": [
+            "Con un ángulo de giro más abierto que si estuviera seca e inclinándome más.",
+            "Tratando de no inclinar demasiado la motocicleta y abriendo el ángulo de giro, si fuera posible.",
+            "Con un ángulo de giro más cerrado que si estuviera seca, disminuyendo la inclinación."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T503718.jpg"
+    },
+    {
+        "text": "Si tiene que circular con su motocicleta por una zona especialmente deslizante, ¿qué precauciones debe tomar?",
+        "options": [
+            "Frenar en la zona para controlar la trayectoria.",
+            "Disminuir la velocidad antes de llegar y mantener la motocicleta vertical al pasar sobre ella.",
+            "Acelerar para pasar por la zona en el menor tiempo posible."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P3322.jpg"
+    },
+    {
+        "text": "El conductor de una motocicleta, antes de cambiar de carril, ¿qué debe tener en cuenta?",
+        "options": [
+            "Que a ciertas velocidades puede ser difícil que sea percibido por los demás usuarios.",
+            "Que señalizar la maniobra siempre da prioridad.",
+            "Que las motocicletas son siempre fáciles de ver si llevan el alumbrado encendido."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P3323.jpg"
+    },
+    {
+        "text": "Si realiza con su motocicleta un giro muy cerrado a una velocidad lenta, ¿qué precaución debe tener?",
+        "options": [
+            "Debe compensar el efecto giroscópico con el peso del cuerpo.",
+            "A esa velocidad tan lenta no es necesario tomar ninguna precaución.",
+            "No frenar con el freno delantero porque la rueda puede bloquearse y producirse una caída."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P3324.jpg"
+    },
+    {
+        "text": "Si conduce una motocicleta con un pasajero, ¿qué debe tener en cuenta?",
+        "options": [
+            "Que aumentará el tiempo de reacción.",
+            "Que será más difícil que, al frenar, la rueda trasera se quede bloqueada.",
+            "Que la distancia de frenado será menor."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P3325.jpg"
+    },
+    {
+        "text": "¿Qué debe tener en cuenta si conduce una motocicleta llevando a un pasajero?",
+        "options": [
+            "Que la distancia de detención será menor porque la motocicleta pesa más.",
+            "Que debido al aumento de peso la distancia de frenado será mayor.",
+            "Que es más fácil que se bloqueen las ruedas al frenar."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P3326.jpg"
+    },
+    {
+        "text": "La falta de experiencia del pasajero. ¿puede ser la causa de un accidente en moto?",
+        "options": [
+            "No.",
+            "Sí, debido al aumento de peso.",
+            "Sí, sobre todo en las curvas."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T509602.jpg"
+    },
+    {
+        "text": "¿A qué puede afectar si cambia el carenado de una motocicleta?",
+        "options": [
+            "A la visibilidad del vehículo.",
+            "Exclusivamente a la estética.",
+            "A la aerodinámica y al consumo."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P3327.jpg"
+    },
+    {
+        "text": "Para evitar ruidos excesivos e innecesarios, el conductor de una motocicleta debe...",
+        "options": [
+            "circular con el escape libre.",
+            "evitar dar acelerones.",
+            "conducir utilizando la relación de marchas más baja posible."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P3328.jpg"
+    },
+    {
+        "text": "Una motocicleta, ¿puede circular sin tubo de escape?",
+        "options": [
+            "Sí, cuando la motocicleta es deportiva.",
+            "No, porque está prohibido, excepto si es eléctrica.",
+            "No, porque se rompe el motor."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T510116_250117.jpg"
+    },
+    {
+        "text": "Si conduce una motocicleta, ¿es obligatorio llevar puesto un chaleco reflectante?",
+        "options": [
+            "Sí, para utilizarlo en caso de avería en una vía interurbana.",
+            "No, no es obligatorio pero es recomendable.",
+            "Sí, porque en caso de lluvia es obligatorio llevarlo puesto."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P3330.jpg"
+    },
+    {
+        "text": "En las motocicletas, la postura del conductor ha de ser...",
+        "options": [
+            "lo más aerodinámica posible, encorvando el cuerpo cuanto más mejor.",
+            "suelta y no forzada, sin encorvar el cuerpo más de lo necesario.",
+            "un poco forzada, para evitar relajamientos."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T504216.jpg"
+    },
+    {
+        "text": "Como norma general, el pedal de cambio de velocidades de una motocicleta, ¿con qué pie se acciona?",
+        "options": [
+            "Con el pie izquierdo.",
+            "Con el pie derecho.",
+            "El cambio de velocidades de una motocicleta no se acciona con el pie."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T503822.jpg"
+    },
+    {
+        "text": "El acelerador de una motocicleta, generalmente, se acciona con...",
+        "options": [
+            "la mano izquierda.",
+            "la mano derecha.",
+            "el pie derecho."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T513728.jpg"
+    },
+    {
+        "text": "En una motocicleta con mandos independientes para cada uno de los frenos, ¿dónde se acciona generalmente el freno delantero?",
+        "options": [
+            "En el manillar, con la mano derecha.",
+            "En un pedal, con el pie izquierdo.",
+            "En el manillar, con la mano izquierda."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T511320.jpg"
+    },
+    {
+        "text": "En una motocicleta, generalmente, ¿con qué pie se acciona el freno trasero?",
+        "options": [
+            "Con el pie izquierdo.",
+            "El freno trasero no se acciona con el pie, se acciona con la mano izquierda.",
+            "Con el pie derecho."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T510130_151215.jpg"
+    },
+    {
+        "text": "Generalmente, ¿con qué mano se acciona el embrague en una motocicleta?",
+        "options": [
+            "Indistintamente con la mano derecha o izquierda.",
+            "Con la mano derecha.",
+            "Con la mano izquierda."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T510116_250216.jpg"
+    },
+    {
+        "text": "Las motocicletas y los ciclomotores son medios de transporte...",
+        "options": [
+            "muy difíciles de manejar para los jóvenes.",
+            "que debido a su incomodidad cada día se utilizan menos.",
+            "que se utilizan con mayor frecuencia."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T504821.jpg"
+    },
+    {
+        "text": "Las causas más frecuentes de los accidentes de circulación de las motocicletas son las infracciones cometidas...",
+        "options": [
+            "por los conductores de motocicletas, únicamente.",
+            "tanto por los conductores de motocicletas como por los demás conductores.",
+            "por los conductores de los demás vehículos, exclusivamente."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T514901.jpg"
+    },
+    {
+        "text": "Si el conductor se cae de la motocicleta, para sufrir las menores lesiones posibles, procurará...",
+        "options": [
+            "intentar levantarse de forma rápida y antes de haberse detenido totalmente.",
+            "rozar sobre el asfalto, siempre sobre el mismo punto de su cuerpo.",
+            "deslizarse por el suelo hasta quedar detenido, intentando relajarse."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T507718.jpg"
+    },
+    {
+        "text": "¿Cuántos espejos retrovisores tienen que llevar instalados las motocicletas?",
+        "options": [
+            "Un espejo exterior izquierdo si no superan los 100 km/h y dos, uno en cada lado, si la velocidad es mayor.",
+            "Siempre deben llevar dos espejos, uno en cada lado.",
+            "Obligatoriamente uno en el lado derecho, pero pueden llevar dos."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T503917.jpg"
+    },
+    {
+        "text": "Un ciclomotor de dos ruedas está obligado a llevar...",
+        "options": [
+            "sólo el retrovisor derecho.",
+            "sólo el retrovisor izquierdo.",
+            "dos retrovisores, uno en cada lado."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T513226.jpg"
+    },
+    {
+        "text": "¿Cuántos espejos retrovisores debe de llevar este cuadriciclo ligero?",
+        "options": [
+            "Sólo el exterior derecho.",
+            "Dos, el interior y el exterior izquierdo.",
+            "Sólo el exterior izquierdo."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T503726.jpg"
+    },
+    {
+        "text": "¿Cuántos espejos retrovisores tiene que llevar instalados una motocicleta con estructura de autoprotección?",
+        "options": [
+            "Obligatoriamente dos, uno en cada lado, independientemente de la velocidad máxima que pueda alcanzar.",
+            "Uno interior y otro exterior izquierdo.",
+            "Uno si su velocidad máxima no supera los 100 km/h."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T502513.jpg"
+    },
+    {
+        "text": "Una motocicleta de 250 c.c., ¿cuántas placas de matrícula lleva?",
+        "options": [
+            "Una sola placa en la parte posterior, en posición vertical.",
+            "Una sola placa en la parte delantera.",
+            "Dos, una en la parte delantera y la otra en la parte posterior."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T513422.jpg"
+    }
+]
+            
+            ;
+
+            const container = document.getElementById('test-container');
+            const paginationRow1 = document.getElementById('pagination-row-1');
+            const paginationRow2 = document.getElementById('pagination-row-2');
+
+            // Generar preguntas
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.setAttribute('data-correct', question.correct);
+                questionDiv.innerHTML = `
+                    <div class="question-image">
+                        <img src="${question.image}" alt="Imagen de la pregunta">
+                    </div>
+                    <div class="question-content">
+                        <h3>${index + 1}. ${question.text}</h3>
+                        <div class="options">
+                            ${question.options.map((option, idx) => `
+                                <div class="option" data-answer="${String.fromCharCode(65 + idx)}">
+                                    <span class="option-circle">${String.fromCharCode(65 + idx)}</span>
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+
+            // Generar paginación
+            for (let i = 0; i < questions.length; i++) {
+                const button = document.createElement('button');
+                button.textContent = `${i + 1}`;
+                button.addEventListener('click', () => showQuestion(i));
+                if (i < 15) {
+                    paginationRow1.appendChild(button);
+                } else {
+                    paginationRow2.appendChild(button);
+                }
+            }
+
+            // Mostrar la primera pregunta
+            showQuestion(0);
+
+            // Función para mostrar una pregunta específica
+            function showQuestion(index) {
+                document.querySelectorAll('.question').forEach((q, i) => {
+                    q.style.display = i === index ? 'flex' : 'none';
+                });
+                document.querySelectorAll('.pagination button').forEach((btn, i) => {
+                    btn.style.backgroundColor = i === index ? '#ff7aa2' : '#ffa5c3';
+                });
+            }
+
+            // Evento para las opciones de respuesta
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const question = this.closest('.question');
+                    const questionIndex = Array.from(container.children).indexOf(question);
+                    const isCorrect = this.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    
+                    if (question.dataset.answered) return;
+
+                    question.dataset.answered = true;
+
+                    question.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                        opt.style.pointerEvents = 'none';
+                    });
+                    
+                    this.classList.add('selected', isCorrect ? 'correct' : 'incorrect');
+
+                    if (!isCorrect) {
+                        question.querySelector(`.option[data-answer="${question.getAttribute('data-correct')}"]`).classList.add('correct');
+                    }
+
+                    // Actualizar el botón de paginación
+                    const paginationButton = questionIndex < 15 ? paginationRow1.children[questionIndex] : paginationRow2.children[questionIndex - 15];
+                    paginationButton.classList.add(isCorrect ? 'correct' : 'incorrect');
+                });
+            });
+
+            // Evento para corregir el test
+            document.getElementById('correct-test').addEventListener('click', () => {
+                let wrongAnswers = 0;
+                document.querySelectorAll('.question').forEach((question, index) => {
+                    const selected = question.querySelector('.option.selected');
+                    const isCorrect = selected && selected.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    if (!isCorrect) {
+                        wrongAnswers++;
+                    }
+                    // Actualizar el botón de paginación si no se ha respondido
+                    if (!selected) {
+                        const paginationButton = index < 15 ? paginationRow1.children[index] : paginationRow2.children[index - 15];
+                        paginationButton.classList.add('incorrect');
+                    }
+                });
+                const resultMessage = `Has fallado ${wrongAnswers} respuestas.`;
+
+                const alert = document.getElementById('custom-alert');
+                document.getElementById('alert-message').textContent = resultMessage;
+                alert.style.display = 'block';
+            });
+        });
+
+        function closeAlert() {
+            document.getElementById('custom-alert').style.display = 'none';
+        }
+    </script>
+
+    
+</body>
+</html>

@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Autoescuela</title>
+    <link rel="stylesheet" href="../../../Assets/style.css">
+</head>
+<body>
+
+    
+    <div class="container">
+        <h1 style="text-align: center; color: #ffa5c3;">Test de Autoescuela</h1>
+        <div id="test-container">
+            <!-- Aquí se generarán dinámicamente las preguntas -->
+        </div>
+        <div class="pagination">
+            <div class="pagination-row" id="pagination-row-1"></div>
+            <div class="pagination-row" id="pagination-row-2"></div>
+        </div>
+        <button id="correct-test">Corregir Test</button>
+    </div>
+
+    <!-- Custom Alert HTML -->
+    <div class="custom-alert" id="custom-alert">
+        <h2>Resultado del Test</h2>
+        <p id="alert-message">Aquí irá el mensaje del resultado.</p>
+        <button onclick="closeAlert()">Cerrar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = [
+    {
+        "text": "Los sistemas de seguridad activa incluyen...",
+        "options": [
+            "cinturones de seguridad, airbags, apoyacabezas y casco.",
+            "alumbrado, neumáticos, frenos y suspensión.",
+            "frenos, neumáticos, airbags y cinturones de seguridad."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T512230.jpg"
+    },
+    {
+        "text": "El sistema de alumbrado de los vehículos...",
+        "options": [
+            "sirve para ver bien de noche.",
+            "sirve para que el conductor vea bien la carretera.",
+            "sirve para que el conductor vea bien la carretera, y su vehículo sea visto por los demás conductores."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T504525.jpg"
+    },
+    {
+        "text": "Si el reglaje del sistema de alumbrado está demasiado bajo...",
+        "options": [
+            "se tarda más tiempo en percibir un obstáculo en la calzada.",
+            "no influye en la percepción de obstáculos en la calzada.",
+            "se necesita menos tiempo para percibir un obstáculo en la calzada."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T513429.jpg"
+    },
+    {
+        "text": "Está prohibido circular con unos neumáticos cuando la profundidad del dibujo es inferior a...",
+        "options": [
+            "3 mm.",
+            "2 mm.",
+            "1'6 mm."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P2630.jpg"
+    },
+    {
+        "text": "El inflado correcto de los neumáticos es el...",
+        "options": [
+            "superior al recomendado por el fabricante en un 20%.",
+            "adecuado a la forma de conducir de cada persona.",
+            "recomendado por el fabricante en cada caso."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T507830.jpg"
+    },
+    {
+        "text": "La presión de los neumáticos deberá comprobarse con los neumáticos:",
+        "options": [
+            "Fríos.",
+            "Calientes.",
+            "Fríos o calientes, es indiferente."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T500313.jpg"
+    },
+    {
+        "text": "Con carácter general, es suficiente revisar la presión de inflado de los neumáticos...",
+        "options": [
+            "una o dos veces al mes.",
+            "dos veces al año, coincidiendo con el inicio del verano y el invierno.",
+            "al pasar la inspección técnica reglamentaria (ITV)."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T505003.jpg"
+    },
+    {
+        "text": "Las ruedas tiene la presión correcta. Después de un viaje, comprueba que la presión ha aumentado. ¿Qué debe hacer?",
+        "options": [
+            "Echar agua a las ruedas para que se enfríen.",
+            "No quitar aire, porque el aire se ha calentado y por eso tiene más presión.",
+            "Quitar aire de las ruedas."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T508812.jpg"
+    },
+    {
+        "text": "Cuando las ruedas llevan poco aire...",
+        "options": [
+            "se desgastan más por los lados.",
+            "se desgastan igual por los lados que por el centro.",
+            "se desgastan más por el centro."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T503416.jpg"
+    },
+    {
+        "text": "Cuando la presión de los neumáticos es superior a la recomendada por el fabricante...",
+        "options": [
+            "disminuye la zona de contacto con la calzada y se pierde adherencia.",
+            "se desgastan menos pero se calientan más.",
+            "se absorben mejor las irregularidades de la calzada."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T502804.jpg"
+    },
+    {
+        "text": "Cuando la goma de un neumático se endurece por envejecimiento, ¿es peligroso?",
+        "options": [
+            "Sí, porque el vehículo puede derrapar por falta de agarre.",
+            "Sí, pero sólo cuando la calzada está mojada.",
+            "No, porque la goma dura se agarra mejor a la calzada."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T512308.jpg"
+    },
+    {
+        "text": "Es necesario cambiar los neumáticos del vehículo...",
+        "options": [
+            "al menos cada 5 años, aunque no estén gastados.",
+            "sólo si presentan desgastes irregulares, cortes, grietas o deformaciones.",
+            "sólo si la profundidad del dibujo es inferior a 1,6 milímetros."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T503301.jpg"
+    },
+    {
+        "text": "El desgaste de los neumáticos puede ser mayor debido a...",
+        "options": [
+            "realizar viajes largos.",
+            "circular a una velocidad adecuada.",
+            "la carga, el estado de la vía y la temperatura del ambiente."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T503720.jpg"
+    },
+    {
+        "text": "Ante una frenada de emergencia, ¿cómo debe actuar?",
+        "options": [
+            "De igual manera si mi vehículo tiene frenos convencionales o dispone de ABS.",
+            "No pisando el embrague en ningún momento de la frenada, en cualquier caso.",
+            "De diferente manera si mi vehículo tiene frenos convencionales o dispone de ABS."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T513128.jpg"
+    },
+    {
+        "text": "En caso de reventón, ¿es correcto frenar bruscamente?",
+        "options": [
+            "Sí.",
+            "No."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T500716.jpg"
+    },
+    {
+        "text": "Si ha instalado en su vehículo neumáticos de invierno, ¿es conveniente sustituirlos cuando las temperaturas comiencen a ser más cálidas?",
+        "options": [
+            "Sí, porque en tiempo cálido disminuye considerablemente la distancia de frenado.",
+            "Sí, porque cuando la temperatura es más cálida se desgastan con más rapidez.",
+            "No, porque se adaptan progresivamente a los cambios de temperatura."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T501322.jpg"
+    },
+    {
+        "text": "¿Qué indica la palabra \"tubeless\" escrita en el lateral del neumático?",
+        "options": [
+            "Que es un neumático adecuado para utilizarlo cuando la calzada tenga agua.",
+            "Que es un neumático adecuado para colocarlo en un autobús.",
+            "Que es un neumático preparado para ser montado sin cámara."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T510106_250116.jpg"
+    },
+    {
+        "text": "¿Qué significan las siglas M&S en un neumático?",
+        "options": [
+            "Que es un neumático con cámara.",
+            "Que es un neumático especial para nieve o barro.",
+            "La situación de los indicadores de desgaste."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T513110.jpg"
+    },
+    {
+        "text": "Montar neumáticos con un código de velocidad distinto al que recomienda el fabricante, ¿está permitido?",
+        "options": [
+            "Sí, en cualquier caso.",
+            "No, está prohibido.",
+            "Sí, siempre que sea superior al recomendado."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T501206.jpg"
+    },
+    {
+        "text": "El ABS es...",
+        "options": [
+            "Sistema de cierre centralizado.",
+            "Sistema de control de seguridad.",
+            "Sistema de frenado antibloqueo."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T513330.jpg"
+    },
+    {
+        "text": "El sistema antibloqueo de frenos ABS...",
+        "options": [
+            "permite mantener el control sobre la dirección.",
+            "reduce la distancia de frenado en todos los casos.",
+            "hace que el vehículo mantenga su trayectoria."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T500620.jpg"
+    },
+    {
+        "text": "El freno de pie, ¿para qué sirve?",
+        "options": [
+            "Para que no se mueva el vehículo cuando no está dentro el conductor.",
+            "Para reducir la velocidad y detener el vehículo.",
+            "Para reducir la velocidad y detener el vehículo cuando no funciona el freno de mano."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T510124_050616.jpg"
+    },
+    {
+        "text": "Si su vehículo dispone de servofreno y éste falla, para detener el vehículo:",
+        "options": [
+            "deberá usar el freno de mano.",
+            "deberá ejercer más fuerza sobre el pedal del freno.",
+            "deberá frenar con más suavidad (ejerciendo menos fuerza)."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T510122_251116.jpg"
+    },
+    {
+        "text": "El freno motor, ¿sobre qué ruedas actúa?",
+        "options": [
+            "Delanteras.",
+            "Traseras.",
+            "Motrices."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T512206.jpg"
+    },
+    {
+        "text": "¿Sobre qué ruedas actúa el freno de servicio?",
+        "options": [
+            "Sobre las ruedas traseras.",
+            "Sobre las ruedas delanteras.",
+            "Sobre todas las ruedas del vehículo."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T510108_050116.jpg"
+    },
+    {
+        "text": "¿Qué puede ocurrir si, al atravesar un charco de agua, los frenos se mojan?",
+        "options": [
+            "Que se estropean y deben cambiarse las zapatas o pastillas.",
+            "Que se reduce la distancia de frenado.",
+            "Que pueden perder temporalmente su eficacia."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T503309.jpg"
+    },
+    {
+        "text": "En caso de un fallo en los frenos, ¿qué es lo primero que se debe hacer para intentar inmovilizar el vehículo?",
+        "options": [
+            "Reducir a una relación de marchas más corta y utilizar el freno de mano sin brusquedad.",
+            "Pisar el embrague para cambiar a otras velocidades rápidamente.",
+            "Buscar un lugar apropiado para frenar contra un obstáculo."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510116_050416.jpg"
+    },
+    {
+        "text": "Cuando los neumáticos del vehículo se desgastan irregularmente puede ser...",
+        "options": [
+            "porque la suspensión o la amortiguación estén en malas condiciones.",
+            "únicamente porque la amortiguación esté en malas condiciones.",
+            "únicamente porque la suspensión esté en malas condiciones."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T501010.jpg"
+    },
+    {
+        "text": "Si la amortiguación está en malas condiciones, al frenar...",
+        "options": [
+            "la parte delantera del vehículo se levanta excesivamente.",
+            "la parte trasera del vehículo se inclina excesivamente.",
+            "la parte trasera del vehículo se levanta excesivamente."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T511716.jpg"
+    },
+    {
+        "text": "Si circula con la calzada mojada, ¿qué consecuencias puede tener un amortiguador en mal estado?",
+        "options": [
+            "Que disminuya el riesgo de aquaplaning.",
+            "Que disminuya la distancia de frenado.",
+            "Que aumente el riesgo de aquaplaning."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T514412.jpg"
+    }
+]
+            
+            ;
+
+            const container = document.getElementById('test-container');
+            const paginationRow1 = document.getElementById('pagination-row-1');
+            const paginationRow2 = document.getElementById('pagination-row-2');
+
+            // Generar preguntas
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.setAttribute('data-correct', question.correct);
+                questionDiv.innerHTML = `
+                    <div class="question-image">
+                        <img src="${question.image}" alt="Imagen de la pregunta">
+                    </div>
+                    <div class="question-content">
+                        <h3>${index + 1}. ${question.text}</h3>
+                        <div class="options">
+                            ${question.options.map((option, idx) => `
+                                <div class="option" data-answer="${String.fromCharCode(65 + idx)}">
+                                    <span class="option-circle">${String.fromCharCode(65 + idx)}</span>
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+
+            // Generar paginación
+            for (let i = 0; i < questions.length; i++) {
+                const button = document.createElement('button');
+                button.textContent = `${i + 1}`;
+                button.addEventListener('click', () => showQuestion(i));
+                if (i < 15) {
+                    paginationRow1.appendChild(button);
+                } else {
+                    paginationRow2.appendChild(button);
+                }
+            }
+
+            // Mostrar la primera pregunta
+            showQuestion(0);
+
+            // Función para mostrar una pregunta específica
+            function showQuestion(index) {
+                document.querySelectorAll('.question').forEach((q, i) => {
+                    q.style.display = i === index ? 'flex' : 'none';
+                });
+                document.querySelectorAll('.pagination button').forEach((btn, i) => {
+                    btn.style.backgroundColor = i === index ? '#ff7aa2' : '#ffa5c3';
+                });
+            }
+
+            // Evento para las opciones de respuesta
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const question = this.closest('.question');
+                    const questionIndex = Array.from(container.children).indexOf(question);
+                    const isCorrect = this.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    
+                    if (question.dataset.answered) return;
+
+                    question.dataset.answered = true;
+
+                    question.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                        opt.style.pointerEvents = 'none';
+                    });
+                    
+                    this.classList.add('selected', isCorrect ? 'correct' : 'incorrect');
+
+                    if (!isCorrect) {
+                        question.querySelector(`.option[data-answer="${question.getAttribute('data-correct')}"]`).classList.add('correct');
+                    }
+
+                    // Actualizar el botón de paginación
+                    const paginationButton = questionIndex < 15 ? paginationRow1.children[questionIndex] : paginationRow2.children[questionIndex - 15];
+                    paginationButton.classList.add(isCorrect ? 'correct' : 'incorrect');
+                });
+            });
+
+            // Evento para corregir el test
+            document.getElementById('correct-test').addEventListener('click', () => {
+                let wrongAnswers = 0;
+                document.querySelectorAll('.question').forEach((question, index) => {
+                    const selected = question.querySelector('.option.selected');
+                    const isCorrect = selected && selected.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    if (!isCorrect) {
+                        wrongAnswers++;
+                    }
+                    // Actualizar el botón de paginación si no se ha respondido
+                    if (!selected) {
+                        const paginationButton = index < 15 ? paginationRow1.children[index] : paginationRow2.children[index - 15];
+                        paginationButton.classList.add('incorrect');
+                    }
+                });
+                const resultMessage = `Has fallado ${wrongAnswers} respuestas.`;
+
+                const alert = document.getElementById('custom-alert');
+                document.getElementById('alert-message').textContent = resultMessage;
+                alert.style.display = 'block';
+            });
+        });
+
+        function closeAlert() {
+            document.getElementById('custom-alert').style.display = 'none';
+        }
+    </script>
+
+    
+</body>
+</html>

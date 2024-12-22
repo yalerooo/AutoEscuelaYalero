@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Autoescuela</title>
+    <link rel="stylesheet" href="../../../Assets/style.css">
+</head>
+<body>
+
+    
+    <div class="container">
+        <h1 style="text-align: center; color: #ffa5c3;">Test de Autoescuela</h1>
+        <div id="test-container">
+            <!-- Aquí se generarán dinámicamente las preguntas -->
+        </div>
+        <div class="pagination">
+            <div class="pagination-row" id="pagination-row-1"></div>
+            <div class="pagination-row" id="pagination-row-2"></div>
+        </div>
+        <button id="correct-test">Corregir Test</button>
+    </div>
+
+    <!-- Custom Alert HTML -->
+    <div class="custom-alert" id="custom-alert">
+        <h2>Resultado del Test</h2>
+        <p id="alert-message">Aquí irá el mensaje del resultado.</p>
+        <button onclick="closeAlert()">Cerrar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = [
+    {
+        "text": "El alcohol, ¿es una de las principales causas de accidentes de tráfico?",
+        "options": [
+            "No, cuando el conductor tiene experiencia y bebe habitualmente.",
+            "Sí.",
+            "Sólo en personas no acostumbradas a beber."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T514028.jpg"
+    },
+    {
+        "text": "El alcohol es siempre peligroso para la seguridad vial...",
+        "options": [
+            "salvo para quienes están habituados a su consumo.",
+            "excepto si se consume en pequeñas cantidades.",
+            "aunque sea consumido en pequeñas cantidades."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T511714.jpg"
+    },
+    {
+        "text": "Por debajo de las tasas permitidas de alcoholemia...",
+        "options": [
+            "es muy poco probable tener un accidente debido a los efectos del alcohol.",
+            "no es posible tener un accidente debido a los efectos del alcohol.",
+            "también es posible tener un accidente debido a los efectos del alcohol."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T505009.jpg"
+    },
+    {
+        "text": "El consumo de alcohol, ¿altera la posibilidad de deslumbramiento de un conductor?",
+        "options": [
+            "Sí, la disminuye.",
+            "No, en ningún caso.",
+            "Sí, la aumenta."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P2429.jpg"
+    },
+    {
+        "text": "Cuando se consume alcohol, ¿se producen alteraciones en la visión?",
+        "options": [
+            "Sí, puede aparecer la visión túnel.",
+            "No.",
+            "Sólo con tasas de alcohol por encima de las permitidas."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T500422.jpg"
+    },
+    {
+        "text": "El estómago lleno, ¿influye en la tasa de alcoholemia?",
+        "options": [
+            "No.",
+            "Sí, porque el alcohol se absorbe más lentamente, por lo que se disminuye.",
+            "Sí, ya que el alcohol se absorbe más lentamente, pero no evita el riesgo de accidente."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T506022.jpg"
+    },
+    {
+        "text": "Cuando se mezcla alcohol con fármacos, ¿qué ocurre?",
+        "options": [
+            "Que se pueden potenciar muchos de los efectos secundarios de los fármacos, como la somnolencia.",
+            "Que disminuyen las alteraciones visuales.",
+            "Que disminuye la descoordinación motora."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T511404.jpg"
+    },
+    {
+        "text": "El efecto de la alcoholemia alcanza su máximo nivel...",
+        "options": [
+            "dos horas después de tomar la última copa.",
+            "entre 30 y 90 minutos después de haber ingerido el alcohol.",
+            "inmediatemente después de tomar la última copa."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P2420.jpg"
+    },
+    {
+        "text": "El alcohol desaparece de la sangre...",
+        "options": [
+            "pocos minutos después de haberlo ingerido.",
+            "rápidamente, hasta completar su eliminación en pocas horas.",
+            "muy lentamente, hasta su completa eliminación pasadas varias horas."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T505318.jpg"
+    },
+    {
+        "text": "El tiempo de absorción del alcohol, ¿depende de la bebida ingerida?",
+        "options": [
+            "No, la absorción se realiza por el organismo a un ritmo constante, independientemente de la bebida.",
+            "Sí, se absorbe más rápidamente el alcohol de las bebidas fermentadas.",
+            "Sí, se absorbe más rápidamente el alcohol de las bebidas destiladas."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T514530.jpg"
+    },
+    {
+        "text": "El alcohol, ¿produce los mismos efectos en todas las personas?",
+        "options": [
+            "Sí.",
+            "No, puede variar, por ejemplo según el peso, el sexo y el estado psicofísico.",
+            "No, depende sólo de la costumbre de beber."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T508012.jpg"
+    },
+    {
+        "text": "Los efectos del alcohol, ¿son mayores en los conductores con poca experiencia al volante?",
+        "options": [
+            "No, el alcohol afecta igual a todas las personas.",
+            "No, sólo dependen de la tasa de alcoholemia.",
+            "Sí, por eso la tasa de alcoholemia permitida es menor."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P2425.jpg"
+    },
+    {
+        "text": "La población más sensible a los efectos del alcohol, son las personas...",
+        "options": [
+            "menores de 18 años y los mayores de 45 años.",
+            "menores de 18 años y los mayores de 65 años.",
+            "entre 18 y 30 años."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T509308.jpg"
+    },
+    {
+        "text": "El alcohol se elimina...",
+        "options": [
+            "más deprisa mientras se duerme.",
+            "más despacio mientras se duerme.",
+            "a la misma velocidad dormido o despierto."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P2424.jpg"
+    },
+    {
+        "text": "¿Tomar chicles o caramelos reduce la tasa de alcoholemia?",
+        "options": [
+            "No.",
+            "Sólo los caramelos que tengan mucho azúcar.",
+            "Sí."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P2426.jpg"
+    },
+    {
+        "text": "Un conductor que es requerido por los agentes para una prueba de alcoholemia, ¿está obligado a someterse a ella?",
+        "options": [
+            "Sólo si está implicado en un accidente.",
+            "Sólo si está implicado en un accidente o ha cometido alguna infracción.",
+            "Sí."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P2430.jpg"
+    },
+    {
+        "text": "Un peatón, ¿está obligado a someterse a una prueba de control de alcoholemia?",
+        "options": [
+            "Sí, cuando se pueda sospechar que está bajo la influencia de bebidas alcohólicas.",
+            "Sí, cuando esté implicado directamente como posible responsable de un accidente.",
+            "No, en ningún caso."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T503028.jpg"
+    },
+    {
+        "text": "Negarse a realizar la prueba de alcoholemia...",
+        "options": [
+            "es un delito castigado por el código penal.",
+            "solamente supone una multa de hasta 300 euros.",
+            "no tiene importancia cuando no se ha producido un accidente."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P2502.jpg"
+    },
+    {
+        "text": "En un control de alcoholemia, ¿cuántas pruebas pueden realizarle?",
+        "options": [
+            "Una única prueba con el etilómetro.",
+            "Dos pruebas a elegir entre aire espirado con el etilómetro o un análisis de sangre.",
+            "La primera de aire espirado con el etilómetro y puede solicitar una segunda prueba transcurridos 10 minutos."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P2504.jpg"
+    },
+    {
+        "text": "¿Cuál es la tasa máxima de alcoholemia permitida en aire espirado para conductores menores de edad?",
+        "options": [
+            "0,25 miligramos por litro.",
+            "0,15 miligramos por litro.",
+            "0,0 miligramos por litro."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T506006.jpg"
+    },
+    {
+        "text": "Como norma general, está prohibido conducir turismos con una tasa de alcohol superior a...",
+        "options": [
+            "0,3 gramos por litro de sangre.",
+            "0,8 gramos por litro de sangre.",
+            "0,5 gramos por litro de sangre."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T505526.jpg"
+    },
+    {
+        "text": "Un conductor novel, ¿qué tasa máxima de alcoholemia tiene permitida en aire espirado para circular?",
+        "options": [
+            "0,50 miligramos por litro.",
+            "0,25 miligramos por litro.",
+            "0,15 miligramos por litro."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P2506.jpg"
+    },
+    {
+        "text": "Tiene el permiso A desde hace dos años y acaba de obtener el B, ¿cual será la tasa máxima de alcohol permitida cuando conduzca un turismo?",
+        "options": [
+            "0,25 miligramos de alcohol por litro de aire espirado.",
+            "0,30 miligramos de alcohol por litro de aire espirado.",
+            "0,15 miligramos de alcohol por litro de aire espirado."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P2507.jpg"
+    },
+    {
+        "text": "La tasa de alcohol máxima para un conductor de autobús es de...",
+        "options": [
+            "0,15 miligramos por litro de aire espirado.",
+            "0,25 miligramos por litro de aire espirado.",
+            "0,40 miligramos por litro de aire espirado."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P2508.jpg"
+    },
+    {
+        "text": "Está prohibido conducir un camión de menos de 3.500 kg de MMA con una tasa de alcohol en aire espirado superior a...",
+        "options": [
+            "0,25 miligramos por litro.",
+            "0,15 miligramos por litro.",
+            "0,30 miligramos por litro."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P2509.jpg"
+    },
+    {
+        "text": "Si en una primera prueba de alcoholemia no supera los límites máximos permitidos, los agentes...",
+        "options": [
+            "le pueden imponer una sanción, si presenta síntomas de haber consumido alcohol.",
+            "no le pueden impedir continuar su marcha, en ningún caso.",
+            "realizarán una segunda prueba, si presenta síntomas de estar bajo la influencia de bebidas alcohólicas."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P2511.jpg"
+    },
+    {
+        "text": "Si el resultado de las pruebas de alcoholemia es positivo el agente podrá inmovilizar el vehículo, a no ser...",
+        "options": [
+            "que el conductor haga efectiva en el acto la sanción económica impuesta.",
+            "que en el vehículo viajen niños o ancianos.",
+            "que pueda hacerse cargo de su conducción otra persona debidamente habilitada."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P2512.jpg"
+    },
+    {
+        "text": "Los agentes de tráfico inmovilizan un vehículo cuando su conductor tiene una tasa de alcohol mayor de la permitida. ¿Cuándo se dejará sin efecto dicha inmovilización?",
+        "options": [
+            "Cuando el conductor viaje con menores de edad.",
+            "Cuando el agente entregue al conductor el boletín de denuncia.",
+            "Cuando desaparezca la causa que la motivó."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T506230.jpg"
+    },
+    {
+        "text": "¿Cuál es la tasa máxima de alcohol permitida para el conductor de una bicicleta?",
+        "options": [
+            "0,25 miligramos por litro de aire espirado.",
+            "Los conductores de bicicletas no tienen tasa máxima de alcohol.",
+            "0,15 miligramos por litro de aire espirado."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T505225.jpg"
+    },
+    {
+        "text": "Los conductores de los vehículos de movilidad personal, ¿están obligados a someterse a las pruebas de alcohol y drogas que se establezcan para su detección?",
+        "options": [
+            "Sí, igual que si condujeran cualquier otro vehículo.",
+            "No, salvo denuncia previa por la comisión de alguna infracción a las normas de circulación.",
+            "No, ya que para su conducción no se exige permiso de conducción."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510113_150723.jpg"
+    }
+]
+            
+            ;
+
+            const container = document.getElementById('test-container');
+            const paginationRow1 = document.getElementById('pagination-row-1');
+            const paginationRow2 = document.getElementById('pagination-row-2');
+
+            // Generar preguntas
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.setAttribute('data-correct', question.correct);
+                questionDiv.innerHTML = `
+                    <div class="question-image">
+                        <img src="${question.image}" alt="Imagen de la pregunta">
+                    </div>
+                    <div class="question-content">
+                        <h3>${index + 1}. ${question.text}</h3>
+                        <div class="options">
+                            ${question.options.map((option, idx) => `
+                                <div class="option" data-answer="${String.fromCharCode(65 + idx)}">
+                                    <span class="option-circle">${String.fromCharCode(65 + idx)}</span>
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+
+            // Generar paginación
+            for (let i = 0; i < questions.length; i++) {
+                const button = document.createElement('button');
+                button.textContent = `${i + 1}`;
+                button.addEventListener('click', () => showQuestion(i));
+                if (i < 15) {
+                    paginationRow1.appendChild(button);
+                } else {
+                    paginationRow2.appendChild(button);
+                }
+            }
+
+            // Mostrar la primera pregunta
+            showQuestion(0);
+
+            // Función para mostrar una pregunta específica
+            function showQuestion(index) {
+                document.querySelectorAll('.question').forEach((q, i) => {
+                    q.style.display = i === index ? 'flex' : 'none';
+                });
+                document.querySelectorAll('.pagination button').forEach((btn, i) => {
+                    btn.style.backgroundColor = i === index ? '#ff7aa2' : '#ffa5c3';
+                });
+            }
+
+            // Evento para las opciones de respuesta
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const question = this.closest('.question');
+                    const questionIndex = Array.from(container.children).indexOf(question);
+                    const isCorrect = this.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    
+                    if (question.dataset.answered) return;
+
+                    question.dataset.answered = true;
+
+                    question.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                        opt.style.pointerEvents = 'none';
+                    });
+                    
+                    this.classList.add('selected', isCorrect ? 'correct' : 'incorrect');
+
+                    if (!isCorrect) {
+                        question.querySelector(`.option[data-answer="${question.getAttribute('data-correct')}"]`).classList.add('correct');
+                    }
+
+                    // Actualizar el botón de paginación
+                    const paginationButton = questionIndex < 15 ? paginationRow1.children[questionIndex] : paginationRow2.children[questionIndex - 15];
+                    paginationButton.classList.add(isCorrect ? 'correct' : 'incorrect');
+                });
+            });
+
+            // Evento para corregir el test
+            document.getElementById('correct-test').addEventListener('click', () => {
+                let wrongAnswers = 0;
+                document.querySelectorAll('.question').forEach((question, index) => {
+                    const selected = question.querySelector('.option.selected');
+                    const isCorrect = selected && selected.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    if (!isCorrect) {
+                        wrongAnswers++;
+                    }
+                    // Actualizar el botón de paginación si no se ha respondido
+                    if (!selected) {
+                        const paginationButton = index < 15 ? paginationRow1.children[index] : paginationRow2.children[index - 15];
+                        paginationButton.classList.add('incorrect');
+                    }
+                });
+                const resultMessage = `Has fallado ${wrongAnswers} respuestas.`;
+
+                const alert = document.getElementById('custom-alert');
+                document.getElementById('alert-message').textContent = resultMessage;
+                alert.style.display = 'block';
+            });
+        });
+
+        function closeAlert() {
+            document.getElementById('custom-alert').style.display = 'none';
+        }
+    </script>
+
+    
+</body>
+</html>

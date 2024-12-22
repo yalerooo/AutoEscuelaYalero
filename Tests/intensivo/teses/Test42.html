@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Autoescuela</title>
+    <link rel="stylesheet" href="../../../Assets/style.css">
+</head>
+<body>
+
+    
+    <div class="container">
+        <h1 style="text-align: center; color: #ffa5c3;">Test de Autoescuela</h1>
+        <div id="test-container">
+            <!-- Aquí se generarán dinámicamente las preguntas -->
+        </div>
+        <div class="pagination">
+            <div class="pagination-row" id="pagination-row-1"></div>
+            <div class="pagination-row" id="pagination-row-2"></div>
+        </div>
+        <button id="correct-test">Corregir Test</button>
+    </div>
+
+    <!-- Custom Alert HTML -->
+    <div class="custom-alert" id="custom-alert">
+        <h2>Resultado del Test</h2>
+        <p id="alert-message">Aquí irá el mensaje del resultado.</p>
+        <button onclick="closeAlert()">Cerrar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = [
+    {
+        "text": "¿Qué usuarios de la vía deben obedecer este semáforo?",
+        "options": [
+            "Motocicletas.",
+            "Peatones y bicicletas.",
+            "Bicicletas y ciclomotores."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P1328.jpg"
+    },
+    {
+        "text": "Cuando el conductor sufre una distracción al volante...",
+        "options": [
+            "debe avisarlo con las luces de emergencia.",
+            "tarda más tiempo en reaccionar.",
+            "aumenta la velocidad del vehículo sin darse cuenta."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P2317.jpg"
+    },
+    {
+        "text": "Un turismo con remolque, ¿puede circular por un carril abierto a la circulación en sentido contrario al normal?",
+        "options": [
+            "Sí, siempre.",
+            "Si, cuando haya sido abierto por razones de fluidez de la circulación.",
+            "Sí, cuando haya sido abierto por obras en la calzada."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P0320.jpg"
+    },
+    {
+        "text": "Los conductores de turismos deben utilizar el chaleco reflectante de alta visibilidad...",
+        "options": [
+            "siempre que salgan del vehículo.",
+            "cuando salgan del vehículo y ocupen la calzada o el arcén de una vía interurbana.",
+            "cuando salgan del vehículo y ocupen la calzada o el arcén en cualquier vía."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P3222.jpg"
+    },
+    {
+        "text": "¿Qué significa esta señal?",
+        "options": [
+            "Peligro por tramo con posible proyección de gravilla.",
+            "Peligro por tramo con visibilidad reducida.",
+            "Peligro por zona con frecuentes desprendimientos."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P1424.jpg"
+    },
+    {
+        "text": "En una calzada cubierta de hielo, ¿cómo debe actuar para detener el vehículo?",
+        "options": [
+            "Dando un frenazo brusco para bloquear las ruedas.",
+            "Reduciendo la velocidad suavemente y utilizando el freno de pie con mucha suavidad.",
+            "Utilizando el freno de mano a la vez que el freno de pie."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P3026.jpg"
+    },
+    {
+        "text": "Los ocupantes que viajen en su vehículo, ¿cómo deben descender del mismo?",
+        "options": [
+            "Por cualquier lado, siempre que se haga con rapidez.",
+            "Por el lado más próximo al borde de la vía, si es posible, y siempre con el vehículo inmovilizado.",
+            "Con el vehículo inmovilizado si es posible, y por cualquiera de los dos lados."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P1922.jpg"
+    },
+    {
+        "text": "Se denomina distancia de reacción:",
+        "options": [
+            "La distancia recorrida desde que se comienza a frenar hasta que se detiene el vehículo.",
+            "La distancia recorrida desde que se ve un peligro hasta que se actua sobre los mandos del vehículo.",
+            "La distancia que debe dejarse entre dos vehículos cuando van circulando uno detrás del otro."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P2203.jpg"
+    },
+    {
+        "text": "En las intersecciones señalizadas, ¿cuál es la norma general que prevalece?",
+        "options": [
+            "Abstenerse del cumplimiento de la señalización.",
+            "Cumplir lo que la señal indica.",
+            "Ceder el paso siempre a la derecha."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P0510.jpg"
+    },
+    {
+        "text": "Entre otros, ¿qué síntoma es indicio de fatiga?",
+        "options": [
+            "Disminución del tiempo de reacción.",
+            "Sensación unas veces de frío y otras de calor.",
+            "Movimientos constantes en el asiento."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P2228.jpg"
+    },
+    {
+        "text": "¿Cómo debe incorporarse a la vía el vehículo que sale del camino sin pavimentar?",
+        "options": [
+            "Cediendo el paso y a una velocidad que permita detenerse en el acto.",
+            "Cediendo el paso a los vehículos de la derecha.",
+            "Acelerando para alcanzar la velocidad máxima de la vía."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P0727.jpg"
+    },
+    {
+        "text": "Ante un paso a nivel está obligado a...",
+        "options": [
+            "pasar aunque las barreras estén en movimiento.",
+            "asegurarse antes de atravesarlo de que no existe ningún peligro.",
+            "atravesarlo rápidamente."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P0610.jpg"
+    },
+    {
+        "text": "Aunque no se superen los límites máximos de velocidad, ¿puede llegar a circular a una velocidad inadecuada?",
+        "options": [
+            "Sí, en tanto que la velocidad debe adecuarse a las circunstancias de la vía, como por ejemplo, la lluvia, nieve o hielo.",
+            "No, en ningún caso.",
+            "Sí, siempre que vaya a más de 100 km/h."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P0427.jpg"
+    },
+    {
+        "text": "Los costes por primeros auxilios, atención y tratamiento a los heridos, rehabilitación y adaptaciones, ¿cómo se llaman?",
+        "options": [
+            "Costes sanitarios.",
+            "Costes materiales.",
+            "Costes administrativos."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T500207.jpg"
+    },
+    {
+        "text": "Por una vía así señalizada, ¿qué vehículos no pueden circular?",
+        "options": [
+            "Turismos.",
+            "Motocicletas.",
+            "Bicicletas."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P1511.jpg"
+    },
+    {
+        "text": "¿Qué conductores tienen prohibido circular bajo los efectos de las drogas?",
+        "options": [
+            "Sólo los conductores de vehículos de motor.",
+            "Sólo los conductores de automóviles.",
+            "Todos."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P2519.jpg"
+    },
+    {
+        "text": "Una cuadrícula de marcas blancas y rojas prohíbe...",
+        "options": [
+            "solamente la parada.",
+            "la parada, el estacionamiento o la utilización con otros fines.",
+            "solamente el estacionamiento."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P1829.jpg"
+    },
+    {
+        "text": "Los ciclomotores de dos ruedas deben llevar...",
+        "options": [
+            "dos espejos retrovisores exteriores obligatorios, uno al lado izquierdo y otro al lado derecho.",
+            "es optativo el del lado izquierdo y obligatorio el del lado derecho.",
+            "es obligatorio el del lado izquierdo y optativo el del lado derecho."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P2625.jpg"
+    },
+    {
+        "text": "En las glorietas, ¿está prohibido adelantar?",
+        "options": [
+            "Sí, porque son intersecciones.",
+            "Sí, en vías interurbanas solamente.",
+            "No."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P0825.jpg"
+    },
+    {
+        "text": "Si hay charcos de agua en la calzada...",
+        "options": [
+            "debe moderar la velocidad.",
+            "debe acelerar para atravesarlos lo antes posible.",
+            "no es aconsejable tomar ninguna precaución."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T503228.jpg"
+    },
+    {
+        "text": "A la vista de esta situación, ¿cuándo finaliza la limitación de velocidad impuesta por la señal?",
+        "options": [
+            "Cuando finalice el peligro indicado.",
+            "No antes de alcanzar una señal de fin de limitación de velocidad o fin de prohibiciones.",
+            "No antes de atravesar una intersección con vía preferente."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P1209.jpg"
+    },
+    {
+        "text": "Las motocicletas, ciclomotores o vehículos de tres ruedas, ¿pueden arrastar un remolque o semirremolque?",
+        "options": [
+            "No.",
+            "Sí, siempre que, entre otros requisitos, sea de día y en condiciones que no disminuyan la visibilidad.",
+            "Sí, y además pueden transportar personas en el remolque."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P2014.jpg"
+    },
+    {
+        "text": "Para abandonar la vía, ¿en qué momento debe entrar en el carril de deceleración?",
+        "options": [
+            "Lo antes posible para adaptar la velocidad.",
+            "Lo más tarde posible para favorecer la fluidez.",
+            "En cualquier momento mientras la línea sea discontinua, porque es indiferente."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P0230.jpg"
+    },
+    {
+        "text": "¿Cómo se debe agarrar el volante?",
+        "options": [
+            "Con los brazos muy estirados.",
+            "Con los brazos un poco doblados.",
+            "Con los brazos muy doblados."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P2603.jpg"
+    },
+    {
+        "text": "Con esta señalización, ¿a qué velocidad debe circular?",
+        "options": [
+            "Obligatoriamente a 30 km/h.",
+            "A 30 km/h, como recomendación, durante el tramo que subsista el peligro.",
+            "Al menos a 30 km/h."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P1627.jpg"
+    },
+    {
+        "text": "¿Qué es una detención?",
+        "options": [
+            "La inmovilización del vehículo por necesidades de la circulación.",
+            "Una parada por cualquier causa.",
+            "Un estacionamiento sin bajarse del vehículo."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P1004.jpg"
+    },
+    {
+        "text": "En una carretera, ¿está permitido cambiar el sentido de la marcha?",
+        "options": [
+            "Sí, en cualquier lugar.",
+            "No, está siempre prohibido.",
+            "Sí, en los lugares adecuados."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P0908.jpg"
+    },
+    {
+        "text": "La presión de los neumáticos deberá comprobarse con los neumáticos:",
+        "options": [
+            "Fríos.",
+            "Calientes.",
+            "Fríos o calientes, es indiferente."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P2706.jpg"
+    },
+    {
+        "text": "¿Qué indica esta señal?",
+        "options": [
+            "Una vía cortada al tráfico.",
+            "Paso a nivel sin barreras.",
+            "Paso a nivel con barreras."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P0630.jpg"
+    },
+    {
+        "text": "Es obligatorio que todos los vehículos de motor estén dotados de...",
+        "options": [
+            "un dispositivo silenciador de explosiones.",
+            "un juego de correas para el equipo motor.",
+            "un extintor de incendios adecuado y eficaz."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P3424.jpg"
+    }
+]
+            
+            ;
+
+            const container = document.getElementById('test-container');
+            const paginationRow1 = document.getElementById('pagination-row-1');
+            const paginationRow2 = document.getElementById('pagination-row-2');
+
+            // Generar preguntas
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.setAttribute('data-correct', question.correct);
+                questionDiv.innerHTML = `
+                    <div class="question-image">
+                        <img src="${question.image}" alt="Imagen de la pregunta">
+                    </div>
+                    <div class="question-content">
+                        <h3>${index + 1}. ${question.text}</h3>
+                        <div class="options">
+                            ${question.options.map((option, idx) => `
+                                <div class="option" data-answer="${String.fromCharCode(65 + idx)}">
+                                    <span class="option-circle">${String.fromCharCode(65 + idx)}</span>
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+
+            // Generar paginación
+            for (let i = 0; i < questions.length; i++) {
+                const button = document.createElement('button');
+                button.textContent = `${i + 1}`;
+                button.addEventListener('click', () => showQuestion(i));
+                if (i < 15) {
+                    paginationRow1.appendChild(button);
+                } else {
+                    paginationRow2.appendChild(button);
+                }
+            }
+
+            // Mostrar la primera pregunta
+            showQuestion(0);
+
+            // Función para mostrar una pregunta específica
+            function showQuestion(index) {
+                document.querySelectorAll('.question').forEach((q, i) => {
+                    q.style.display = i === index ? 'flex' : 'none';
+                });
+                document.querySelectorAll('.pagination button').forEach((btn, i) => {
+                    btn.style.backgroundColor = i === index ? '#ff7aa2' : '#ffa5c3';
+                });
+            }
+
+            // Evento para las opciones de respuesta
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const question = this.closest('.question');
+                    const questionIndex = Array.from(container.children).indexOf(question);
+                    const isCorrect = this.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    
+                    if (question.dataset.answered) return;
+
+                    question.dataset.answered = true;
+
+                    question.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                        opt.style.pointerEvents = 'none';
+                    });
+                    
+                    this.classList.add('selected', isCorrect ? 'correct' : 'incorrect');
+
+                    if (!isCorrect) {
+                        question.querySelector(`.option[data-answer="${question.getAttribute('data-correct')}"]`).classList.add('correct');
+                    }
+
+                    // Actualizar el botón de paginación
+                    const paginationButton = questionIndex < 15 ? paginationRow1.children[questionIndex] : paginationRow2.children[questionIndex - 15];
+                    paginationButton.classList.add(isCorrect ? 'correct' : 'incorrect');
+                });
+            });
+
+            // Evento para corregir el test
+            document.getElementById('correct-test').addEventListener('click', () => {
+                let wrongAnswers = 0;
+                document.querySelectorAll('.question').forEach((question, index) => {
+                    const selected = question.querySelector('.option.selected');
+                    const isCorrect = selected && selected.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    if (!isCorrect) {
+                        wrongAnswers++;
+                    }
+                    // Actualizar el botón de paginación si no se ha respondido
+                    if (!selected) {
+                        const paginationButton = index < 15 ? paginationRow1.children[index] : paginationRow2.children[index - 15];
+                        paginationButton.classList.add('incorrect');
+                    }
+                });
+                const resultMessage = `Has fallado ${wrongAnswers} respuestas.`;
+
+                const alert = document.getElementById('custom-alert');
+                document.getElementById('alert-message').textContent = resultMessage;
+                alert.style.display = 'block';
+            });
+        });
+
+        function closeAlert() {
+            document.getElementById('custom-alert').style.display = 'none';
+        }
+    </script>
+
+    
+</body>
+</html>

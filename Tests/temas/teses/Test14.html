@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Autoescuela</title>
+    <link rel="stylesheet" href="../../../Assets/style.css">
+</head>
+<body>
+
+    
+    <div class="container">
+        <h1 style="text-align: center; color: #ffa5c3;">Test de Autoescuela</h1>
+        <div id="test-container">
+            <!-- Aquí se generarán dinámicamente las preguntas -->
+        </div>
+        <div class="pagination">
+            <div class="pagination-row" id="pagination-row-1"></div>
+            <div class="pagination-row" id="pagination-row-2"></div>
+        </div>
+        <button id="correct-test">Corregir Test</button>
+    </div>
+
+    <!-- Custom Alert HTML -->
+    <div class="custom-alert" id="custom-alert">
+        <h2>Resultado del Test</h2>
+        <p id="alert-message">Aquí irá el mensaje del resultado.</p>
+        <button onclick="closeAlert()">Cerrar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = [
+    {
+        "text": "Antes de iniciar un adelantamiento, ¿qué debe hacer?",
+        "options": [
+            "Comprobar que los vehículos de detrás no han iniciado el adelantamiento.",
+            "Comprobar que los vehículos de detrás no tienen los intermitentes encendidos.",
+            "Comprobar que los vehículos de detrás mantienen la distancia de seguridad."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P0808.jpg"
+    },
+    {
+        "text": "El conductor que efectúe un adelantamiento...",
+        "options": [
+            "puede rebasar la velocidad máxima fijada para la vía.",
+            "debe mantener una velocidad moderada, sin importar el tiempo que emplee en el adelantamiento.",
+            "debe llevar su vehículo a una velocidad notoriamente superior a la del vehículo que pretende adelantar."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P0810.jpg"
+    },
+    {
+        "text": "Si se pretende adelantar a este vehículo, ¿está permitido disminuir la distancia de seguridad?",
+        "options": [
+            "Sí, porque así tiene mejor visión del sentido contrario.",
+            "Sí, para hacer el adelantamiento más seguro.",
+            "No, se debe mantener siempre la distancia de seguridad."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T510126_0512.jpg"
+    },
+    {
+        "text": "Al adelantar. ¿Cuándo debe volver al carril derecho?",
+        "options": [
+            "Después de 15 segundos.",
+            "Después de ver en el espejo la parte delantera del vehículo adelantado.",
+            "Después de recorrer 200 metros por delante del turismo."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T513423.jpg"
+    },
+    {
+        "text": "Es obligatorio finalizar un adelantamiento...",
+        "options": [
+            "incorporándose al carril derecho a la mayor velocidad posible.",
+            "únicamente señalizando el desplazamiento lateral.",
+            "incorporándose al carril de forma gradual sin obstaculizar."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P0815.jpg"
+    },
+    {
+        "text": "Una vez iniciado el adelantamiento se producen circunstancias  que pueden hacer difícil su finalización sin provocar riesgos, ¿qué está obligado a hacer el conductor?",
+        "options": [
+            "Desistir de realizar el adelantamiento, reduciendo rápidamente la marcha y regresando a su carril sin obstaculizar.",
+            "Terminar el adelantamiento aumentando rápidamente la velocidad.",
+            "Frenar bruscamente para volver a su derecha cuanto antes."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P0806.jpg"
+    },
+    {
+        "text": "Después de iniciar el adelantamiento comprueba que se acerca un vehículo de frente, ¿qué debe hacer?",
+        "options": [
+            "Reducir la marcha y volver a su carril, si no puede terminar la maniobra con seguridad.",
+            "Mantenerse en el centro de la calzada.",
+            "Tocar el claxon y encender las luces para que el otro vehículo aminore su velocidad."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T503502.jpg"
+    },
+    {
+        "text": "El vehículo blanco, ¿adelanta correctamente?",
+        "options": [
+            "Sí.",
+            "No."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T510119_250116.jpg"
+    },
+    {
+        "text": "Un vehículo le está adelantando y no puede terminar la maniobra con seguridad, ¿qué debe hacer?",
+        "options": [
+            "Aumentar la velocidad, para evitar el adelantamiento.",
+            "Seguir la trayectoria con normalidad, ya que no es problema del vehículo que adelanta.",
+            "Facilitar la finalización de la maniobra de adelantamiento."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P0807.jpg"
+    },
+    {
+        "text": "Un vehículo le quiere adelantar. ¿Debe hacer algo para impedirlo?",
+        "options": [
+            "Sí.",
+            "No."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T507110.jpg"
+    },
+    {
+        "text": "Para facilitar el adelantamiento, ¿qué debe hacer el vehículo adelantado?",
+        "options": [
+            "Ceñirse al borde derecho de la calzada.",
+            "Circular por el centro de su carril.",
+            "Apartarse al arcén."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T502420.jpg"
+    },
+    {
+        "text": "Si advierte que un vehículo va a adelantarle, deberá...",
+        "options": [
+            "Disminuir la velocidad para facilitarle la maniobra.",
+            "Encender el indicador de dirección derecho, para indicarle que puede adelantar.",
+            "Arrimarse al borde derecho de la calzada."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P0816.jpg"
+    },
+    {
+        "text": "En esta situación de la fotografía, el conductor del camión, ¿está obligado a apartarse al arcén para facilitar el adelantamiento a otros vehículos?",
+        "options": [
+            "Como norma general, no.",
+            "Sí, cuando el camión circule a menos de 70 km/h.",
+            "Sí, cuando el camión es un vehículo pesado."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P0817.jpg"
+    },
+    {
+        "text": "El vehículo verde al que pretende adelantar señaliza su propósito de desplazarse para adelantar, ¿puede adelantarle?",
+        "options": [
+            "Sí, si lo advierte con señales ópticas o acústicas.",
+            "No, en ningún caso.",
+            "No, porque al señalizar tiene preferencia."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T505427.jpg"
+    },
+    {
+        "text": "En autopista o autovía, los adelantamientos se efectuarán siempre...",
+        "options": [
+            "por la izquierda.",
+            "por la derecha o por el arcén.",
+            "por la derecha o por la izquierda."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P0803.jpg"
+    },
+    {
+        "text": "En esta vía urbana, ¿está permitido adelantar por la derecha?",
+        "options": [
+            "No, se debe adelantar por la izquierda.",
+            "Sí, porque la vía cuenta con dos carriles delimitados en el mismo sentido de la marcha.",
+            "No, porque se puede entorpecer la marcha de otros vehículos."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P0804.jpg"
+    },
+    {
+        "text": "Si va a adelantar y el vehículo que circula delante ha encendido el intermitente izquierdo, manifestando su intención de adelantar, ¿quién tiene preferencia en el adelantamiento?",
+        "options": [
+            "El que inicie antes el desplazamiento lateral.",
+            "El que circule a mayor velocidad.",
+            "El conductor del vehículo que ya ha encendido el intermitente."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P0809.jpg"
+    },
+    {
+        "text": "Adelantar a varios vehículos a la vez, ¿está permitido?",
+        "options": [
+            "Sí, cuando se puede volver a la derecha sin peligro en caso de encontrar vehículos en sentido contrario.",
+            "Sí, únicamente cuando los vehículos adelantados circulan a velocidad lenta.",
+            "No."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T503928.jpg"
+    },
+    {
+        "text": "¿Está permitido adelantar a la vez a estos dos camiones?",
+        "options": [
+            "No, salvo que el adelantamiento se realice en autopista o autovía.",
+            "No, porque son camiones.",
+            "Sí, si tiene la seguridad de poder terminar el adelantamiento sin peligro."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T511623.jpg"
+    },
+    {
+        "text": "Cuando se finalice el adelantamiento, ¿tiene que incorporarse al carril derecho inmediatamente?",
+        "options": [
+            "No, si no estorba a otro vehículo que circule detrás.",
+            "No, si circula a la velocidad máxima de la vía.",
+            "Sí, como norma general."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T511609.jpg"
+    },
+    {
+        "text": "Si va a realizar un nuevo adelantamiento, ¿está permitido seguir circulando por el carril izquierdo?",
+        "options": [
+            "Sí, cuando no obstaculiza a los vehículos que circulen más rápido por detrás.",
+            "Sí, si circula a la máxima velocidad permitida en la vía.",
+            "No, tiene que volver obligatoriamente a la derecha."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T501829.jpg"
+    },
+    {
+        "text": "Después de adelantar al camión, ¿debe regresar inmediatamente al carril de la derecha si pretende seguir adelantando?",
+        "options": [
+            "Sí, en cualquier caso.",
+            "No, no es obligatorio.",
+            "No, salvo cuando detrás circule otro vehículo a mayor velocidad."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T505026.jpg"
+    },
+    {
+        "text": "Aunque esté prohibido el adelantamiento, un turismo podrá rebasar, incluso invadiendo el sentido contrario, a...",
+        "options": [
+            "cualquier autobús o camión que circule lentamente.",
+            "cualquier camión.",
+            "conductores de bicicletas."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P0828.jpg"
+    },
+    {
+        "text": "Al adelantar al ciclista que aparece en la fotografía, ¿es obligatorio invadir el carril de sentido contrario de la calzada?",
+        "options": [
+            "No.",
+            "No, porque está prohibido adelantar a los ciclistas.",
+            "Sí."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P0830.jpg"
+    },
+    {
+        "text": "Para adelantar a los ciclistas, ¿cuándo está permitido ocupar el carril de sentido contrario?",
+        "options": [
+            "Cuando no haya peligro y además se guardará una separación de 1,5 metros.",
+            "Sólo cuando los ciclistas estén detenidos.",
+            "Sólo cuando haya línea discontinua."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510107_150216.jpg"
+    },
+    {
+        "text": "Si se encuentra con un ciclista circulando en sentido contrario, ¿qué debe hacer?",
+        "options": [
+            "No iniciar ni continuar un adelantamiento.",
+            "Hacer destellos con la luz de largo alcance para avisarle de su presencia.",
+            "Avisar al ciclista con el claxon para que se aparte al arcén."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T505819.jpg"
+    },
+    {
+        "text": "Cuando se adelante a vehículos de tracción animal, la separación lateral...",
+        "options": [
+            "no debe ser inferior a 1,5 metros, cuando el adelantamiento se realice fuera de poblado.",
+            "debe ser, al menos, de 1,5 metros en todos los casos.",
+            "debe ser siempre proporcional a la anchura y características de la vía."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P0812.jpg"
+    },
+    {
+        "text": "Si se encuentra usted circulando fuera de poblado y quiere adelantar a una motocicleta o bicicleta, ¿qué separación lateral deberá dejar? ",
+        "options": [
+            "Una distancia proporcional a la velocidad y anchura de la vía por la que circule.",
+            "1,50 metros como mínimo.",
+            "Fuera de poblado no es obligatorio dejar separación alguna."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P0811.jpg"
+    },
+    {
+        "text": "Si conduce una motocicleta en zona urbana, ¿qué distancia lateral debe mantener con el resto de vehículos?",
+        "options": [
+            "La distancia lateral no importa en zona urbana.",
+            "Una distancia proporcional a la velocidad, a la anchura y a las características de la calzada.",
+            "Un espacio no inferior a 1,5 metros."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P0813.jpg"
+    },
+    {
+        "text": "¿Qué separación lateral están obligadas a dejar las motocicletas al cruzarse con otros vehículos que circulen en sentido contrario?",
+        "options": [
+            "1,5 metros como máximo.",
+            "1,5 metros como mínimo en cualquier caso.",
+            "Una separación lateral suficiente para que el cruce pueda realizarse con seguridad y sin peligro."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P0814.jpg"
+    }
+]
+            
+            ;
+
+            const container = document.getElementById('test-container');
+            const paginationRow1 = document.getElementById('pagination-row-1');
+            const paginationRow2 = document.getElementById('pagination-row-2');
+
+            // Generar preguntas
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.setAttribute('data-correct', question.correct);
+                questionDiv.innerHTML = `
+                    <div class="question-image">
+                        <img src="${question.image}" alt="Imagen de la pregunta">
+                    </div>
+                    <div class="question-content">
+                        <h3>${index + 1}. ${question.text}</h3>
+                        <div class="options">
+                            ${question.options.map((option, idx) => `
+                                <div class="option" data-answer="${String.fromCharCode(65 + idx)}">
+                                    <span class="option-circle">${String.fromCharCode(65 + idx)}</span>
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+
+            // Generar paginación
+            for (let i = 0; i < questions.length; i++) {
+                const button = document.createElement('button');
+                button.textContent = `${i + 1}`;
+                button.addEventListener('click', () => showQuestion(i));
+                if (i < 15) {
+                    paginationRow1.appendChild(button);
+                } else {
+                    paginationRow2.appendChild(button);
+                }
+            }
+
+            // Mostrar la primera pregunta
+            showQuestion(0);
+
+            // Función para mostrar una pregunta específica
+            function showQuestion(index) {
+                document.querySelectorAll('.question').forEach((q, i) => {
+                    q.style.display = i === index ? 'flex' : 'none';
+                });
+                document.querySelectorAll('.pagination button').forEach((btn, i) => {
+                    btn.style.backgroundColor = i === index ? '#ff7aa2' : '#ffa5c3';
+                });
+            }
+
+            // Evento para las opciones de respuesta
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const question = this.closest('.question');
+                    const questionIndex = Array.from(container.children).indexOf(question);
+                    const isCorrect = this.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    
+                    if (question.dataset.answered) return;
+
+                    question.dataset.answered = true;
+
+                    question.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                        opt.style.pointerEvents = 'none';
+                    });
+                    
+                    this.classList.add('selected', isCorrect ? 'correct' : 'incorrect');
+
+                    if (!isCorrect) {
+                        question.querySelector(`.option[data-answer="${question.getAttribute('data-correct')}"]`).classList.add('correct');
+                    }
+
+                    // Actualizar el botón de paginación
+                    const paginationButton = questionIndex < 15 ? paginationRow1.children[questionIndex] : paginationRow2.children[questionIndex - 15];
+                    paginationButton.classList.add(isCorrect ? 'correct' : 'incorrect');
+                });
+            });
+
+            // Evento para corregir el test
+            document.getElementById('correct-test').addEventListener('click', () => {
+                let wrongAnswers = 0;
+                document.querySelectorAll('.question').forEach((question, index) => {
+                    const selected = question.querySelector('.option.selected');
+                    const isCorrect = selected && selected.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    if (!isCorrect) {
+                        wrongAnswers++;
+                    }
+                    // Actualizar el botón de paginación si no se ha respondido
+                    if (!selected) {
+                        const paginationButton = index < 15 ? paginationRow1.children[index] : paginationRow2.children[index - 15];
+                        paginationButton.classList.add('incorrect');
+                    }
+                });
+                const resultMessage = `Has fallado ${wrongAnswers} respuestas.`;
+
+                const alert = document.getElementById('custom-alert');
+                document.getElementById('alert-message').textContent = resultMessage;
+                alert.style.display = 'block';
+            });
+        });
+
+        function closeAlert() {
+            document.getElementById('custom-alert').style.display = 'none';
+        }
+    </script>
+
+    
+</body>
+</html>

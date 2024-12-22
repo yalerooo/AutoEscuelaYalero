@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Autoescuela</title>
+    <link rel="stylesheet" href="../../../Assets/style.css">
+</head>
+<body>
+
+    
+    <div class="container">
+        <h1 style="text-align: center; color: #ffa5c3;">Test de Autoescuela</h1>
+        <div id="test-container">
+            <!-- Aquí se generarán dinámicamente las preguntas -->
+        </div>
+        <div class="pagination">
+            <div class="pagination-row" id="pagination-row-1"></div>
+            <div class="pagination-row" id="pagination-row-2"></div>
+        </div>
+        <button id="correct-test">Corregir Test</button>
+    </div>
+
+    <!-- Custom Alert HTML -->
+    <div class="custom-alert" id="custom-alert">
+        <h2>Resultado del Test</h2>
+        <p id="alert-message">Aquí irá el mensaje del resultado.</p>
+        <button onclick="closeAlert()">Cerrar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = [
+    {
+        "text": "Con esta señal que observas, ¿puede un autobús realizar un adelantamiento?",
+        "options": [
+            "Sí, puede adelantar.",
+            "Un autobús no puede adelantar a camiones de MMA superior a 3.500 kg.",
+            "Esta señal prohíbe adelantar a camiones y autobuses."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T511901.jpg"
+    },
+    {
+        "text": "¿Quién es el responsable de pasar la ITV a un turismo?",
+        "options": [
+            "El titular del vehículo.",
+            "El conductor habitual.",
+            "El tomador del seguro."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T511902.jpg"
+    },
+    {
+        "text": "Por esta carretera convencional circula un turismo. ¿Cuándo la velocidad es anormalmente reducida?",
+        "options": [
+            "Cuando es menor de 60 km/h.",
+            "Cuando es menor de 50 km/h.",
+            "Cuando es menor de 45 km/h."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T511903.jpg"
+    },
+    {
+        "text": "Las personas que beben y conducen...",
+        "options": [
+            "tienen la misma probabilidad de sufrir un accidente.",
+            "tienen menor probabilidad de sufrir un accidente.",
+            "tienen mayor probabilidad de sufrir un accidente."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T511904.jpg"
+    },
+    {
+        "text": "Cuando tenga que bajar del vehículo para descargar el equipaje, ¿debe apagar el motor?",
+        "options": [
+            "No, no es necesario si se trata de una parada breve.",
+            "No, sólo debe dejar accionado el freno de mano.",
+            "Sí, y además debe desconectar el sistema de arranque o contacto."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T511905.jpg"
+    },
+    {
+        "text": "La depresión, ¿influye en la somnolencia y la fatiga?",
+        "options": [
+            "No, no tiene ninguna influencia.",
+            "En la somnolencia sí pero en la fatiga no.",
+            "Sí, siendo aconsejable no conducir de noche."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T511906.jpg"
+    },
+    {
+        "text": "En esta situación, ¿qué debe hacer?",
+        "options": [
+            "Detenerse obedeciendo la señal del agente.",
+            "Pasar moderando la velocidad.",
+            "Sólo detenerse si además existe una señal de stop."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T511907.jpg"
+    },
+    {
+        "text": "¿Quiénes están exentos de usar el cinturón de seguridad?",
+        "options": [
+            "Los conductores al efectuar la maniobra de estacionamiento o marcha atrás.",
+            "Los conductores de taxis en vías urbanas o interurbanas.",
+            "Los conductores y pasajeros de vehículos en servicio de urgencia en vías interurbanas."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T511908.jpg"
+    },
+    {
+        "text": "La intención de efectuar una maniobra con el vehículo debe indicarse...",
+        "options": [
+            "siempre con el brazo.",
+            "siempre con las señales luminosas y el brazo.",
+            "con las señales luminosas y en su defecto con el brazo."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T511909.jpg"
+    },
+    {
+        "text": "¿Es obligatorio llevar en su turismo el chaleco reflectante?",
+        "options": [
+            "No es obligatorio, pero sí una buena medida de seguridad.",
+            "Sí, es suficiente con llevarlo en el maletero del vehículo.",
+            "Sí, en un lugar en el que pueda alcanzarlo sin tener que bajar del vehículo."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T511910.jpg"
+    },
+    {
+        "text": "¿Cómo se denominan los costes de pérdida de vidas, de capacidad productiva y el sufrimiento físico y psicológico que tienen lugar como consecuencia de un accidente de tráfico?",
+        "options": [
+            "Costes materiales.",
+            "Costes humanos.",
+            "Costes sanitarios."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T510104_050216.jpg"
+    },
+    {
+        "text": "El navegador debe colocarse...",
+        "options": [
+            "a una altura correcta para no tener que apartar la vista de la conducción.",
+            "cerca del asiento del acompañante.",
+            "a una distancia cómoda para que el conductor pueda manejarlo en marcha."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T504924.jpg"
+    },
+    {
+        "text": "Está anocheciendo y no hay niebla. ¿Es correcto encender las luces antiniebla delanteras?",
+        "options": [
+            "Sí.",
+            "No."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T511913.jpg"
+    },
+    {
+        "text": "¿Cuánto tiempo tarda el alcohol en alcanzar su máximo efecto o pico de alcoholemia?",
+        "options": [
+            "A las cinco horas de haber ingerido alcohol.",
+            "Inmediatamente.",
+            "A la hora de haber ingerido alcohol."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T511914.jpg"
+    },
+    {
+        "text": "¿Qué significa esta señal situada a la entrada de una calle?",
+        "options": [
+            "Entrada prohibida a todos los vehículos a motor.",
+            "Entrada prohibida a todos los vehículos excepto motocicletas.",
+            "Zona de bajas emisiones."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T510112_050723.jpg"
+    },
+    {
+        "text": "¿Qué precauciones debe tomar conduciendo una motocicleta si empieza a llover intensamente?",
+        "options": [
+            "Reducir la velocidad, deteniéndose si fuera necesario.",
+            "Aumentar la velocidad para llegar cuanto antes a su destino.",
+            "Mantenerse muy cerca de los vehículos de grandes dimensiones para que le protejan de la lluvia."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T511916.jpg"
+    },
+    {
+        "text": "Por una vía interurbana sin arcén, ¿está permitido que dos ciclomotores circulen en paralelo?",
+        "options": [
+            "Sí.",
+            "No."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/905817.jpg"
+    },
+    {
+        "text": "¿Está permitido circular con el dispositivo silenciador de explosiones en mal estado?",
+        "options": [
+            "Sí.",
+            "Únicamente fuera de zona urbana, donde no moleste.",
+            "No."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T511918.jpg"
+    },
+    {
+        "text": "Una persona mayor de edad, ¿puede circular con una motocicleta llevando como pasajero a un niño de 10 años, si no es su padre, ni su madre, ni su tutor legal?",
+        "options": [
+            "Sí, siempre que el menor lleve casco homologado.",
+            "No.",
+            "Sólo si está autorizado por alguno de ellos."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T513317.jpg"
+    },
+    {
+        "text": "Fumar mientras conduce, ¿puede afectar a la conducción?",
+        "options": [
+            "Sí, porque distrae y se pierde capacidad de maniobra.",
+            "No, y además relaja.",
+            "Sí, además está prohibido."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T511920.jpg"
+    },
+    {
+        "text": "En las proximidades de vías de uso exclusivo de ciclos, ¿qué precauciones se deben tomar?",
+        "options": [
+            "Moderar la velocidad y si fuera preciso, detener el vehículo.",
+            "Mantener la velocidad y estar atento al cumplimiento de la señalización vertical.",
+            "Hacer señales acústicas para indicar nuestra presencia."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510107_050723.jpg"
+    },
+    {
+        "text": "En una motocicleta, generalmente, ¿con qué pie se acciona el freno trasero?",
+        "options": [
+            "Con el pie izquierdo.",
+            "El freno trasero no se acciona con el pie, se acciona con la mano izquierda.",
+            "Con el pie derecho."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T511922.jpg"
+    },
+    {
+        "text": "En los vehículos comerciales y pesados, ¿es obligatorio colocar la señal de advertencia de peligro de ángulos muertos para advertir del riesgo a los usuarios vulnerables?",
+        "options": [
+            "Sí; es obligatoria su colocación para poder circular.",
+            "No; es una señal que se colocará de forma voluntaria en algunos de ellos.",
+            "No; es obligatoria para los vehículos pesados, pero es voluntaria para los comerciales."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T510101_050623.jpg"
+    },
+    {
+        "text": "La persona con discapacidad que circula, al paso, en una silla de ruedas con motor, tiene la consideración de...",
+        "options": [
+            "peatón.",
+            "conductor.",
+            "conductor de vehículo especial."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510120_150117.jpg"
+    },
+    {
+        "text": "Siempre que el recorrido hacia atrás no supere los 15 metros ni invada un cruce de vías, podrá circular marcha atrás...",
+        "options": [
+            "en autovías y autopistas que discurran por poblado.",
+            "cuando no sea posible cambiar de dirección o sentido de la marcha.",
+            "como maniobra complementaria de la parada."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T506327.jpg"
+    },
+    {
+        "text": "En general, las autovías y autopistas son...",
+        "options": [
+            "menos seguras que las carreteras convencionales.",
+            "igual de seguras que las carreteras convencionales.",
+            "más seguras que las carreteras convencionales."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T511926.jpg"
+    },
+    {
+        "text": "¿Qué indica la señal?",
+        "options": [
+            "Estacionamiento para usuarios del ferrocarril.",
+            "Estacionamiento para usuarios de autobús.",
+            "Estacionamiento para usuarios del ferrocarril inferior."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T510111_050723.jpg"
+    },
+    {
+        "text": "¿Qué actuación debe evitar el conductor para tener una actitud responsable con el medio ambiente y no contribuir al aumento de la contaminación?",
+        "options": [
+            "Lavar el vehículo en una vía pública en lugar de en un túnel de lavado.",
+            "Cambiar el tubo de escape tan pronto como se deteriore.",
+            "Utilizar las técnicas propias de la conducción eficiente."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T511810.jpg"
+    },
+    {
+        "text": "¿Cómo deben cruzar la calzada los peatones si no existe paso para peatones?",
+        "options": [
+            "Siguiendo siempre las indicaciones de los semáforos para peatones.",
+            "Cruzando en diagonal para tener mayor visibilidad.",
+            "Perpendicularmente al eje de la calzada."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T511929.jpg"
+    },
+    {
+        "text": "La reanimación de un accidentado, ¿cuánto tiempo debe durar?",
+        "options": [
+            "Hasta que se recupere o llegue la ayuda médica.",
+            "5 minutos como máximo.",
+            "Si después de 2 minutos no ha recuperado es mejor dejarlo."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T511930.jpg"
+    }
+]
+            
+            ;
+
+            const container = document.getElementById('test-container');
+            const paginationRow1 = document.getElementById('pagination-row-1');
+            const paginationRow2 = document.getElementById('pagination-row-2');
+
+            // Generar preguntas
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.setAttribute('data-correct', question.correct);
+                questionDiv.innerHTML = `
+                    <div class="question-image">
+                        <img src="${question.image}" alt="Imagen de la pregunta">
+                    </div>
+                    <div class="question-content">
+                        <h3>${index + 1}. ${question.text}</h3>
+                        <div class="options">
+                            ${question.options.map((option, idx) => `
+                                <div class="option" data-answer="${String.fromCharCode(65 + idx)}">
+                                    <span class="option-circle">${String.fromCharCode(65 + idx)}</span>
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+
+            // Generar paginación
+            for (let i = 0; i < questions.length; i++) {
+                const button = document.createElement('button');
+                button.textContent = `${i + 1}`;
+                button.addEventListener('click', () => showQuestion(i));
+                if (i < 15) {
+                    paginationRow1.appendChild(button);
+                } else {
+                    paginationRow2.appendChild(button);
+                }
+            }
+
+            // Mostrar la primera pregunta
+            showQuestion(0);
+
+            // Función para mostrar una pregunta específica
+            function showQuestion(index) {
+                document.querySelectorAll('.question').forEach((q, i) => {
+                    q.style.display = i === index ? 'flex' : 'none';
+                });
+                document.querySelectorAll('.pagination button').forEach((btn, i) => {
+                    btn.style.backgroundColor = i === index ? '#ff7aa2' : '#ffa5c3';
+                });
+            }
+
+            // Evento para las opciones de respuesta
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const question = this.closest('.question');
+                    const questionIndex = Array.from(container.children).indexOf(question);
+                    const isCorrect = this.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    
+                    if (question.dataset.answered) return;
+
+                    question.dataset.answered = true;
+
+                    question.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                        opt.style.pointerEvents = 'none';
+                    });
+                    
+                    this.classList.add('selected', isCorrect ? 'correct' : 'incorrect');
+
+                    if (!isCorrect) {
+                        question.querySelector(`.option[data-answer="${question.getAttribute('data-correct')}"]`).classList.add('correct');
+                    }
+
+                    // Actualizar el botón de paginación
+                    const paginationButton = questionIndex < 15 ? paginationRow1.children[questionIndex] : paginationRow2.children[questionIndex - 15];
+                    paginationButton.classList.add(isCorrect ? 'correct' : 'incorrect');
+                });
+            });
+
+            // Evento para corregir el test
+            document.getElementById('correct-test').addEventListener('click', () => {
+                let wrongAnswers = 0;
+                document.querySelectorAll('.question').forEach((question, index) => {
+                    const selected = question.querySelector('.option.selected');
+                    const isCorrect = selected && selected.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    if (!isCorrect) {
+                        wrongAnswers++;
+                    }
+                    // Actualizar el botón de paginación si no se ha respondido
+                    if (!selected) {
+                        const paginationButton = index < 15 ? paginationRow1.children[index] : paginationRow2.children[index - 15];
+                        paginationButton.classList.add('incorrect');
+                    }
+                });
+                const resultMessage = `Has fallado ${wrongAnswers} respuestas.`;
+
+                const alert = document.getElementById('custom-alert');
+                document.getElementById('alert-message').textContent = resultMessage;
+                alert.style.display = 'block';
+            });
+        });
+
+        function closeAlert() {
+            document.getElementById('custom-alert').style.display = 'none';
+        }
+    </script>
+
+    
+</body>
+</html>

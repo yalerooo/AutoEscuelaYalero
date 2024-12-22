@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Autoescuela</title>
+    <link rel="stylesheet" href="../../../Assets/style.css">
+</head>
+<body>
+
+    
+    <div class="container">
+        <h1 style="text-align: center; color: #ffa5c3;">Test de Autoescuela</h1>
+        <div id="test-container">
+            <!-- Aquí se generarán dinámicamente las preguntas -->
+        </div>
+        <div class="pagination">
+            <div class="pagination-row" id="pagination-row-1"></div>
+            <div class="pagination-row" id="pagination-row-2"></div>
+        </div>
+        <button id="correct-test">Corregir Test</button>
+    </div>
+
+    <!-- Custom Alert HTML -->
+    <div class="custom-alert" id="custom-alert">
+        <h2>Resultado del Test</h2>
+        <p id="alert-message">Aquí irá el mensaje del resultado.</p>
+        <button onclick="closeAlert()">Cerrar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = [
+    {
+        "text": "Los airbags y los cinturones de seguridad son sistemas de...",
+        "options": [
+            "seguridad activa.",
+            "seguridad pasiva.",
+            "conducción eficiente."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T513518.jpg"
+    },
+    {
+        "text": "¿Qué sistemas de seguridad pueden perder eficacia si no se lleva abrochado el cinturón de seguridad?",
+        "options": [
+            "Los airbag y los reposacabezas.",
+            "La suspensión y los amortiguadores.",
+            "Los frenos y el A.B.S"
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T502919.jpg"
+    },
+    {
+        "text": "El airbag es un elemento de seguridad...",
+        "options": [
+            "ineficaz.",
+            "activa.",
+            "pasiva."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T513822.jpg"
+    },
+    {
+        "text": "¿Cuál es la finalidad principal del airbag?",
+        "options": [
+            "Evitar, en caso de accidente, el impacto de los ocupantes del vehículo contra los elementos del automóvil.",
+            "Ninguna, es un elemento decorativo.",
+            "Disminuir el consumo de combustible."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510122_250116.jpg"
+    },
+    {
+        "text": "Los airbags, entre otras funciones, protegen de...",
+        "options": [
+            "el efecto submarino.",
+            "lesiones oculares.",
+            "lesiones cervicales y de impactos contra elementos del interior del vehículo."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P2827.jpg"
+    },
+    {
+        "text": "¿Es eficaz el airbag en el caso de que los ocupantes del vehículo no utilicen el cinturón de seguridad?",
+        "options": [
+            "No, y puede provocar graves lesiones.",
+            "Sí, pero sólo para el conductor.",
+            "Sí."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P2828.jpg"
+    },
+    {
+        "text": "Si su vehículo dispone de airbag, ¿es obligatorio llevar abrochado el cinturón de seguridad?",
+        "options": [
+            "No.",
+            "Sí.",
+            "Sólo fuera de poblado."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P2829.jpg"
+    },
+    {
+        "text": "El funcionamiento del airbag, ¿puede llegar a ser peligroso en un accidente?",
+        "options": [
+            "Sí, siempre.",
+            "Sí, si no se lleva puesto el cinturón de seguridad.",
+            "No."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T512128.jpg"
+    },
+    {
+        "text": "Los airbags son sistemas muy seguros pero...",
+        "options": [
+            "son muy peligrosos si el conductor lleva gafas.",
+            "son incompatibles con los cinturones de seguridad.",
+            "hay que tomar algunas precauciones para evitar efectos adversos."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T501628.jpg"
+    },
+    {
+        "text": "¿Es fácil que el dispositivo del airbag se dispare mientras realiza un estacionamiento?",
+        "options": [
+            "Este tipo de cuestiones dependerá de la marca del automóvil.",
+            "No, puesto que los sistemas de airbag actuales son muy precisos a la hora de determinar cuándo deben hincharse.",
+            "Sí, un airbag puede ponerse en funcionamiento en cualquier momento."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T512918.jpg"
+    },
+    {
+        "text": "¿Cuál es la distancia ideal a la que debe colocarse con respecto al airbag?",
+        "options": [
+            "10 cm.",
+            "25 cm.",
+            "La distancia que le permita conducir en una postura cómoda."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P2830.jpg"
+    },
+    {
+        "text": "Además del airbag frontal, ¿existen otros tipos de airbag?",
+        "options": [
+            "No.",
+            "Sí, frontales de conductor y acompañante, los laterales y los de techo o cortina.",
+            "Sí, los laterales únicamente."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T504928.jpg"
+    },
+    {
+        "text": "Los airbags frontales son más eficaces en los...",
+        "options": [
+            "impactos frontales.",
+            "impactos traseros.",
+            "impactos laterales."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T506012.jpg"
+    },
+    {
+        "text": "¿Cuándo debe desactivar el airbag frontal de un asiento?",
+        "options": [
+            "Cuando en ese asiento viaje una mujer embarazada.",
+            "En ningún caso.",
+            "Cuando en ese asiento instale un dispositivo de retención para niños orientado hacia atrás."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T503505.jpg"
+    },
+    {
+        "text": "El apoya-cabezas, ¿para qué sirve, fundamentalmente?",
+        "options": [
+            "Para proteger el cuello en un accidente.",
+            "Para que el asiento sea más cómodo.",
+            "Para apoyar la cabeza y descansar."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T508808.jpg"
+    },
+    {
+        "text": "El apoyacabezas, ¿es necesario regularlo?",
+        "options": [
+            "No, ya viene regulado de fábrica.",
+            "Sí, tanto en los asientos delanteros como en los traseros.",
+            "No, porque es un elemento fijo."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T502328.jpg"
+    },
+    {
+        "text": "El reposacabezas, ¿cómo debe colocarse?",
+        "options": [
+            "A la altura de la cabeza.",
+            "A la altura de cuello.",
+            "Lo más alto posible para que no moleste."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T501313.jpg"
+    },
+    {
+        "text": "Para un ajuste óptimo, la altura de la parte superior del reposacabezas debe colocarse...",
+        "options": [
+            "por debajo de la nuca.",
+            "a la misma altura que la parte superior de la cabeza.",
+            "por encima de la nuca."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T501528.jpg"
+    },
+    {
+        "text": "Para que el reposacabezas sea eficaz, ¿qué distancia con la cabeza es la más adecuada?",
+        "options": [
+            "Como máximo a 4 cm.",
+            "Como mínimo a 4 cm.",
+            "Como quiera el conductor para ir más cómodo."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T512610.jpg"
+    },
+    {
+        "text": "¿Es recomendable la utilización de los reposacabezas en todos los asientos de un turismo?",
+        "options": [
+            "No, es un elemento que puede ser perjudicial para la seguridad de los ocupantes.",
+            "Sí, puede evitar lesiones graves en la zona cervical.",
+            "No, al ser un elemento decorativo."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T502519.jpg"
+    },
+    {
+        "text": "En un accidente de tráfico puede sufrir un latigazo cervical si...",
+        "options": [
+            "lleva mal regulado el cinturón de seguridad.",
+            "lleva mal regulado el apoyacabezas.",
+            "se produce el efecto submarino."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T502801.jpg"
+    },
+    {
+        "text": "En caso de accidente, ¿qué tipo de reposacabezas es más efectivo?",
+        "options": [
+            "El reposacabezas activo es tan efectivo como el pasivo.",
+            "El reposacabezas pasivo.",
+            "El reposacabezas activo, que se acopla a la cabeza de manera automática."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T507103.jpg"
+    },
+    {
+        "text": "Colocar una sillita para niños en un asiento con airbag frontal, ¿es correcto?",
+        "options": [
+            "Sólo cuando el airbag se ha desconectado previamente.",
+            "No, es algo que nunca debe hacerse.",
+            "Sí, para proteger al niño en caso de impacto frontal."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T502015.jpg"
+    },
+    {
+        "text": "La colocación de los dispositivos de retención infantil resulta más segura en...",
+        "options": [
+            "el asiento trasero central, ya que resulta menos afectado por los impactos laterales.",
+            "cualquiera de los asientos traseros laterales.",
+            "el asiento delantero, para que el conductor pueda vigilar al niño."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510124_050116.jpg"
+    },
+    {
+        "text": "En los turismos, el cojín elevador para los niños se debe utilizar a partir de...",
+        "options": [
+            "9 meses.",
+            "3 años.",
+            "13 años."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T505630.jpg"
+    },
+    {
+        "text": "¿Qué es el sistema ISOFIX?",
+        "options": [
+            "Es un sistema de seguridad pasiva.",
+            "Es una técnica de conducción preventiva.",
+            "Es un sistema de seguridad activa."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510125_050723.jpg"
+    },
+    {
+        "text": "¿Qué función tiene la carrocería como elemento de seguridad pasiva?",
+        "options": [
+            "Absorber la deceleración de las frenadas.",
+            "Proteger a los ocupantes del vehículo en caso de accidente.",
+            "Evitar que se produzcan accidentes graves."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P2802.jpg"
+    },
+    {
+        "text": "Desde el punto de vista de la seguridad vial, el chasis y la carrocería tienen como función...",
+        "options": [
+            "mejorar la aerodinámica favoreciendo una conducción económica.",
+            "absorber la máxima cantidad de la energía producida en un accidente.",
+            "proteger a los peatones ante posibles atropellos."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T500113.jpg"
+    },
+    {
+        "text": "Una carrocería de gran resistencia, ¿puede sustituir a otros sistemas de seguridad pasiva?",
+        "options": [
+            "No.",
+            "Sí, por ejemplo al airbag.",
+            "Sí, en los vehículos todo-terreno."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510113_050117.jpg"
+    },
+    {
+        "text": "La parte delantera del vehículo, ¿porqué no debe modificarse?",
+        "options": [
+            "Porque el vehículo pierde velocidad punta.",
+            "Porque suele estar diseñada para evitar lesiones a los peatones.",
+            "Únicamente porque lo prohíben las normas."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P2803.jpg"
+    }
+]
+            
+            ;
+
+            const container = document.getElementById('test-container');
+            const paginationRow1 = document.getElementById('pagination-row-1');
+            const paginationRow2 = document.getElementById('pagination-row-2');
+
+            // Generar preguntas
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.setAttribute('data-correct', question.correct);
+                questionDiv.innerHTML = `
+                    <div class="question-image">
+                        <img src="${question.image}" alt="Imagen de la pregunta">
+                    </div>
+                    <div class="question-content">
+                        <h3>${index + 1}. ${question.text}</h3>
+                        <div class="options">
+                            ${question.options.map((option, idx) => `
+                                <div class="option" data-answer="${String.fromCharCode(65 + idx)}">
+                                    <span class="option-circle">${String.fromCharCode(65 + idx)}</span>
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+
+            // Generar paginación
+            for (let i = 0; i < questions.length; i++) {
+                const button = document.createElement('button');
+                button.textContent = `${i + 1}`;
+                button.addEventListener('click', () => showQuestion(i));
+                if (i < 15) {
+                    paginationRow1.appendChild(button);
+                } else {
+                    paginationRow2.appendChild(button);
+                }
+            }
+
+            // Mostrar la primera pregunta
+            showQuestion(0);
+
+            // Función para mostrar una pregunta específica
+            function showQuestion(index) {
+                document.querySelectorAll('.question').forEach((q, i) => {
+                    q.style.display = i === index ? 'flex' : 'none';
+                });
+                document.querySelectorAll('.pagination button').forEach((btn, i) => {
+                    btn.style.backgroundColor = i === index ? '#ff7aa2' : '#ffa5c3';
+                });
+            }
+
+            // Evento para las opciones de respuesta
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const question = this.closest('.question');
+                    const questionIndex = Array.from(container.children).indexOf(question);
+                    const isCorrect = this.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    
+                    if (question.dataset.answered) return;
+
+                    question.dataset.answered = true;
+
+                    question.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                        opt.style.pointerEvents = 'none';
+                    });
+                    
+                    this.classList.add('selected', isCorrect ? 'correct' : 'incorrect');
+
+                    if (!isCorrect) {
+                        question.querySelector(`.option[data-answer="${question.getAttribute('data-correct')}"]`).classList.add('correct');
+                    }
+
+                    // Actualizar el botón de paginación
+                    const paginationButton = questionIndex < 15 ? paginationRow1.children[questionIndex] : paginationRow2.children[questionIndex - 15];
+                    paginationButton.classList.add(isCorrect ? 'correct' : 'incorrect');
+                });
+            });
+
+            // Evento para corregir el test
+            document.getElementById('correct-test').addEventListener('click', () => {
+                let wrongAnswers = 0;
+                document.querySelectorAll('.question').forEach((question, index) => {
+                    const selected = question.querySelector('.option.selected');
+                    const isCorrect = selected && selected.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    if (!isCorrect) {
+                        wrongAnswers++;
+                    }
+                    // Actualizar el botón de paginación si no se ha respondido
+                    if (!selected) {
+                        const paginationButton = index < 15 ? paginationRow1.children[index] : paginationRow2.children[index - 15];
+                        paginationButton.classList.add('incorrect');
+                    }
+                });
+                const resultMessage = `Has fallado ${wrongAnswers} respuestas.`;
+
+                const alert = document.getElementById('custom-alert');
+                document.getElementById('alert-message').textContent = resultMessage;
+                alert.style.display = 'block';
+            });
+        });
+
+        function closeAlert() {
+            document.getElementById('custom-alert').style.display = 'none';
+        }
+    </script>
+
+    
+</body>
+</html>

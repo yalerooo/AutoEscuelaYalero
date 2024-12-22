@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Autoescuela</title>
+    <link rel="stylesheet" href="../../../Assets/style.css">
+</head>
+<body>
+
+    
+    <div class="container">
+        <h1 style="text-align: center; color: #ffa5c3;">Test de Autoescuela</h1>
+        <div id="test-container">
+            <!-- Aquí se generarán dinámicamente las preguntas -->
+        </div>
+        <div class="pagination">
+            <div class="pagination-row" id="pagination-row-1"></div>
+            <div class="pagination-row" id="pagination-row-2"></div>
+        </div>
+        <button id="correct-test">Corregir Test</button>
+    </div>
+
+    <!-- Custom Alert HTML -->
+    <div class="custom-alert" id="custom-alert">
+        <h2>Resultado del Test</h2>
+        <p id="alert-message">Aquí irá el mensaje del resultado.</p>
+        <button onclick="closeAlert()">Cerrar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = [
+    {
+        "text": "Esta señal...",
+        "options": [
+            "prohíbe a los camiones adelantar salvo a motocicletas de dos ruedas.",
+            "prohíbe a los camiones adelantar a todos los vehículos.",
+            "prohíbe a los camiones de más de 3.500 Kg de M.M.A. adelantar, salvo a motocicletas de dos ruedas si no invaden el sentido contrario."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T502729.jpg"
+    },
+    {
+        "text": "Con esta señal, ¿podría adelantar un autobús?",
+        "options": [
+            "Sólo a camiones cuya M.M.A. no supere 3.500 kg.",
+            "No.",
+            "Sí."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T505913.jpg"
+    },
+    {
+        "text": "La señal prohíbe...",
+        "options": [
+            "la parada de vehículos, pero permite estacionar.",
+            "la parada y el estacionamiento de vehículos.",
+            "el estacionamiento de vehículos en días pares."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T511705.jpg"
+    },
+    {
+        "text": "¿Qué le indica la señal en esta vía de sentido único?",
+        "options": [
+            "Que está prohibida la parada y el estacionamiento en el lado derecho.",
+            "Que está prohibida la parada y el estacionamiento en ambos lados de la calzada.",
+            "Que está prohibida la parada en el lado derecho de la calzada."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T500312.jpg"
+    },
+    {
+        "text": "¿Qué prohíbe esta señal?",
+        "options": [
+            "Estacionar.",
+            "Parar.",
+            "Parar y estacionar."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T500101.jpg"
+    },
+    {
+        "text": "Esta señal prohíbe...",
+        "options": [
+            "el estacionamiento desde donde está colocada la señal en el lado de la calzada en que está situada.",
+            "la parada en el lado de la calzada en que está situada.",
+            "el estacionamiento en el lado de la calzada en que está situada y a ambos lados de la señal."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T514529.jpg"
+    },
+    {
+        "text": "La señal dice: de 8 a 14 horas excepto carga y descarga. ¿Puede estacionar a las 13 horas en el lado que señala la flecha?",
+        "options": [
+            "Sí.",
+            "No."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T505403.jpg"
+    },
+    {
+        "text": "Esta señal prohíbe...",
+        "options": [
+            "la parada.",
+            "el estacionamiento los días impares, en el lado de la calzada en que está situada la señal.",
+            "el estacionamiento, pero sólo en los días pares."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T512401.jpg"
+    },
+    {
+        "text": "El día 2 de cada mes, delante de esta señal, ¿está permitido parar?",
+        "options": [
+            "Sí.",
+            "No, ni parar ni estacionar.",
+            "No."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T500507.jpg"
+    },
+    {
+        "text": "¿Está permitido estacionar el día 16 a las ocho de la mañana en el lado de la calzada en que esté situada esta señal?",
+        "options": [
+            "No.",
+            "Sí, porque la señal sólo prohíbe la parada.",
+            "Sí, porque sólo prohíbe estacionar hasta el día 15."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T502526.jpg"
+    },
+    {
+        "text": "El último día del mes, ¿está permitido estacionar en el lado de la calzada en que esté situada esta señal?",
+        "options": [
+            "Sí.",
+            "No se puede estacionar, pero sí parar.",
+            "Sí, se puede parar y estacionar."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T509229.jpg"
+    },
+    {
+        "text": "¿Cuándo puede estacionar a la vista de esta señal?",
+        "options": [
+            "Nunca, ya que esta señal prohíbe el estacionamiento permanentemente.",
+            "A partir de las 9 horas del día 16 y hasta las 9 horas del día 1.",
+            "A partir de las 9 horas del día 1 y hasta las 9 horas del día 16."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T504402.jpg"
+    },
+    {
+        "text": "Delante de un vado, esta señal prohíbe...",
+        "options": [
+            "solamente el estacionamiento.",
+            "únicamente la parada.",
+            "la parada y el estacionamiento."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T501305.jpg"
+    },
+    {
+        "text": "Esta señal indica...",
+        "options": [
+            "que está prohibido estacionar en el lado de la calzada en el que está situada.",
+            "una zona de estacionamiento limitado.",
+            "la situación de un vado."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T510103_250216.jpg"
+    },
+    {
+        "text": "A la vista de esta señal, ¿están prohibidas las señales acústicas?",
+        "options": [
+            "Sí, salvo para evitar un posible accidente.",
+            "Sí, aunque se permite su utilización en las aglomeraciones de tráfico.",
+            "No."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T500608.jpg"
+    },
+    {
+        "text": "Esta señal indica dirección y sentido...",
+        "options": [
+            "obligatorios.",
+            "aconsejados.",
+            "prohibidos."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510115_050316.jpg"
+    },
+    {
+        "text": "Esta señal significa que...",
+        "options": [
+            "circula por una calzada de sentido único.",
+            "se tiene preferencia respecto a los vehículos que circulan en sentido contrario.",
+            "únicamente se puede seguir de frente."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T512413.jpg"
+    },
+    {
+        "text": "Esta señal...",
+        "options": [
+            "indica tramo de calzada de sentido único.",
+            "indica la dirección obligatoria a seguir por todos los vehículos.",
+            "prohíbe girar a la derecha."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T514729.jpg"
+    },
+    {
+        "text": "Esta señal...",
+        "options": [
+            "indica el itinerario recomendado.",
+            "obliga a girar a la izquierda.",
+            "prohíbe girar a la izquierda."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T502203.jpg"
+    },
+    {
+        "text": "En una intersección con esta señal, ¿está permitido cambiar el sentido de la marcha?",
+        "options": [
+            "Sí.",
+            "No."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T505014.jpg"
+    },
+    {
+        "text": "Esta señal...",
+        "options": [
+            "indica el itinerario recomendado.",
+            "obliga a girar a la derecha.",
+            "prohíbe girar a la derecha."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T514401.jpg"
+    },
+    {
+        "text": "Esta señal...",
+        "options": [
+            "obliga a seguir una de las direcciones y sentidos que señalan las flechas.",
+            "prohíbe continuar de frente o realizar un cambio de dirección a la derecha.",
+            "aconseja seguir una de las direcciones y sentidos que señalan las flechas."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T504628.jpg"
+    },
+    {
+        "text": "¿Qué indican las flechas de la señal?",
+        "options": [
+            "Señalan las únicas direcciones y sentidos que los vehículos pueden tomar.",
+            "Señalan las únicas direcciones que los vehículos pueden tomar y permite el cambio de sentido.",
+            "Obligatorio continuar de frente."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510127_050717.jpg"
+    },
+    {
+        "text": "¿Qué señala la flecha de la señal?",
+        "options": [
+            "Recomienda el lado del refugio por el que los vehículos pueden pasar.",
+            "El lado del refugio por el que los vehículos han de pasar.",
+            "Sentido único."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T512717.jpg"
+    },
+    {
+        "text": "¿Por qué lado de la señal es obligatorio pasar?",
+        "options": [
+            "Por la derecha o por la izquierda.",
+            "Por la derecha.",
+            "Por la izquierda."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T500227.jpg"
+    },
+    {
+        "text": "Cuando encuentre estas señales, ¿qué debe hacer?",
+        "options": [
+            "Obedecer la señal más restrictiva.",
+            "Circular por el lado que indica la flecha, pudiendo pasar por el lado izquierdo si observa que no se aproxima ningún vehículo en sentido contrario.",
+            "Pasar obligatoriamente por el lado que indica la flecha, porque hacia el lado izquierdo la entrada está prohibida."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T502802.jpg"
+    },
+    {
+        "text": "Esta señal permite...",
+        "options": [
+            "realizar un cambio de sentido, únicamente.",
+            "realizar un cambio de dirección, únicamente.",
+            "realizar tanto un cambio de dirección como de sentido."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T510703.jpg"
+    },
+    {
+        "text": "Esta señal indica calzada obligatoria para...",
+        "options": [
+            "automóviles, excepto motocicletas sin sidecar.",
+            "todos los automóviles.",
+            "turismos."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T508213.jpg"
+    },
+    {
+        "text": "Esta señal obliga a circular por esta vía a...",
+        "options": [
+            "todas las motocicletas.",
+            "sólo a las motocicletas con una cilindrada superior a 125 c.c.",
+            "a todas las motocicletas sin sidecar."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T508627.jpg"
+    },
+    {
+        "text": "Si conduce una motocicleta con sidecar, ¿está obligado a circular por la calzada a cuya entrada está situada esta señal?",
+        "options": [
+            "No.",
+            "Sí, pues es una calzada obligatoria para motocicletas y ciclomotores, independientemente de que las motocicletas lleven o no sidecar.",
+            "Sí, pero sólo si la motocicleta tiene una cilindrada no superior a 125 centímetros cúbicos."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T505204.jpg"
+    }
+]
+            
+            ;
+
+            const container = document.getElementById('test-container');
+            const paginationRow1 = document.getElementById('pagination-row-1');
+            const paginationRow2 = document.getElementById('pagination-row-2');
+
+            // Generar preguntas
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.setAttribute('data-correct', question.correct);
+                questionDiv.innerHTML = `
+                    <div class="question-image">
+                        <img src="${question.image}" alt="Imagen de la pregunta">
+                    </div>
+                    <div class="question-content">
+                        <h3>${index + 1}. ${question.text}</h3>
+                        <div class="options">
+                            ${question.options.map((option, idx) => `
+                                <div class="option" data-answer="${String.fromCharCode(65 + idx)}">
+                                    <span class="option-circle">${String.fromCharCode(65 + idx)}</span>
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+
+            // Generar paginación
+            for (let i = 0; i < questions.length; i++) {
+                const button = document.createElement('button');
+                button.textContent = `${i + 1}`;
+                button.addEventListener('click', () => showQuestion(i));
+                if (i < 15) {
+                    paginationRow1.appendChild(button);
+                } else {
+                    paginationRow2.appendChild(button);
+                }
+            }
+
+            // Mostrar la primera pregunta
+            showQuestion(0);
+
+            // Función para mostrar una pregunta específica
+            function showQuestion(index) {
+                document.querySelectorAll('.question').forEach((q, i) => {
+                    q.style.display = i === index ? 'flex' : 'none';
+                });
+                document.querySelectorAll('.pagination button').forEach((btn, i) => {
+                    btn.style.backgroundColor = i === index ? '#ff7aa2' : '#ffa5c3';
+                });
+            }
+
+            // Evento para las opciones de respuesta
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const question = this.closest('.question');
+                    const questionIndex = Array.from(container.children).indexOf(question);
+                    const isCorrect = this.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    
+                    if (question.dataset.answered) return;
+
+                    question.dataset.answered = true;
+
+                    question.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                        opt.style.pointerEvents = 'none';
+                    });
+                    
+                    this.classList.add('selected', isCorrect ? 'correct' : 'incorrect');
+
+                    if (!isCorrect) {
+                        question.querySelector(`.option[data-answer="${question.getAttribute('data-correct')}"]`).classList.add('correct');
+                    }
+
+                    // Actualizar el botón de paginación
+                    const paginationButton = questionIndex < 15 ? paginationRow1.children[questionIndex] : paginationRow2.children[questionIndex - 15];
+                    paginationButton.classList.add(isCorrect ? 'correct' : 'incorrect');
+                });
+            });
+
+            // Evento para corregir el test
+            document.getElementById('correct-test').addEventListener('click', () => {
+                let wrongAnswers = 0;
+                document.querySelectorAll('.question').forEach((question, index) => {
+                    const selected = question.querySelector('.option.selected');
+                    const isCorrect = selected && selected.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    if (!isCorrect) {
+                        wrongAnswers++;
+                    }
+                    // Actualizar el botón de paginación si no se ha respondido
+                    if (!selected) {
+                        const paginationButton = index < 15 ? paginationRow1.children[index] : paginationRow2.children[index - 15];
+                        paginationButton.classList.add('incorrect');
+                    }
+                });
+                const resultMessage = `Has fallado ${wrongAnswers} respuestas.`;
+
+                const alert = document.getElementById('custom-alert');
+                document.getElementById('alert-message').textContent = resultMessage;
+                alert.style.display = 'block';
+            });
+        });
+
+        function closeAlert() {
+            document.getElementById('custom-alert').style.display = 'none';
+        }
+    </script>
+
+    
+</body>
+</html>

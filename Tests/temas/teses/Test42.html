@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Autoescuela</title>
+    <link rel="stylesheet" href="../../../Assets/style.css">
+</head>
+<body>
+
+    
+    <div class="container">
+        <h1 style="text-align: center; color: #ffa5c3;">Test de Autoescuela</h1>
+        <div id="test-container">
+            <!-- Aquí se generarán dinámicamente las preguntas -->
+        </div>
+        <div class="pagination">
+            <div class="pagination-row" id="pagination-row-1"></div>
+            <div class="pagination-row" id="pagination-row-2"></div>
+        </div>
+        <button id="correct-test">Corregir Test</button>
+    </div>
+
+    <!-- Custom Alert HTML -->
+    <div class="custom-alert" id="custom-alert">
+        <h2>Resultado del Test</h2>
+        <p id="alert-message">Aquí irá el mensaje del resultado.</p>
+        <button onclick="closeAlert()">Cerrar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = [
+    {
+        "text": "El tiempo de reacción...",
+        "options": [
+            "es el que tarda en detener totalmente el vehículo.",
+            "es el que transcurre hasta que se observa una maniobra.",
+            "es el que transcurre desde que un conductor observa un peligro hasta que ejecuta una maniobra."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P2201.jpg"
+    },
+    {
+        "text": "El tiempo de reacción de un conductor, desde que observa un peligro hasta su reacción, ¿es variable?",
+        "options": [
+            "Sí, depende del estado físico de cada conductor.",
+            "No, es de entre medio y un segundo.",
+            "No."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P2202.jpg"
+    },
+    {
+        "text": "El tiempo de reacción y, en consecuencia, la distancia que se recorre, ¿puede variar en una misma persona?",
+        "options": [
+            "Sí, de acuerdo con el estado que se encuentre.",
+            "No, el tiempo de reacción es constante en cada persona.",
+            "No, el tiempo de reacción en todas las personas está entre medio y un segundo."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P2205.jpg"
+    },
+    {
+        "text": "El tiempo de reacción puede aumentar...",
+        "options": [
+            "después de una fuerte discusión.",
+            "después de una comida ligera.",
+            "si usamos gafas graduadas."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T511312.jpg"
+    },
+    {
+        "text": "El tiempo de reacción puede variar en función de...",
+        "options": [
+            "La velocidad.",
+            "Sólo los factores personales.",
+            "El tiempo de reacción no varía siendo constante en todas las personas."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T10125_250616.jpg"
+    },
+    {
+        "text": "El tiempo medio de reacción de un conductor desde que percibe el peligro hasta que comienza a frenar es de...",
+        "options": [
+            "0,75 segundos.",
+            "0,40 segundos.",
+            "un segundo y medio."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T505229.jpg"
+    },
+    {
+        "text": "Bajo los efectos del calor es posible que...",
+        "options": [
+            "aumente el tiempo de reacción y disminuya la agresividad.",
+            "aumente el tiempo de reacción y la agresividad.",
+            "disminuya el tiempo de reacción y aumente la agresividad."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T500211.jpg"
+    },
+    {
+        "text": "El sueño afecta a la conducción porque...",
+        "options": [
+            "aumenta el tiempo de reacción.",
+            "reduce las distracciones.",
+            "aumenta la capacidad de reacción."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T505826.jpg"
+    },
+    {
+        "text": "El exceso de velocidad, ¿afecta a nuestra capacidad de anticipación?",
+        "options": [
+            "No, sólo afecta a nuestra capacidad de reacción.",
+            "Sí, disminuyéndola.",
+            "Sí, aumentándola."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T501030.jpg"
+    },
+    {
+        "text": "Se denomina distancia de reacción:",
+        "options": [
+            "La distancia recorrida desde que se comienza a frenar hasta que se detiene el vehículo.",
+            "La distancia recorrida desde que se ve un peligro hasta que se actua sobre los mandos del vehículo.",
+            "La distancia que debe dejarse entre dos vehículos cuando van circulando uno detrás del otro."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P2203.jpg"
+    },
+    {
+        "text": "La distancia de reacción es:",
+        "options": [
+            "La distancia que debe guardarse con el vehículo que va delante.",
+            "La distancia que recorre el vehículo desde que empieza a frenar hasta que se detiene.",
+            "La distancia que recorre el vehículo durante el tiempo de reacción."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T511728.jpg"
+    },
+    {
+        "text": "Cuando aumenta la velocidad...",
+        "options": [
+            "disminuye el tiempo de reacción.",
+            "aumenta la capacidad de reacción.",
+            "aumenta la distancia de reacción."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T501108.jpg"
+    },
+    {
+        "text": "Si la temperatura en el interior del vehículo es muy alta, ¿puede influir en el tiempo de reacción del conductor?",
+        "options": [
+            "No, no influye.",
+            "Sí, aumentándolo.",
+            "Sí, disminuyéndolo."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T505722.jpg"
+    },
+    {
+        "text": "El alcohol, ¿influye en la distancia de reacción?",
+        "options": [
+            "Sí, porque afecta al tiempo de reacción.",
+            "No, el estado del conductor no influye en la distancia de reacción, sólo depende del estado del vehículo.",
+            "No, pero sí influye en la distancia de frenado."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P2207.jpg"
+    },
+    {
+        "text": "La distancia de reacción y la distancia de frenado, ¿son lo mismo?",
+        "options": [
+            "Sí.",
+            "No.",
+            "Sólo en algunos casos."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T504910.jpg"
+    },
+    {
+        "text": "La distancia de reacción, ¿es igual que la distancia de frenado?",
+        "options": [
+            "Sí, siempre.",
+            "No, como norma general.",
+            "Sólo cuando las condiciones meteorológicas sean favorables."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T504425.jpg"
+    },
+    {
+        "text": "La distancia de frenado es...",
+        "options": [
+            "el espacio recorrido desde que el conductor ve el obstáculo hasta que detiene el vehículo.",
+            "el espacio recorrido desde que el conductor ve el obstáculo hasta que acciona el freno.",
+            "el espacio recorrido desde que el conductor acciona el freno hasta que vehículo se detiene."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P2209.jpg"
+    },
+    {
+        "text": "Al aumentar la velocidad, la distancia de frenado...",
+        "options": [
+            "disminuye.",
+            "aumenta.",
+            "no varía."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T514909.jpg"
+    },
+    {
+        "text": "Circula a 60 kilómetros por hora y aumenta su velocidad hasta 120. La distancia de frenado, ¿aumenta al doble?",
+        "options": [
+            "Sí, aumentan ambas en la misma proporción.",
+            "No, la distancia de frenado aumenta en mayor proporcion."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P2210.jpg"
+    },
+    {
+        "text": "La distancia de frenado de un vehículo cargado es...",
+        "options": [
+            "igual que cuando circula sin carga.",
+            "mayor que cuando circula sin carga.",
+            "menor que cuando circula sin carga."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P2211.jpg"
+    },
+    {
+        "text": "La distancia de frenado está determinada por...",
+        "options": [
+            "el estado del vehículo, principalmente.",
+            "la velocidad a la que se circula y por otros factores, como el estado de la vía y del vehículo.",
+            "la velocidad únicamente."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T504709.jpg"
+    },
+    {
+        "text": "El estado del vehículo influye en...",
+        "options": [
+            "el tiempo de reacción.",
+            "la distancia de frenado.",
+            "la distancia de reacción."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T501002.jpg"
+    },
+    {
+        "text": "La distancia de detención es el espacio que recorre el vehículo...",
+        "options": [
+            "desde que el conductor frena hasta que se detiene el vehículo.",
+            "desde que el conductor percibe un peligro hasta que el vehículo se detiene.",
+            "durante el tiempo que pasa desde que el conductor reacciona hasta que pisa el pedal del freno."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P2212.jpg"
+    },
+    {
+        "text": "Bajo los efectos del alcohol, la distancia de detención...",
+        "options": [
+            "no se ve afectada.",
+            "disminuye.",
+            "aumenta."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P2213.jpg"
+    },
+    {
+        "text": "La distancia de detención, ¿de qué depende?",
+        "options": [
+            "De la velocidad, solamente.",
+            "De la velocidad, del tiempo de reacción y del tiempo de frenado.",
+            "Del tipo de vehículo solamente."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P2214.jpg"
+    },
+    {
+        "text": "Para detener el vehículo ante un obstáculo en la calzada, es preciso llevar una velocidad tal que la distancia de detención sea...",
+        "options": [
+            "mayor que la distancia al obstáculo.",
+            "más pequeña que la distancia al obstáculo.",
+            "igual que la distancia al obstáculo."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P2215.jpg"
+    },
+    {
+        "text": "Al aumentar la velocidad, la distancia de detención...",
+        "options": [
+            "no varía.",
+            "disminuye.",
+            "aumenta."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T500611.jpg"
+    },
+    {
+        "text": "La distancia de detención depende...",
+        "options": [
+            "del estado de la calzada, entre otros factores.",
+            "únicamente del estado del conductor.",
+            "sólo del estado del vehículo."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T507014.jpg"
+    },
+    {
+        "text": "Cuando el conductor sufre una distracción al volante...",
+        "options": [
+            "debe avisarlo con las luces de emergencia.",
+            "tarda más tiempo en reaccionar.",
+            "aumenta la velocidad del vehículo sin darse cuenta."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T503724.jpg"
+    },
+    {
+        "text": "La capacidad de respuesta de un conductor ante las exigencias de la circulación, ¿puede verse afectada por su formación?",
+        "options": [
+            "No.",
+            "Sí."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P2216.jpg"
+    }
+]
+            
+            ;
+
+            const container = document.getElementById('test-container');
+            const paginationRow1 = document.getElementById('pagination-row-1');
+            const paginationRow2 = document.getElementById('pagination-row-2');
+
+            // Generar preguntas
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.setAttribute('data-correct', question.correct);
+                questionDiv.innerHTML = `
+                    <div class="question-image">
+                        <img src="${question.image}" alt="Imagen de la pregunta">
+                    </div>
+                    <div class="question-content">
+                        <h3>${index + 1}. ${question.text}</h3>
+                        <div class="options">
+                            ${question.options.map((option, idx) => `
+                                <div class="option" data-answer="${String.fromCharCode(65 + idx)}">
+                                    <span class="option-circle">${String.fromCharCode(65 + idx)}</span>
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+
+            // Generar paginación
+            for (let i = 0; i < questions.length; i++) {
+                const button = document.createElement('button');
+                button.textContent = `${i + 1}`;
+                button.addEventListener('click', () => showQuestion(i));
+                if (i < 15) {
+                    paginationRow1.appendChild(button);
+                } else {
+                    paginationRow2.appendChild(button);
+                }
+            }
+
+            // Mostrar la primera pregunta
+            showQuestion(0);
+
+            // Función para mostrar una pregunta específica
+            function showQuestion(index) {
+                document.querySelectorAll('.question').forEach((q, i) => {
+                    q.style.display = i === index ? 'flex' : 'none';
+                });
+                document.querySelectorAll('.pagination button').forEach((btn, i) => {
+                    btn.style.backgroundColor = i === index ? '#ff7aa2' : '#ffa5c3';
+                });
+            }
+
+            // Evento para las opciones de respuesta
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const question = this.closest('.question');
+                    const questionIndex = Array.from(container.children).indexOf(question);
+                    const isCorrect = this.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    
+                    if (question.dataset.answered) return;
+
+                    question.dataset.answered = true;
+
+                    question.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                        opt.style.pointerEvents = 'none';
+                    });
+                    
+                    this.classList.add('selected', isCorrect ? 'correct' : 'incorrect');
+
+                    if (!isCorrect) {
+                        question.querySelector(`.option[data-answer="${question.getAttribute('data-correct')}"]`).classList.add('correct');
+                    }
+
+                    // Actualizar el botón de paginación
+                    const paginationButton = questionIndex < 15 ? paginationRow1.children[questionIndex] : paginationRow2.children[questionIndex - 15];
+                    paginationButton.classList.add(isCorrect ? 'correct' : 'incorrect');
+                });
+            });
+
+            // Evento para corregir el test
+            document.getElementById('correct-test').addEventListener('click', () => {
+                let wrongAnswers = 0;
+                document.querySelectorAll('.question').forEach((question, index) => {
+                    const selected = question.querySelector('.option.selected');
+                    const isCorrect = selected && selected.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    if (!isCorrect) {
+                        wrongAnswers++;
+                    }
+                    // Actualizar el botón de paginación si no se ha respondido
+                    if (!selected) {
+                        const paginationButton = index < 15 ? paginationRow1.children[index] : paginationRow2.children[index - 15];
+                        paginationButton.classList.add('incorrect');
+                    }
+                });
+                const resultMessage = `Has fallado ${wrongAnswers} respuestas.`;
+
+                const alert = document.getElementById('custom-alert');
+                document.getElementById('alert-message').textContent = resultMessage;
+                alert.style.display = 'block';
+            });
+        });
+
+        function closeAlert() {
+            document.getElementById('custom-alert').style.display = 'none';
+        }
+    </script>
+
+    
+</body>
+</html>

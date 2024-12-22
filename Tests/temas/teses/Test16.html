@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Autoescuela</title>
+    <link rel="stylesheet" href="../../../Assets/style.css">
+</head>
+<body>
+
+    
+    <div class="container">
+        <h1 style="text-align: center; color: #ffa5c3;">Test de Autoescuela</h1>
+        <div id="test-container">
+            <!-- Aquí se generarán dinámicamente las preguntas -->
+        </div>
+        <div class="pagination">
+            <div class="pagination-row" id="pagination-row-1"></div>
+            <div class="pagination-row" id="pagination-row-2"></div>
+        </div>
+        <button id="correct-test">Corregir Test</button>
+    </div>
+
+    <!-- Custom Alert HTML -->
+    <div class="custom-alert" id="custom-alert">
+        <h2>Resultado del Test</h2>
+        <p id="alert-message">Aquí irá el mensaje del resultado.</p>
+        <button onclick="closeAlert()">Cerrar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = [
+    {
+        "text": "Si desea girar a la izquierda, debe saber que está prohibido cuando no exista...",
+        "options": [
+            "señal que autorice expresamente el giro.",
+            "visibilidad suficiente.",
+            "un carril especialmente acondicionado para realizar el giro."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P0901.jpg"
+    },
+    {
+        "text": "En una calzada de un solo sentido de circulación, ¿dónde debe situarse para cambiar de dirección a la izquierda?",
+        "options": [
+            "En una calzada de un solo sentido no se puede cambiar de dirección.",
+            "Junto al borde derecho de la calzada.",
+            "Junto al borde izquierdo de la calzada."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P0903.jpg"
+    },
+    {
+        "text": "En esta calzada de sentido único y tres carriles, ¿está bien situado el vehículo para realizar un cambio de dirección a la izquierda?",
+        "options": [
+            "Sí, si no circulan otros vehículos.",
+            "No, porque debe colocarse en el carril izquierdo.",
+            "Sí, porque no hay flechas en el pavimento."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P0905.jpg"
+    },
+    {
+        "text": "En esta vía de doble sentido, ¿dónde se colocará con su turismo para cambiar de dirección a la izquierda?",
+        "options": [
+            "Cerca del borde derecho de la calzada.",
+            "Junto al borde izquierdo de la calzada.",
+            "Junto a la marca longitudinal que separa los sentidos."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T513309.jpg"
+    },
+    {
+        "text": "Si el turismo quiere girar a la izquierda deberá...",
+        "options": [
+            "situarse fuera de la calzada y realizarlo desde allí.",
+            "girar desde su carril invadiendo el sentido contrario.",
+            "girar desde su carril sin invadir el sentido contrario."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T512909.jpg"
+    },
+    {
+        "text": "En una vía de doble sentido un vehículo va a girar a la izquierda, ¿debe facilitar el adelantamiento por la derecha a los demás vehículos?",
+        "options": [
+            "Sí, arrimándose todo lo posible al lado izquierdo de la calzada.",
+            "No, ya que deben adelantar por la izquierda.",
+            "Sí, arrimándose a la izquierda de su carril todo lo posible, pero sin obstaculizar a los vehículos que circulen en sentido contrario."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P0907.jpg"
+    },
+    {
+        "text": "En vías interurbanas, los ciclos y ciclomotores de dos ruedas, ¿dónde deben situarse para girar a la izquierda?",
+        "options": [
+            "A la derecha, fuera de la calzada si es posible, e iniciarlo desde ese lugar.",
+            "En el centro, sin invadir el sentido contrario.",
+            "En el carril izquierdo."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T503403.jpg"
+    },
+    {
+        "text": "En esta vía de doble sentido, para girar a la izquierda, deberá...",
+        "options": [
+            "colocarse en el carril de la izquierda.",
+            "rodear el obstáculo por la derecha.",
+            "colocarse en el eje de la calzada."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T512513.jpg"
+    },
+    {
+        "text": "En esta vía de doble sentido de circulación y tres carriles, ¿dónde debe colocarse para cambiar de dirección a la izquierda?",
+        "options": [
+            "En el carril situado más a la derecha.",
+            "En el carril central.",
+            "En el carril situado más a la izquierda, si no está ocupado."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T507021.jpg"
+    },
+    {
+        "text": "Si la vía está acondicionada con una raqueta u otro elemento similar, ¿debe utilizar dicho elemento para realizar un giro?",
+        "options": [
+            "Sí, aunque no haya señal que lo indique.",
+            "No, es indiferente.",
+            "Sí, pero sólo si lo indica una señal."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T501520.jpg"
+    },
+    {
+        "text": "Esta señal, ¿qué indica?",
+        "options": [
+            "Prohibido girar a la izquierda, solamente.",
+            "Prohibido girar a la izquierda y cambiar de sentido.",
+            "Prohibido girar a la izquierda y a la derecha."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T510103_150216.jpg"
+    },
+    {
+        "text": "La señal prohíbe...",
+        "options": [
+            "girar a la derecha.",
+            "cambiar el sentido de la marcha.",
+            "girar a la izquierda."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T504414.jpg"
+    },
+    {
+        "text": "Esta señal, ¿prohíbe el cambio de dirección en la próxima intersección?",
+        "options": [
+            "No, solo prohíbe el cambio de sentido.",
+            "No, solo me indica que la vía es de sentido único.",
+            "Sí, ya que debo seguir la dirección y sentido que señala la flecha."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T512413.jpg"
+    },
+    {
+        "text": "En una carretera, ¿está permitido cambiar el sentido de la marcha?",
+        "options": [
+            "Sí, en cualquier lugar.",
+            "No, está siempre prohibido.",
+            "Sí, en los lugares adecuados."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P0908.jpg"
+    },
+    {
+        "text": "Al cambiar el sentido de la marcha, ¿qué debe tener en cuenta?",
+        "options": [
+            "Que no ponga en peligro ni obstaculice a otros usuarios.",
+            "Que siempre debe existir un lugar acondicionado en la vía para realizar la maniobra.",
+            "Que debe dejar una distancia de más de 100 metros con el vehículo que circula delante."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P0909.jpg"
+    },
+    {
+        "text": "¿Está permitido cambiar el sentido de la marcha utilizando la marcha atrás?",
+        "options": [
+            "No, si se puede marchar hacia adelante o cambiar de dirección.",
+            "Sí, siempre que no obstaculice a otros usuarios de la vía.",
+            "Sí."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P0910.jpg"
+    },
+    {
+        "text": "En este tramo de carretera, ¿está permitido hacer un cambio de sentido?",
+        "options": [
+            "Sí.",
+            "No."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T506423.jpg"
+    },
+    {
+        "text": "El turismo amarillo va a realizar un cambio de sentido de la marcha, ¿es correcto?",
+        "options": [
+            "No, porque obstaculiza a los vehículos que le siguen.",
+            "Sí, porque hace la maniobra de un solo movimiento.",
+            "No, porque está prohibido en las vías interurbanas."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P0911.jpg"
+    },
+    {
+        "text": "Cuando esperando para realizar un cambio de sentido obstaculiza la marcha de los vehículos que circulan detrás, deberá...",
+        "options": [
+            "abstenerse de realizarlo y continuar su marcha.",
+            "salir de la calzada por la derecha, y esperar hasta que las condiciones permitan hacer la maniobra.",
+            "hacer señales con la luz de freno para advertir su maniobra."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P0912.jpg"
+    },
+    {
+        "text": "Se detiene en un carril esperando para realizar un cambio de sentido, ¿está permitido?",
+        "options": [
+            "Sí, siempre que no obstaculice a los vehículos que circulen detrás.",
+            "No, debe salir siempre a la derecha.",
+            "No, en ningún caso."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T511311.jpg"
+    },
+    {
+        "text": "¿Puede realizar un cambio de sentido en un lugar donde esté prohibido adelantar?",
+        "options": [
+            "Sí, cuando la circulación en sentido contrario lo permita.",
+            "No, salvo que el cambio de sentido esté expresamente autorizado.",
+            "Sí, excepto entre la puesta y la salida de sol, porque disminuye la visibilidad."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P0918.jpg"
+    },
+    {
+        "text": "En esta curva de visibilidad reducida, ¿está permitido cambiar de sentido?",
+        "options": [
+            "No, en ningún caso.",
+            "Sí, porque no hay señal que lo prohíba",
+            "Sí, siempre que no se obstaculice a los vehículos que circulen detrás"
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P0913.jpg"
+    },
+    {
+        "text": "¿Está permitido efectuar un cambio de sentido en un cambio de rasante con visibilidad reducida?",
+        "options": [
+            "Sí, si no existe peligro para otros usuarios.",
+            "Sí, sólo está prohibido el adelantamiento.",
+            "No."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P0914.jpg"
+    },
+    {
+        "text": "En autopistas y autovías, ¿está prohibido el cambio de sentido?",
+        "options": [
+            "Sí, salvo en los lugares habilitados al efecto.",
+            "No.",
+            "Sí, siempre."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P0915.jpg"
+    },
+    {
+        "text": "En un túnel, ¿puede cambiar de sentido?",
+        "options": [
+            "No, está prohibido.",
+            "Sí, cuando exista más de un carril para el sentido de la marcha.",
+            "Sí, cuando exista espacio suficiente y sin obstaculizar el paso de otros vehículos."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T512019.jpg"
+    },
+    {
+        "text": "En un paso para peatones, ¿está permitido cambiar el sentido de la marcha?",
+        "options": [
+            "No, ni siquiera en sus proximidades.",
+            "Sí.",
+            "No, pero sí en sus proximidades."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P0917.jpg"
+    },
+    {
+        "text": "En una intersección, ¿está permitido realizar un cambio de sentido?",
+        "options": [
+            "Sí, siempre que se pueda efectuar la maniobra en un solo giro.",
+            "No, como norma general.",
+            "No, está prohibido siempre."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T505621.jpg"
+    },
+    {
+        "text": "¿Está permitido realizar un cambio de sentido en esta intersección?",
+        "options": [
+            "Sí, si no recorre más de 15 metros.",
+            "No.",
+            "Sí, con las debidas precauciones."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T513921.jpg"
+    },
+    {
+        "text": "En la próxima intersección, ¿se puede hacer un cambio de sentido?",
+        "options": [
+            "No, porque no hay señal de cambio de sentido.",
+            "Sí, antes de entrar en la glorieta.",
+            "Sí, porque es una glorieta."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T510101_150316.jpg"
+    },
+    {
+        "text": "Para cambiar el sentido de la marcha, ¿qué opción es válida?",
+        "options": [
+            "La ruta roja.",
+            "Ambas rutas pueden ser correctas.",
+            "La ruta azul."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T504630.jpg"
+    }
+]
+            
+            ;
+
+            const container = document.getElementById('test-container');
+            const paginationRow1 = document.getElementById('pagination-row-1');
+            const paginationRow2 = document.getElementById('pagination-row-2');
+
+            // Generar preguntas
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.setAttribute('data-correct', question.correct);
+                questionDiv.innerHTML = `
+                    <div class="question-image">
+                        <img src="${question.image}" alt="Imagen de la pregunta">
+                    </div>
+                    <div class="question-content">
+                        <h3>${index + 1}. ${question.text}</h3>
+                        <div class="options">
+                            ${question.options.map((option, idx) => `
+                                <div class="option" data-answer="${String.fromCharCode(65 + idx)}">
+                                    <span class="option-circle">${String.fromCharCode(65 + idx)}</span>
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+
+            // Generar paginación
+            for (let i = 0; i < questions.length; i++) {
+                const button = document.createElement('button');
+                button.textContent = `${i + 1}`;
+                button.addEventListener('click', () => showQuestion(i));
+                if (i < 15) {
+                    paginationRow1.appendChild(button);
+                } else {
+                    paginationRow2.appendChild(button);
+                }
+            }
+
+            // Mostrar la primera pregunta
+            showQuestion(0);
+
+            // Función para mostrar una pregunta específica
+            function showQuestion(index) {
+                document.querySelectorAll('.question').forEach((q, i) => {
+                    q.style.display = i === index ? 'flex' : 'none';
+                });
+                document.querySelectorAll('.pagination button').forEach((btn, i) => {
+                    btn.style.backgroundColor = i === index ? '#ff7aa2' : '#ffa5c3';
+                });
+            }
+
+            // Evento para las opciones de respuesta
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const question = this.closest('.question');
+                    const questionIndex = Array.from(container.children).indexOf(question);
+                    const isCorrect = this.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    
+                    if (question.dataset.answered) return;
+
+                    question.dataset.answered = true;
+
+                    question.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                        opt.style.pointerEvents = 'none';
+                    });
+                    
+                    this.classList.add('selected', isCorrect ? 'correct' : 'incorrect');
+
+                    if (!isCorrect) {
+                        question.querySelector(`.option[data-answer="${question.getAttribute('data-correct')}"]`).classList.add('correct');
+                    }
+
+                    // Actualizar el botón de paginación
+                    const paginationButton = questionIndex < 15 ? paginationRow1.children[questionIndex] : paginationRow2.children[questionIndex - 15];
+                    paginationButton.classList.add(isCorrect ? 'correct' : 'incorrect');
+                });
+            });
+
+            // Evento para corregir el test
+            document.getElementById('correct-test').addEventListener('click', () => {
+                let wrongAnswers = 0;
+                document.querySelectorAll('.question').forEach((question, index) => {
+                    const selected = question.querySelector('.option.selected');
+                    const isCorrect = selected && selected.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    if (!isCorrect) {
+                        wrongAnswers++;
+                    }
+                    // Actualizar el botón de paginación si no se ha respondido
+                    if (!selected) {
+                        const paginationButton = index < 15 ? paginationRow1.children[index] : paginationRow2.children[index - 15];
+                        paginationButton.classList.add('incorrect');
+                    }
+                });
+                const resultMessage = `Has fallado ${wrongAnswers} respuestas.`;
+
+                const alert = document.getElementById('custom-alert');
+                document.getElementById('alert-message').textContent = resultMessage;
+                alert.style.display = 'block';
+            });
+        });
+
+        function closeAlert() {
+            document.getElementById('custom-alert').style.display = 'none';
+        }
+    </script>
+
+    
+</body>
+</html>

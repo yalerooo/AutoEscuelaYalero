@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Autoescuela</title>
+    <link rel="stylesheet" href="../../../Assets/style.css">
+</head>
+<body>
+
+    
+    <div class="container">
+        <h1 style="text-align: center; color: #ffa5c3;">Test de Autoescuela</h1>
+        <div id="test-container">
+            <!-- Aquí se generarán dinámicamente las preguntas -->
+        </div>
+        <div class="pagination">
+            <div class="pagination-row" id="pagination-row-1"></div>
+            <div class="pagination-row" id="pagination-row-2"></div>
+        </div>
+        <button id="correct-test">Corregir Test</button>
+    </div>
+
+    <!-- Custom Alert HTML -->
+    <div class="custom-alert" id="custom-alert">
+        <h2>Resultado del Test</h2>
+        <p id="alert-message">Aquí irá el mensaje del resultado.</p>
+        <button onclick="closeAlert()">Cerrar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = [
+    {
+        "text": "¿Qué luz obliga a detenerse?",
+        "options": [
+            "La amarilla intermitente.",
+            "La amarilla fija.",
+            "La verde."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P1314.jpg"
+    },
+    {
+        "text": "Ante un semáforo en rojo situado antes de una intersección, ¿dónde hay que detenerse?",
+        "options": [
+            "En el cruce de las dos vías, sin invadir la vía transversal.",
+            "Inmediatamente después del semáforo.",
+            "Ante la línea de detención anterior más próxima al semáforo y, si no existe, a la altura del semáforo, sin rebasarlo."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T512419.jpg"
+    },
+    {
+        "text": "El semáforo está al otro lado del cruce. ¿Dónde deben detenerse los vehículos?",
+        "options": [
+            "Dentro del cruce, antes del semáforo.",
+            "Al lado del semáforo.",
+            "Antes de las líneas blancas del paso para peatones."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T500805.jpg"
+    },
+    {
+        "text": "Para seguir de frente, ¿dónde hay que detenerse?",
+        "options": [
+            "Ante la línea de detención.",
+            "Ante la marca de paso para peatones.",
+            "En la intersección."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P1318.jpg"
+    },
+    {
+        "text": "El vehículo que vemos quiere cambiar de dirección a la derecha. ¿Está obligado a detenerse?",
+        "options": [
+            "No.",
+            "Sí.",
+            "No, las indicaciones del semáforo sólo le afectan si pretende seguir de frente."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T504521.jpg"
+    },
+    {
+        "text": "El vehículo de la imagen quiere cambiar de dirección a la derecha, ¿está obligado a detenerse?",
+        "options": [
+            "No, puede continuar la marcha con precaución.",
+            "Sí.",
+            "No, las indicaciones del semáforo sólo le afectan si pretende seguir de frente."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P1319.jpg"
+    },
+    {
+        "text": "En esta situación, si pretende seguir de frente, ¿a cuál de los dos semáforos debe obedecer?",
+        "options": [
+            "Como la señalización es contradictoria, prevalece la más restrictiva.",
+            "Al semáforo de la izquierda.",
+            "Al semáforo de la derecha."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T503429.jpg"
+    },
+    {
+        "text": "En esta vía, deben obedecer sólo a las indicaciones situadas a su izquierda los que pretendan...",
+        "options": [
+            "seguir de frente o girar a la derecha.",
+            "girar a la izquierda solamente.",
+            "girar a la izquierda o seguir de frente."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T512709.jpg"
+    },
+    {
+        "text": "Si conduce el turismo rojo y quiere girar a la derecha, ¿qué debe hacer?",
+        "options": [
+            "Esperar a que el semáforo de la izquierda se ponga verde.",
+            "Girar a la derecha porque me lo permite el semáforo.",
+            "Continuar de frente."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T514625.jpg"
+    },
+    {
+        "text": "En la entrada de un túnel, observa estos semáforos, ¿qué debe hacer?",
+        "options": [
+            "Detenerse y esperar hasta que los semáforos permitan el paso.",
+            "Cambiar de sentido.",
+            "Circular a una velocidad moderada."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P1320.jpg"
+    },
+    {
+        "text": "No debe entrar en una intersección, aunque el semáforo esté en verde, si...",
+        "options": [
+            "hay una señal de stop o de ceda el paso.",
+            "se aproximan vehículos por la derecha.",
+            "un agente le ordena detenerse."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T513121.jpg"
+    },
+    {
+        "text": "El semáforo está verde, pero la intersección está saturada. ¿Qué debe hacer?",
+        "options": [
+            "Entrar en la intersección porque el semáforo me lo permite.",
+            "Esperar hasta que haya espacio para cruzar sin cerrar el paso.",
+            "Acelerar para pasar rápidamente"
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P1311.jpg"
+    },
+    {
+        "text": "En un cruce, se enciende la luz roja y el vehículo azul bloquea el paso. ¿Qué debe hacer?",
+        "options": [
+            "Esperar a que se encienda la luz verde.",
+            "Salir del cruce, pero sin molestar a otros usuarios.",
+            "Esperar a que se encienda la luz intermitente amarilla."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T510111_150316.jpg"
+    },
+    {
+        "text": "Ha quedado detenido en una intersección regulada por semáforos y obstaculiza la circulación, ¿qué debe hacer?",
+        "options": [
+            "Esperar a que el semáforo se ponga verde.",
+            "Salir del cruce lo antes posible, en condiciones de seguridad, sin esperar a que el semáforo se ponga verde.",
+            "Dar marcha atrás para dejar libre la intersección."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T502623.jpg"
+    },
+    {
+        "text": "En una intersección en la que no funciona el semáforo, ¿qué debe hacer?",
+        "options": [
+            "Pasar porque se entiende que el semáforo está en verde.",
+            "Ceder el paso a los vehículos que vengan por la derecha, y extremar la precaución.",
+            "Detenerse porque está prohibido el paso."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P1330.jpg"
+    },
+    {
+        "text": "Antes de un paso a nivel, dos luces rojas intermitentes de forma alternativa indican...",
+        "options": [
+            "que el paso se cerrará y los vehículos tienen que cruzar rápidamente.",
+            "que está prohibido el paso temporalmente.",
+            "que los conductores pueden pasar extremando la precaución."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P1316.jpg"
+    },
+    {
+        "text": "¿Qué pueden significar dos luces rojas alternativamente intermitentes?",
+        "options": [
+            "Detenerse por una salida de bomberos.",
+            "Precaución por accidente en la vía.",
+            "Ceder el paso en la próxima intersección."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T512123.jpg"
+    },
+    {
+        "text": "El semáforo cuadrado de cada carril obliga...",
+        "options": [
+            "a los vehículos de tres y cuatro ruedas solamente.",
+            "a los vehículos que circulan por el carril donde está el semáforo.",
+            "a todos los vehículos que circulan por la calzada."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P1321.jpg"
+    },
+    {
+        "text": "A la vista de la señalización de la fotografía, ¿qué carriles podrán ser utilizados por los conductores?",
+        "options": [
+            "Los indicados con una flecha verde.",
+            "Los indicados con un aspa roja.",
+            "Cualquiera, con flecha verde o aspa roja, en función de nuestro destino ya que estamos en vía urbana."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T513727.jpg"
+    },
+    {
+        "text": "La flecha verde del semáforo de carril, ¿qué indica?",
+        "options": [
+            "Que el carril está abierto, pero se deben obedecer las señales y normas de preferencia.",
+            "Que el carril está abierto y otorga preferencia sobre los demás vehículos.",
+            "Que el carril está abierto, excepto para vehículos pesados."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P1322.jpg"
+    },
+    {
+        "text": "Circula por un carril y sobre él encuentra un semáforo con una luz roja en forma de aspa, ¿qué significa?",
+        "options": [
+            "Que debe abandonarlo lo antes posible porque está prohibido ocupar ese carril.",
+            "Que tiene que frenar a su altura como si fuera un semáforo con una luz roja circular.",
+            "Que debe moderar la velocidad por circunstancias especiales de la circulación."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P1323.jpg"
+    },
+    {
+        "text": "Si usted circula con su vehículo por un carril sobre el que se encuentra el semáforo cuadrado con la flecha verde y llega a una intersección, debe tener en cuenta...",
+        "options": [
+            "Que los vehículos que se acerquen tanto por su derecha como por su izquierda en esta intersección, tendrán preferencia de paso sobre usted.",
+            "Que los vehículos que se acerquen por su derecha, así como por su izquierda, deben cederle el paso, puesto que usted tiene un semáforo de carril que le otorga la preferencia.",
+            "Que los vehículos que se acerquen por su derecha tienen preferencia de paso."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P1324.jpg"
+    },
+    {
+        "text": "Un semáforo cuadrado o de carril afecta...",
+        "options": [
+            "a los vehículos que circulan por el carril sobre el que está situado.",
+            "sólo a los turismos que circulan por el carril sobre el que está situado.",
+            "a los vehículos que circulan por la calzada sobre la que está situado."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T507009.jpg"
+    },
+    {
+        "text": "Para pagar en un puesto de peaje, debe pasar...",
+        "options": [
+            "por el carril que indica la flecha verde.",
+            "por cualquier carril, indistintamente.",
+            "por el carril que indica el aspa roja."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P0220.jpg"
+    },
+    {
+        "text": "En un puesto de peaje, entra por un carril con luz verde. ¿Qué debe hacer?",
+        "options": [
+            "Pasar sin detenerme porque la luz está verde.",
+            "Detenerme para pagar o coger el ticket de entrada."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P0221.jpg"
+    },
+    {
+        "text": "Las indicaciones de este semáforo están dirigidas a...",
+        "options": [
+            "todos los usuarios de la vía.",
+            "peatones y ciclistas.",
+            "peatones exclusívamente."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P1309.jpg"
+    },
+    {
+        "text": "Las luces de los semáforos con la silueta de un ciclo, afectan...",
+        "options": [
+            "a ciclos solamente.",
+            "a ciclomotores solamente.",
+            "exclusivamente a ciclos y ciclomotores."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P1329.jpg"
+    },
+    {
+        "text": "Este semáforo, ¿a qué vehículos afecta?",
+        "options": [
+            "Sólo a tranvías.",
+            "A tranvías y autobuses de líneas regulares.",
+            "A ciclos y ciclomotores."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P1327.jpg"
+    },
+    {
+        "text": "Un semáforo con línea blanca horizontal sobre fondo negro...",
+        "options": [
+            "permite girar a la derecha y a la izquierda a autobuses y tranvías.",
+            "permite el paso a autobuses y tranvías.",
+            "prohíbe el paso a autobuses de líneas regulares y tranvías."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T512023.jpg"
+    },
+    {
+        "text": "¿Cómo deben actuar los tranvías y autobuses de línea regular ante este semáforo intermitente?",
+        "options": [
+            "Deben detenerse.",
+            "Pueden continuar la marcha.",
+            "Deben ceder el paso."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T506121.jpg"
+    }
+]
+            
+            ;
+
+            const container = document.getElementById('test-container');
+            const paginationRow1 = document.getElementById('pagination-row-1');
+            const paginationRow2 = document.getElementById('pagination-row-2');
+
+            // Generar preguntas
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.setAttribute('data-correct', question.correct);
+                questionDiv.innerHTML = `
+                    <div class="question-image">
+                        <img src="${question.image}" alt="Imagen de la pregunta">
+                    </div>
+                    <div class="question-content">
+                        <h3>${index + 1}. ${question.text}</h3>
+                        <div class="options">
+                            ${question.options.map((option, idx) => `
+                                <div class="option" data-answer="${String.fromCharCode(65 + idx)}">
+                                    <span class="option-circle">${String.fromCharCode(65 + idx)}</span>
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+
+            // Generar paginación
+            for (let i = 0; i < questions.length; i++) {
+                const button = document.createElement('button');
+                button.textContent = `${i + 1}`;
+                button.addEventListener('click', () => showQuestion(i));
+                if (i < 15) {
+                    paginationRow1.appendChild(button);
+                } else {
+                    paginationRow2.appendChild(button);
+                }
+            }
+
+            // Mostrar la primera pregunta
+            showQuestion(0);
+
+            // Función para mostrar una pregunta específica
+            function showQuestion(index) {
+                document.querySelectorAll('.question').forEach((q, i) => {
+                    q.style.display = i === index ? 'flex' : 'none';
+                });
+                document.querySelectorAll('.pagination button').forEach((btn, i) => {
+                    btn.style.backgroundColor = i === index ? '#ff7aa2' : '#ffa5c3';
+                });
+            }
+
+            // Evento para las opciones de respuesta
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const question = this.closest('.question');
+                    const questionIndex = Array.from(container.children).indexOf(question);
+                    const isCorrect = this.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    
+                    if (question.dataset.answered) return;
+
+                    question.dataset.answered = true;
+
+                    question.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                        opt.style.pointerEvents = 'none';
+                    });
+                    
+                    this.classList.add('selected', isCorrect ? 'correct' : 'incorrect');
+
+                    if (!isCorrect) {
+                        question.querySelector(`.option[data-answer="${question.getAttribute('data-correct')}"]`).classList.add('correct');
+                    }
+
+                    // Actualizar el botón de paginación
+                    const paginationButton = questionIndex < 15 ? paginationRow1.children[questionIndex] : paginationRow2.children[questionIndex - 15];
+                    paginationButton.classList.add(isCorrect ? 'correct' : 'incorrect');
+                });
+            });
+
+            // Evento para corregir el test
+            document.getElementById('correct-test').addEventListener('click', () => {
+                let wrongAnswers = 0;
+                document.querySelectorAll('.question').forEach((question, index) => {
+                    const selected = question.querySelector('.option.selected');
+                    const isCorrect = selected && selected.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    if (!isCorrect) {
+                        wrongAnswers++;
+                    }
+                    // Actualizar el botón de paginación si no se ha respondido
+                    if (!selected) {
+                        const paginationButton = index < 15 ? paginationRow1.children[index] : paginationRow2.children[index - 15];
+                        paginationButton.classList.add('incorrect');
+                    }
+                });
+                const resultMessage = `Has fallado ${wrongAnswers} respuestas.`;
+
+                const alert = document.getElementById('custom-alert');
+                document.getElementById('alert-message').textContent = resultMessage;
+                alert.style.display = 'block';
+            });
+        });
+
+        function closeAlert() {
+            document.getElementById('custom-alert').style.display = 'none';
+        }
+    </script>
+
+    
+</body>
+</html>

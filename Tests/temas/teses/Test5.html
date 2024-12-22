@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Autoescuela</title>
+    <link rel="stylesheet" href="../../../Assets/style.css">
+</head>
+<body>
+
+    
+    <div class="container">
+        <h1 style="text-align: center; color: #ffa5c3;">Test de Autoescuela</h1>
+        <div id="test-container">
+            <!-- Aquí se generarán dinámicamente las preguntas -->
+        </div>
+        <div class="pagination">
+            <div class="pagination-row" id="pagination-row-1"></div>
+            <div class="pagination-row" id="pagination-row-2"></div>
+        </div>
+        <button id="correct-test">Corregir Test</button>
+    </div>
+
+    <!-- Custom Alert HTML -->
+    <div class="custom-alert" id="custom-alert">
+        <h2>Resultado del Test</h2>
+        <p id="alert-message">Aquí irá el mensaje del resultado.</p>
+        <button onclick="closeAlert()">Cerrar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = [
+    {
+        "text": "Cuando no existe zona peatonal o ésta no es practicable, los peatones...",
+        "options": [
+            "pueden transitar por el arcén.",
+            "deben transitar por la calzada.",
+            "no pueden transitar por las carreteras."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T503709.jpg"
+    },
+    {
+        "text": "Un peatón circula por su izquierda en una vía interurbana. ¿Circula correctamente?",
+        "options": [
+            "Sí.",
+            "No, porque debe circular siempre por el lado de la calzada donde el arcén sea transitable.",
+            "No, porque debe circular por la derecha de la calzada en el sentido de su marcha."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P0126.jpg"
+    },
+    {
+        "text": "Un peatón, ¿tiene permitido circular por la derecha en una vía fuera de poblado?",
+        "options": [
+            "Sí, siempre.",
+            "No.",
+            "Sí, cuando lo hace por razones de seguridad."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P0127.jpg"
+    },
+    {
+        "text": "En una carretera convencional, ¿está permitido que un peatón circule por la calzada?",
+        "options": [
+            "Sí, cuando no existe arcén o no es transitable.",
+            "Sí, cuando arrastra un vehículo.",
+            "No."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P0125.jpg"
+    },
+    {
+        "text": "En una travesía que no disponga de espacio especialmente reservado para peatones, como norma general, un peatón circulará...",
+        "options": [
+            "siempre por su derecha.",
+            "por la izquierda.",
+            "por la derecha o por la izquierda, indistintamente."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T510109_050216.jpg"
+    },
+    {
+        "text": "Si en poblado no hay zonas peatonales, ¿por dónde deben circular los peatones?",
+        "options": [
+            "Siempre por su izquierda.",
+            "Por la derecha o por la izquierda, dependiendo de las circunstancias.",
+            "Siempre por su derecha."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T513303.jpg"
+    },
+    {
+        "text": "En tramos de poblado incluidos en el desarrollo de una carretera que no disponga de espacio especialmente reservado para peatones, como norma general, la circulación de estos si forman cortejo se hará...",
+        "options": [
+            "siempre por su derecha.",
+            "por la izquierda.",
+            "por la derecha o por la izquierda, indistintamente."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510109_250116.jpg"
+    },
+    {
+        "text": "Una persona en silla de ruedas, ¿puede circular por una carretera?",
+        "options": [
+            "No, no puede circular.",
+            "Sí, por el arcén si es transitable y, si no lo es, por la calzada.",
+            "Sí, pero sólo si existe acera o zona peatonal."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P0322.jpg"
+    },
+    {
+        "text": "Un peatón que empuja un vehículo de dos ruedas, ¿por dónde está obligado a circular?",
+        "options": [
+            "Por la derecha, por la calzada o el arcén, según su sentido de la marcha.",
+            "Por la izquierda, por la calzada o el arcén, según su sentido de la marcha.",
+            "Por la derecha o por la izquierda indistintamente."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T501016.jpg"
+    },
+    {
+        "text": "Los peatones que circulen por el arcén en vías fuera de poblado, ¿cuándo deberán utilizar un elemento luminoso o reflectante homologado?",
+        "options": [
+            "Siempre que circulen por el arcén, tanto de día como de noche.",
+            "Cuando existan condiciones meteorológicas que disminuyan sensiblemente la visibilidad.",
+            "Cuando el arcén tenga una anchura inferior a 1,5 metros, tanto de día como de noche."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T509228.jpg"
+    },
+    {
+        "text": "Los peatones, cuando circulen de noche en grupo, deben señalizar su posición...",
+        "options": [
+            "con una señal manual de STOP.",
+            "con unos triángulos de preseñalización de peligro.",
+            "con una luz blanca o amarilla que ilumine hacia adelante y otra roja hacia atrás."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T514725.jpg"
+    },
+    {
+        "text": "Un peatón que empuja un carrito, ¿por dónde puede circular?",
+        "options": [
+            "Sólo por la zona peatonal.",
+            "Por la zona peatonal, o por el arcén o la calzada si pudiera obstaculizar el paso.",
+            "Sólo por la calzada."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T502723.jpg"
+    },
+    {
+        "text": "Los animales conducidos en manada o en rebaño...",
+        "options": [
+            "atravesarán las vías por cualquier lugar, siempre que estén custodiados por una persona mayor de 18 años.",
+            "no podrán circular por la noche a no ser que el conductor disponga de elementos retrorreflectantes.",
+            "irán al paso, lo más cerca al borde derecho de la vía y sin ocupar más de la mitad derecha de la calzada."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P0325.jpg"
+    },
+    {
+        "text": "Cuando no exista vía pecuaria, ¿se permite a los animales transitar por las vías públicas?",
+        "options": [
+            "Sí, excepto por autovías y autopistas.",
+            "Sí, en todo caso.",
+            "No, los animales nunca pueden utilizar vías públicas."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P0324.jpg"
+    },
+    {
+        "text": "El arcén de la derecha es transitable y suficiente. ¿Qué vehículos deben circular por él, como norma general?",
+        "options": [
+            "Los ciclos, ciclomotores y vehículos para personas de movilidad reducida.",
+            "Los vehículos con M.M.A no superior a 3.500 kg que circulen a velocidad anormalmente reducida.",
+            "Los vehículos especiales con M.M.A superior a 3.500 kg."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T513417.jpg"
+    },
+    {
+        "text": "Este ciclista...",
+        "options": [
+            "debería circular lo más cerca posible del eje central de la calzada.",
+            "no debería circular por esa vía, pues no tiene arcén.",
+            "circula correctamente."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T501209.jpg"
+    },
+    {
+        "text": "Los conductores de bicicletas, ¿pueden circular por los arcenes de las autopistas?",
+        "options": [
+            "No, en ningún caso.",
+            "Sí, cuando sean mayores de 14 años.",
+            "Sí, siempre."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T500509.jpg"
+    },
+    {
+        "text": "Los conductores de bicicletas mayores de 14 años, ¿pueden circular por los arcenes de las autovías?",
+        "options": [
+            "Sí, tanto por los arcenes de las autovías como por los de las autopistas.",
+            "No, está prohibido por razones de seguridad vial.",
+            "Sí, salvo que por razones de seguridad vial se prohíba mediante señales."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T505801.jpg"
+    },
+    {
+        "text": "En un descenso prolongado con curvas y cuando hayan razones de seguridad que lo aconsejen, ¿podrán circular los ciclistas por la parte derecha de la calzada que necesiten?",
+        "options": [
+            "Sí.",
+            "Podrán utilizar toda la calzada.",
+            "No, siempre utilizarán el arcén."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510124_0512.jpg"
+    },
+    {
+        "text": "Como norma general, ¿por dónde circulará un vehículo en seguimiento de ciclistas?",
+        "options": [
+            "El carril de la derecha.",
+            "El arcén.",
+            "La calzada, lo más cerca posible del borde derecho."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T506021.jpg"
+    },
+    {
+        "text": "¿Tienen permitido las bicicletas circular en posición paralela?",
+        "options": [
+            "Sí, aproximándose todo lo posible a la parte derecha de la vía, excepto en los tramos sin visibilidad y cuando formen aglomeraciones de tráfico.",
+            "Sí, manteniendo entre ellas una distancia mínima de 1,5 metros.",
+            "No, en ningún caso."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P0327.jpg"
+    },
+    {
+        "text": "En esta carretera convencional, ¿quiénes puede circular en paralelo?",
+        "options": [
+            "Ciclistas.",
+            "Ciclomotores.",
+            "Peatones."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T512721.jpg"
+    },
+    {
+        "text": "Los ciclomotores, ¿pueden circular por el arcén en columna de a dos?",
+        "options": [
+            "Sí, de forma excepcional cuando el arcén sea transitable y suficiente.",
+            "No, nunca.",
+            "Sí, siempre."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P0328.jpg"
+    },
+    {
+        "text": "Los conductores de vehículos obligados a circular por el arcén, como norma general, ¿tienen prohibido adelantar a otro si la duración de marcha en paralelo supera los 15 segundos o 200 metros?",
+        "options": [
+            "Los vehículos obligados a circular por el arcén tienen prohibido adelantar a otro usuario.",
+            "Sí, excepto las bicicletas.",
+            "No."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T510123_250617.jpg"
+    },
+    {
+        "text": "En esta vía, ¿por dónde debe circular un ciclomotor?",
+        "options": [
+            "Por el centro del carril derecho para que los demás usuarios de la vía puedan verle.",
+            "Como no tiene arcén, los ciclomotores no pueden circular.",
+            "Por la calzada, lo más cerca posible del borde derecho."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T501620.jpg"
+    },
+    {
+        "text": "Si conduce un ciclomotor, ¿puede atravesar este cebreado?",
+        "options": [
+            "Sí, porque está obligado a circular por el arcén.",
+            "No, por las zonas cebreadas está prohibido circular siempre.",
+            "Sí, porque los vehículos de dos ruedas pueden circular por estas zonas."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T503410.jpg"
+    },
+    {
+        "text": "El tractor agrícola de 3000 kg. de MMA, la bicicleta y el ciclomotor circulan por el arcén. ¿Es correcto?",
+        "options": [
+            "No, sólo debe circular por el arcén la bicicleta.",
+            "Sí, todos deben circular por el arcén.",
+            "Sí, salvo el tractor, que debe circular por la calzada."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T501521.jpg"
+    },
+    {
+        "text": "Circula con un turismo por una autovía con tráfico muy denso, ¿está permitido circular por el arcén para tomar la siguiente salida?",
+        "options": [
+            "Sí, con las luces de emergencia.",
+            "Sí, para facilitar la fluidez.",
+            "No."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T505329.jpg"
+    },
+    {
+        "text": "En esta autopista, ¿cuándo se puede circular por el arcén derecho?",
+        "options": [
+            "Cuando hay muchos vehículos circulando.",
+            "Nunca.",
+            "Cuando por emergencia o avería se circule a velocidad anormalmente reducida."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T505729.jpg"
+    },
+    {
+        "text": "¿Pueden los ocupantes de un vehículo transitar por el arcén de una autopista?",
+        "options": [
+            "No.",
+            "No, excepto en caso de una avería.",
+            "Sí."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510123_150216.jpg"
+    }
+]
+            
+            ;
+
+            const container = document.getElementById('test-container');
+            const paginationRow1 = document.getElementById('pagination-row-1');
+            const paginationRow2 = document.getElementById('pagination-row-2');
+
+            // Generar preguntas
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.setAttribute('data-correct', question.correct);
+                questionDiv.innerHTML = `
+                    <div class="question-image">
+                        <img src="${question.image}" alt="Imagen de la pregunta">
+                    </div>
+                    <div class="question-content">
+                        <h3>${index + 1}. ${question.text}</h3>
+                        <div class="options">
+                            ${question.options.map((option, idx) => `
+                                <div class="option" data-answer="${String.fromCharCode(65 + idx)}">
+                                    <span class="option-circle">${String.fromCharCode(65 + idx)}</span>
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+
+            // Generar paginación
+            for (let i = 0; i < questions.length; i++) {
+                const button = document.createElement('button');
+                button.textContent = `${i + 1}`;
+                button.addEventListener('click', () => showQuestion(i));
+                if (i < 15) {
+                    paginationRow1.appendChild(button);
+                } else {
+                    paginationRow2.appendChild(button);
+                }
+            }
+
+            // Mostrar la primera pregunta
+            showQuestion(0);
+
+            // Función para mostrar una pregunta específica
+            function showQuestion(index) {
+                document.querySelectorAll('.question').forEach((q, i) => {
+                    q.style.display = i === index ? 'flex' : 'none';
+                });
+                document.querySelectorAll('.pagination button').forEach((btn, i) => {
+                    btn.style.backgroundColor = i === index ? '#ff7aa2' : '#ffa5c3';
+                });
+            }
+
+            // Evento para las opciones de respuesta
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const question = this.closest('.question');
+                    const questionIndex = Array.from(container.children).indexOf(question);
+                    const isCorrect = this.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    
+                    if (question.dataset.answered) return;
+
+                    question.dataset.answered = true;
+
+                    question.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                        opt.style.pointerEvents = 'none';
+                    });
+                    
+                    this.classList.add('selected', isCorrect ? 'correct' : 'incorrect');
+
+                    if (!isCorrect) {
+                        question.querySelector(`.option[data-answer="${question.getAttribute('data-correct')}"]`).classList.add('correct');
+                    }
+
+                    // Actualizar el botón de paginación
+                    const paginationButton = questionIndex < 15 ? paginationRow1.children[questionIndex] : paginationRow2.children[questionIndex - 15];
+                    paginationButton.classList.add(isCorrect ? 'correct' : 'incorrect');
+                });
+            });
+
+            // Evento para corregir el test
+            document.getElementById('correct-test').addEventListener('click', () => {
+                let wrongAnswers = 0;
+                document.querySelectorAll('.question').forEach((question, index) => {
+                    const selected = question.querySelector('.option.selected');
+                    const isCorrect = selected && selected.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    if (!isCorrect) {
+                        wrongAnswers++;
+                    }
+                    // Actualizar el botón de paginación si no se ha respondido
+                    if (!selected) {
+                        const paginationButton = index < 15 ? paginationRow1.children[index] : paginationRow2.children[index - 15];
+                        paginationButton.classList.add('incorrect');
+                    }
+                });
+                const resultMessage = `Has fallado ${wrongAnswers} respuestas.`;
+
+                const alert = document.getElementById('custom-alert');
+                document.getElementById('alert-message').textContent = resultMessage;
+                alert.style.display = 'block';
+            });
+        });
+
+        function closeAlert() {
+            document.getElementById('custom-alert').style.display = 'none';
+        }
+    </script>
+
+    
+</body>
+</html>

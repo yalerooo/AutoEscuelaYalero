@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Autoescuela</title>
+    <link rel="stylesheet" href="../../../Assets/style.css">
+</head>
+<body>
+
+    
+    <div class="container">
+        <h1 style="text-align: center; color: #ffa5c3;">Test de Autoescuela</h1>
+        <div id="test-container">
+            <!-- Aquí se generarán dinámicamente las preguntas -->
+        </div>
+        <div class="pagination">
+            <div class="pagination-row" id="pagination-row-1"></div>
+            <div class="pagination-row" id="pagination-row-2"></div>
+        </div>
+        <button id="correct-test">Corregir Test</button>
+    </div>
+
+    <!-- Custom Alert HTML -->
+    <div class="custom-alert" id="custom-alert">
+        <h2>Resultado del Test</h2>
+        <p id="alert-message">Aquí irá el mensaje del resultado.</p>
+        <button onclick="closeAlert()">Cerrar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = [
+    {
+        "text": "Si visualiza esta señal en el sistema de a bordo de su vehículo conectado con la plataforma de vehículo conectado con el Punto de Acceso Nacional de Información de Tráfico y Movilidad de la DGT , ¿qué significa?",
+        "options": [
+            "Avería en el vehículo.",
+            "Llamada de emergencia al 112.",
+            "La presencia de un peligro próximo comunicado por otro usuario."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T510107_250623.jpg"
+    },
+    {
+        "text": "En defecto de señalización, ¿cuál es la velocidad máxima que no deberán rebasar los vehículos en una autopista dentro de poblado?",
+        "options": [
+            "50 km/h.",
+            "120 km/h.",
+            "80 km/h."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T500727.jpg"
+    },
+    {
+        "text": "Los conductores de motocicletas, durante la conducción, ¿tienen permitido utilizar dispositivos inalámbricos certificados u homologados para la utilización en el casco de protección con fines de comunicación o navegación?",
+        "options": [
+            "No.",
+            "Sí, siempre que no afecten a la seguridad en la conducción.",
+            "Sí con fines de navegación, pero  no con fines de comunicación."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T510101_150623.jpg"
+    },
+    {
+        "text": "En caso de avería en la calzada, ¿dónde debe colocarse el dispositivo luminoso de preseñalización de peligro?",
+        "options": [
+            "En la parte delantera del vehículo, siempre.",
+            "En la parte posterior del vehículo, siempre.",
+            "En la parte más alta posible del vehículo inmovilizado garantizado su máxima visibilidad."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T510105_010721.jpg"
+    },
+    {
+        "text": "Los conductores de los vehículos de movilidad personal, ¿están obligados a someterse a las pruebas de alcohol y drogas que se establezcan para su detección?",
+        "options": [
+            "Sí, igual que si condujeran cualquier otro vehículo.",
+            "No, salvo denuncia previa por la comisión de alguna infracción a las normas de circulación.",
+            "No, ya que para su conducción no se exige permiso de conducción."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510113_150723.jpg"
+    },
+    {
+        "text": "En este carril de aceleración, ¿dónde debe detenerse en caso de tener que ceder el paso?",
+        "options": [
+            "Al principio del carril.",
+            "Donde tenga que ceder el paso.",
+            "Justo antes de entrar en la vía."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T514017.jpg"
+    },
+    {
+        "text": "Un automóvil construido para el transporte de mercancías cuya cabina está integrada en el resto de la carrocería y con un máximo de 9 plazas, incluido el conductor es...",
+        "options": [
+            "un camión.",
+            "un tractocamión.",
+            "una furgoneta."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T513730.jpg"
+    },
+    {
+        "text": "Al adelantar a un peatón, es obligatorio dejar una separación lateral mínima de 1,50 metros cuando circule...",
+        "options": [
+            "por cualquier vía, fuera o dentro de poblado.",
+            "en vías interurbanas, solamente.",
+            "por poblado, exclusivamente."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T510111_150116.jpg"
+    },
+    {
+        "text": "En los cambios de carril en un mismo sentido, ¿quién tiene prioridad?",
+        "options": [
+            "Siempre los turismos.",
+            "El vehículo que realiza el cambio.",
+            "El vehículo que circula por el carril que se pretende ocupar."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T512813.jpg"
+    },
+    {
+        "text": "Para recordar las pautas básicas de actuación en un accidente se utiliza la\nregla PAS. Estas siglas significan...",
+        "options": [
+            "proteger, alertar y socorrer.",
+            "prevenir, atender y servir.",
+            "precaución, atención y seguridad."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T503911.jpg"
+    },
+    {
+        "text": "¿Qué tipo de sanción conlleva la utilización de dispositivos de intercomunicación no autorizados en las pruebas para la obtención del permiso de conducir?",
+        "options": [
+            "Multa de 200 euros y la inhabilitación de volver a presentarse a las pruebas en el plazo de tres meses.",
+            "Multa de 500 euros y la inhabilitación de volver a presentarse a las pruebas en el plazo de seis meses.",
+            "Ninguna."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T510106_150723.jpg"
+    },
+    {
+        "text": "Si un conductor se encuentra esta señal, debe saber que en la próxima intersección...",
+        "options": [
+            "debe ceder el paso a los vehículos que se acerquen tanto por la derecha como por la izquierda.",
+            "tiene prioridad sobre los vehículos que se acerquen tanto por la derecha como por la izquierda.",
+            "se aplica la regla general de prioridad de paso."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T514001.jpg"
+    },
+    {
+        "text": "¿Qué recursos utiliza el sistema de reconocimiento de señales de tráfico del vehículo para leer las señales verticales?",
+        "options": [
+            "Utiliza siempre los datos de navegación para mostrar la información de señales.",
+            "Este sistema solo muestra información sobre marcas viales.",
+            "Una cámara o sensor colocado en la parte trasera del retrovisor interior."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T500114_ADAS.jpg"
+    },
+    {
+        "text": "Los ocupantes de un cuadriciclo que no cuenta con estructura de autoprotección, ¿deben llevar casco?",
+        "options": [
+            "Sí, tanto el conductor como el pasajero deben llevar casco.",
+            "No, no es obligatorio ni para el conductor ni para el pasajero.",
+            "El conductor siempre, para el pasajero su uso no es obligatorio."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510119_150723.jpg"
+    },
+    {
+        "text": "Los agentes de tráfico inmovilizan un vehículo cuando su conductor tiene una tasa de alcohol mayor de la permitida. ¿Cuándo se dejará sin efecto dicha inmovilización?",
+        "options": [
+            "Cuando el conductor viaje con menores de edad.",
+            "Cuando el agente entregue al conductor el boletín de denuncia.",
+            "Cuando desaparezca la causa que la motivó."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T506230.jpg"
+    },
+    {
+        "text": "En esta vía se ha habilitado un carril adicional circunstancial, ¿a qué velocidad, como mínimo, deberán circular por dicho carril?",
+        "options": [
+            "60 km/h o inferior si así estuviese señalizado.",
+            "80 km/h.",
+            "A la mitad de la genérica señalada para cada categoría de vehículos."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P0314.jpg"
+    },
+    {
+        "text": "¿Está permitido remolcar con un turismo a un vehículo averiado por una autopista?",
+        "options": [
+            "Sí, hasta el taller más próximo.",
+            "No, debe hacerlo una grúa.",
+            "Sí, cuando la grúa tarde más de media hora."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T512109.jpg"
+    },
+    {
+        "text": "¿Es recomendable hacer un mantenimiento especial del vehículo si se vive en zona de playa?",
+        "options": [
+            "Sí, porque la arena y la sal aceleran la aparición de puntos de corrosión en la carrocería.",
+            "Sí, pero basta con revisar la presión de los neumáticos y el nivel de aceite.",
+            "No; solo es necesario realizar el mantenimiento recomendado por el fabricante."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510115_150723.jpg"
+    },
+    {
+        "text": "La cámara de marcha atrás transmite una vista del entorno trasero del vehículo...",
+        "options": [
+            "al poner la marcha atrás.",
+            "al detener el vehículo.",
+            "al encender la pantalla multifunción."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T500133_ADAS.jpg"
+    },
+    {
+        "text": "Si al girar a la izquierda se encuentra a peatones que están cruzando, ¿qué debe hacer?",
+        "options": [
+            "Pasar primero porque tengo preferencia.",
+            "Ceder el paso sólo cuando hay paso de peatones.",
+            "Ceder el paso porque ellos tienen preferencia."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T513613.jpg"
+    },
+    {
+        "text": "Los vehículos prioritarios, ¿tienen prioridad de paso sobre el resto de los usuarios de la vía?",
+        "options": [
+            "Solo cuando circulen en servicio de urgencia.",
+            "Sí, siempre.",
+            "No, nunca."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T500427.jpg"
+    },
+    {
+        "text": "En este tramo de carretera, ¿está permitido hacer un cambio de sentido?",
+        "options": [
+            "Sí.",
+            "No."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T506423.jpg"
+    },
+    {
+        "text": "¿Qué vehículos deben tener concertado el Seguro Obligatorio?",
+        "options": [
+            "Todos los vehículos a motor excepto los ciclomotores.",
+            "Todos los vehículos que circulen por las vías públicas.",
+            "Los vehículos a motor y ciclomotores."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T511802.jpg"
+    },
+    {
+        "text": "En un paso a nivel, ¿qué debe hacer si la barrera está subiendo?",
+        "options": [
+            "Pasar cuando lo hagan el resto de vehículos, se mueva o no la barrera.",
+            "Pasar cuando, por la altura, la barrera lo permita.",
+            "Detenerse detrás de los demás vehículos, hasta que la barrera suba totalmente y permita el paso."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T502511.jpg"
+    },
+    {
+        "text": "La marca vial amarilla continua, ¿qué indica?",
+        "options": [
+            "Prohíbe hacer parada y estacionar.",
+            "Prohíbe hacer parada solamente.",
+            "Prohíbe estacionar solamente."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T501120.jpg"
+    },
+    {
+        "text": "Entre la puesta y la salida del sol, ¿está permitido conducir una motocicleta que arrastra un remolque?",
+        "options": [
+            "Sí, si se hace a una velocidad un 10 por ciento por debajo de la genérica de la vía.",
+            "Sí, como a cualquier otra hora del día.",
+            "No."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T503224.jpg"
+    },
+    {
+        "text": "Las luces de los semáforos con la silueta de un ciclo, afectan...",
+        "options": [
+            "a ciclos solamente.",
+            "a ciclomotores solamente.",
+            "exclusivamente a ciclos y ciclomotores."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T502703.jpg"
+    },
+    {
+        "text": "Cuando la carga sobresale de un vehículo, ¿es obligatorio señalizarla con el panel de la imagen?",
+        "options": [
+            "Solo es obligatorio si la carga sobresale por la parte trasera.",
+            "No, excepto para los vehículos destinados al transporte de mercancías.",
+            "Sí, para todo tipo de vehículos, pero solo cuando la carga sea indivisible."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T512707.jpg"
+    },
+    {
+        "text": "En una carretera convencional, ¿está permitido que un peatón circule por la calzada?",
+        "options": [
+            "Sí, cuando no existe arcén o no es transitable.",
+            "Sí, cuando arrastra un vehículo.",
+            "No."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T504017.jpg"
+    },
+    {
+        "text": "¿En qué situación avisa al conductor el sistema avanzado de ayuda a la conducción conocido como “LDW”?",
+        "options": [
+            "En un cambio involuntario de dirección.",
+            "Cuando el vehículo abandona involuntariamente el carril por el que circula.",
+            "En un desplazamiento lateral indicado con el intermitente."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T500132_ADAS.jpg"
+    }
+]
+            
+            ;
+
+            const container = document.getElementById('test-container');
+            const paginationRow1 = document.getElementById('pagination-row-1');
+            const paginationRow2 = document.getElementById('pagination-row-2');
+
+            // Generar preguntas
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.setAttribute('data-correct', question.correct);
+                questionDiv.innerHTML = `
+                    <div class="question-image">
+                        <img src="${question.image}" alt="Imagen de la pregunta">
+                    </div>
+                    <div class="question-content">
+                        <h3>${index + 1}. ${question.text}</h3>
+                        <div class="options">
+                            ${question.options.map((option, idx) => `
+                                <div class="option" data-answer="${String.fromCharCode(65 + idx)}">
+                                    <span class="option-circle">${String.fromCharCode(65 + idx)}</span>
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+
+            // Generar paginación
+            for (let i = 0; i < questions.length; i++) {
+                const button = document.createElement('button');
+                button.textContent = `${i + 1}`;
+                button.addEventListener('click', () => showQuestion(i));
+                if (i < 15) {
+                    paginationRow1.appendChild(button);
+                } else {
+                    paginationRow2.appendChild(button);
+                }
+            }
+
+            // Mostrar la primera pregunta
+            showQuestion(0);
+
+            // Función para mostrar una pregunta específica
+            function showQuestion(index) {
+                document.querySelectorAll('.question').forEach((q, i) => {
+                    q.style.display = i === index ? 'flex' : 'none';
+                });
+                document.querySelectorAll('.pagination button').forEach((btn, i) => {
+                    btn.style.backgroundColor = i === index ? '#ff7aa2' : '#ffa5c3';
+                });
+            }
+
+            // Evento para las opciones de respuesta
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const question = this.closest('.question');
+                    const questionIndex = Array.from(container.children).indexOf(question);
+                    const isCorrect = this.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    
+                    if (question.dataset.answered) return;
+
+                    question.dataset.answered = true;
+
+                    question.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                        opt.style.pointerEvents = 'none';
+                    });
+                    
+                    this.classList.add('selected', isCorrect ? 'correct' : 'incorrect');
+
+                    if (!isCorrect) {
+                        question.querySelector(`.option[data-answer="${question.getAttribute('data-correct')}"]`).classList.add('correct');
+                    }
+
+                    // Actualizar el botón de paginación
+                    const paginationButton = questionIndex < 15 ? paginationRow1.children[questionIndex] : paginationRow2.children[questionIndex - 15];
+                    paginationButton.classList.add(isCorrect ? 'correct' : 'incorrect');
+                });
+            });
+
+            // Evento para corregir el test
+            document.getElementById('correct-test').addEventListener('click', () => {
+                let wrongAnswers = 0;
+                document.querySelectorAll('.question').forEach((question, index) => {
+                    const selected = question.querySelector('.option.selected');
+                    const isCorrect = selected && selected.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    if (!isCorrect) {
+                        wrongAnswers++;
+                    }
+                    // Actualizar el botón de paginación si no se ha respondido
+                    if (!selected) {
+                        const paginationButton = index < 15 ? paginationRow1.children[index] : paginationRow2.children[index - 15];
+                        paginationButton.classList.add('incorrect');
+                    }
+                });
+                const resultMessage = `Has fallado ${wrongAnswers} respuestas.`;
+
+                const alert = document.getElementById('custom-alert');
+                document.getElementById('alert-message').textContent = resultMessage;
+                alert.style.display = 'block';
+            });
+        });
+
+        function closeAlert() {
+            document.getElementById('custom-alert').style.display = 'none';
+        }
+    </script>
+
+    
+</body>
+</html>

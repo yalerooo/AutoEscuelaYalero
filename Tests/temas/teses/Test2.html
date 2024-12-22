@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Autoescuela</title>
+    <link rel="stylesheet" href="../../../Assets/style.css">
+</head>
+<body>
+
+    
+    <div class="container">
+        <h1 style="text-align: center; color: #ffa5c3;">Test de Autoescuela</h1>
+        <div id="test-container">
+            <!-- Aquí se generarán dinámicamente las preguntas -->
+        </div>
+        <div class="pagination">
+            <div class="pagination-row" id="pagination-row-1"></div>
+            <div class="pagination-row" id="pagination-row-2"></div>
+        </div>
+        <button id="correct-test">Corregir Test</button>
+    </div>
+
+    <!-- Custom Alert HTML -->
+    <div class="custom-alert" id="custom-alert">
+        <h2>Resultado del Test</h2>
+        <p id="alert-message">Aquí irá el mensaje del resultado.</p>
+        <button onclick="closeAlert()">Cerrar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = [
+    {
+        "text": "Los peatones, ¿pueden circular por una vía ciclista que se encuentra debidamente señalizada sobre la acera?",
+        "options": [
+            "No; es una vía reservada para conductores de ciclos.",
+            "Solo para cruzarla, incluso en lugares que no esté señalizado para ello.",
+            "Sí, ya que la acera es una zona peatonal."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T510116_250723.jpg"
+    },
+    {
+        "text": "Como norma general, ¿está permitido que los conductores de bicicletas mayores de 18 años, circulen con sus vehículos por las aceras?",
+        "options": [
+            "Solo si circulan a una velocidad igual o inferior a 15 km/h.",
+            "No.",
+            "Sí."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T510101_050723.jpg"
+    },
+    {
+        "text": "¿Puede circular por la calzada de una vía urbana con un vehículo de movilidad personal?",
+        "options": [
+            "Sí, excepto por travesías y túneles urbanos.",
+            "No, debo circular por la acera.",
+            "No, en ningún caso."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510102_050723.jpg"
+    },
+    {
+        "text": "Un vehículo de movilidad personal, ¿puede circular por vías interurbanas?",
+        "options": [
+            "No.",
+            "No, solo pueden circular por vías urbanas y travesías.",
+            "Sí, siempre que tengan arcén suficiente."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510102_0512.jpg"
+    },
+    {
+        "text": "En esta vía con tres calzadas separadas, ¿por qué calzada debe circular?",
+        "options": [
+            "Sólo por la calzada de la derecha.",
+            "Por la calzada de la derecha y por la central cuando haya señales que así me lo permiten.",
+            "Sólo por la calzada central."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P0201.jpg"
+    },
+    {
+        "text": "En las autovías, se permite circular...",
+        "options": [
+            "a peatones.",
+            "a vehículos de tracción animal.",
+            "por los arcenes, a conductores de bicicletas mayores de 14 años, salvo que se prohíba por señal."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P0202.jpg"
+    },
+    {
+        "text": "Se prohíbe circular por autopistas a los...",
+        "options": [
+            "vehículos que transporten mercancías peligrosas.",
+            "vehículos con remolque.",
+            "vehículos que no sean capaces de alcanzar en llano 60 km/h."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P0203.jpg"
+    },
+    {
+        "text": "La circulación de peatones está prohibida...",
+        "options": [
+            "en autovías, pero no en autopistas.",
+            "en autopistas y en autovías.",
+            "en autopistas, pero no en autovías."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T503821.jpg"
+    },
+    {
+        "text": "En una vía interurbana con tres carriles para el mismo sentido, ¿por cuál debe circular con caracter general?",
+        "options": [
+            "Por el carril central o el izquierdo.",
+            "Por el carril de la derecha.",
+            "Por el carril izquierdo."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T502617.jpg"
+    },
+    {
+        "text": "En una autopista, ¿es correcto que este vehículo circule por el carril central teniendo libre el carril de la derecha?",
+        "options": [
+            "Sí, mientras no moleste a nadie.",
+            "Sí, si es el que más conviene a su destino.",
+            "No, debe ir por el carril de la derecha."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T513111.jpg"
+    },
+    {
+        "text": "Si va a realizar un nuevo adelantamiento, ¿está permitido seguir circulando por el carril izquierdo?",
+        "options": [
+            "Sí, cuando no obstaculiza a los vehículos que circulen más rápido por detrás.",
+            "Sí, si circula a la máxima velocidad permitida en la vía.",
+            "No, tiene que volver obligatoriamente a la derecha."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P0207.jpg"
+    },
+    {
+        "text": "El turismo blanco circula por autopista, después de adelantar al turismo y al camión, desea seguir adelantando a otros vehículos. ¿Debe regresar antes al carril derecho?",
+        "options": [
+            "No, porque en autopistas no es obligatorio.",
+            "Sí, cuando circulen vehículos detrás a más velocidad.",
+            "Sí, siempre."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T510123_150217.jpg"
+    },
+    {
+        "text": "En una carretera de tres carriles en cada sentido, ¿cuándo se puede circular por el carril izquierdo?",
+        "options": [
+            "Solamente para adelantar.",
+            "Nunca.",
+            "Cuando los otros carriles estén ocupados y no obstaculice a los vehículos que circulan detrás."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P0206.jpg"
+    },
+    {
+        "text": "Si conduce una motocicleta por esta vía, ¿está permitido circular por el carril situado más a la izquierda?",
+        "options": [
+            "No, sólo puede utilizar el derecho y el central.",
+            "No, únicamente puede circular por el arcén.",
+            "Sí, cuando las circunstancias del tráfico o la vía lo aconsejen."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T504901.jpg"
+    },
+    {
+        "text": "En vías interurbanas con tres carriles para el mismo sentido, ¿le está permitido circular por el carril izquierdo a un turismo con remolque?",
+        "options": [
+            "Sí, pero sólo para adelantar a otros vehículos.",
+            "No, en ningún caso",
+            "Sí, cuando la longitud del conjunto no supere los 7 metros."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T507003.jpg"
+    },
+    {
+        "text": "Un conjunto de vehículos, cuya longitud es de 7,30 metros, circula por una vía con tres carriles por sentido de la circulación, ¿qué carriles puede utilizar?",
+        "options": [
+            "Cualquiera de ellos indistintamente.",
+            "El de la derecha y el inmediato únicamente cuando las circunstancias del tráfico o de la vía lo aconsejen.",
+            "Solamente el de la derecha."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P0211.jpg"
+    },
+    {
+        "text": "¿Puede adelantar al vehículo negro por la derecha?",
+        "options": [
+            "No, porque está prohibido.",
+            "Sí, porque es una autovía.",
+            "Sí, porque circula incorrectamente."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P0208.jpg"
+    },
+    {
+        "text": "Circula por una carretera convencional con dos carriles para cada sentido, ¿qué carril debe utilizar?",
+        "options": [
+            "El izquierdo.",
+            "El que más convenga a mi destino.",
+            "El derecho."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T512025.jpg"
+    },
+    {
+        "text": "En una carretera de tres carriles de circulación y doble sentido, ¿para qué se utiliza el carril central?",
+        "options": [
+            "Como un carril de sentido contrario a la circulación.",
+            "Para la circulación en cualquier sentido.",
+            "Para realizar adelantamientos y giros a la izquierda."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T513509.jpg"
+    },
+    {
+        "text": "A la vista de la señal, ¿puede circular un turismo a más de 70 km/h por el carril de la derecha?",
+        "options": [
+            "No, porque el carril derecho es para circulación lenta.",
+            "Sí, porque debo circular por la derecha siempre que sea posible.",
+            "Sí, porque los carriles de la izquierda son para los vehículos que circulan a menos de 70 km/h."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P0212.jpg"
+    },
+    {
+        "text": "Circulando por una autopista urbana, ¿puede usted utilizar el carril que más convenga a su destino?",
+        "options": [
+            "Sí, como en todas las vías urbanas.",
+            "Sí, si no entorpecemos la marcha más rápida de otro vehículo.",
+            "No, como norma general debemos circular por el carril de la derecha."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T505101.jpg"
+    },
+    {
+        "text": "En esta calle con dos carriles para cada sentido, ¿por qué carril se puede circular?",
+        "options": [
+            "Por el de la derecha y por los otros sólo para adelantar.",
+            "Por el carril que me convenga para ir a mi destino.",
+            "Siempre por el carril de la derecha."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T505018.jpg"
+    },
+    {
+        "text": "Esta calle tiene tres carriles en cada sentido. ¿Por dónde se debe circular?",
+        "options": [
+            "Depende de la velocidad de mi vehículo.",
+            "Por el carril más adecuado para ir a mi destino.",
+            "Por el carril derecho y por los otros sólo para adelantar."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P0209.jpg"
+    },
+    {
+        "text": "Una motocicleta dentro de poblado, cuando la vía tiene más de un carril en el mismo sentido, podrá circular por...",
+        "options": [
+            "el carril de la derecha para circular y el de la izquierda sólo para cambiar de dirección.",
+            "el carril que mejor convenga a su destino.",
+            "el carril de la derecha únicamente."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T514603.jpg"
+    },
+    {
+        "text": "En esta vía circula por el carril que mejor conviene a su destino, ¿cuándo puede abandonarlo?",
+        "options": [
+            "Al prepararse para cambiar de dirección, adelantar, parar o estacionar.",
+            "Únicamente cuando pretenda parar o estacionar.",
+            "Sólo cuando quiera cambiar de dirección o de sentido."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T505401.jpg"
+    },
+    {
+        "text": "¿Cuántos carriles tiene la calzada de la fotografía?",
+        "options": [
+            "Dos, porque tiene anchura para permitir la circulación de dos filas de automóviles que no sean motocicletas.",
+            "Uno sólo porque no existen marcas pintadas."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T505218.jpg"
+    },
+    {
+        "text": "En una vía urbana de sentido único, si los carriles no están delimitados por marcas viales, ¿por dónde está obligado a circular el conductor de un turismo?",
+        "options": [
+            "Por el carril que mejor convenga a su destino.",
+            "Por el centro de la calzada.",
+            "Por el carril derecho, pudiendo utilizar el resto cuando las circunstancias lo aconsejen."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T514908.jpg"
+    },
+    {
+        "text": "¿Es correcto circular por el centro de la calzada de esta vía?",
+        "options": [
+            "Sí, porque no hay marcas que delimiten los carriles.",
+            "Sí, porque la calzada es muy estrecha.",
+            "No, se circulará por la derecha de la calzada, lo más cerca posible del borde derecho."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T514117.jpg"
+    },
+    {
+        "text": "En esta vía de doble sentido de circulación no existen marcas viales. Por ello, para tomar la curva se debe circular...",
+        "options": [
+            "por el centro de la calzada porque no existen marcas viales que separen los sentidos.",
+            "por la derecha de la calzada, dejando completamente libre la mitad correspondiente al sentido contrario.",
+            "por la izquierda de la calzada, porque hay más visibilidad."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T513011.jpg"
+    },
+    {
+        "text": "¿Por dónde se debe circular en un cambio de rasante de reducida visibilidad?",
+        "options": [
+            "Dejando completamente libre la mitad de la calzada que corresponda a los que puedan circular en sentido contrario.",
+            "Por la izquierda, aunque se invada parte del centro de la calzada.",
+            "Por donde más convenga a mi destino."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T514301.jpg"
+    }
+]
+            
+            ;
+
+            const container = document.getElementById('test-container');
+            const paginationRow1 = document.getElementById('pagination-row-1');
+            const paginationRow2 = document.getElementById('pagination-row-2');
+
+            // Generar preguntas
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.setAttribute('data-correct', question.correct);
+                questionDiv.innerHTML = `
+                    <div class="question-image">
+                        <img src="${question.image}" alt="Imagen de la pregunta">
+                    </div>
+                    <div class="question-content">
+                        <h3>${index + 1}. ${question.text}</h3>
+                        <div class="options">
+                            ${question.options.map((option, idx) => `
+                                <div class="option" data-answer="${String.fromCharCode(65 + idx)}">
+                                    <span class="option-circle">${String.fromCharCode(65 + idx)}</span>
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+
+            // Generar paginación
+            for (let i = 0; i < questions.length; i++) {
+                const button = document.createElement('button');
+                button.textContent = `${i + 1}`;
+                button.addEventListener('click', () => showQuestion(i));
+                if (i < 15) {
+                    paginationRow1.appendChild(button);
+                } else {
+                    paginationRow2.appendChild(button);
+                }
+            }
+
+            // Mostrar la primera pregunta
+            showQuestion(0);
+
+            // Función para mostrar una pregunta específica
+            function showQuestion(index) {
+                document.querySelectorAll('.question').forEach((q, i) => {
+                    q.style.display = i === index ? 'flex' : 'none';
+                });
+                document.querySelectorAll('.pagination button').forEach((btn, i) => {
+                    btn.style.backgroundColor = i === index ? '#ff7aa2' : '#ffa5c3';
+                });
+            }
+
+            // Evento para las opciones de respuesta
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const question = this.closest('.question');
+                    const questionIndex = Array.from(container.children).indexOf(question);
+                    const isCorrect = this.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    
+                    if (question.dataset.answered) return;
+
+                    question.dataset.answered = true;
+
+                    question.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                        opt.style.pointerEvents = 'none';
+                    });
+                    
+                    this.classList.add('selected', isCorrect ? 'correct' : 'incorrect');
+
+                    if (!isCorrect) {
+                        question.querySelector(`.option[data-answer="${question.getAttribute('data-correct')}"]`).classList.add('correct');
+                    }
+
+                    // Actualizar el botón de paginación
+                    const paginationButton = questionIndex < 15 ? paginationRow1.children[questionIndex] : paginationRow2.children[questionIndex - 15];
+                    paginationButton.classList.add(isCorrect ? 'correct' : 'incorrect');
+                });
+            });
+
+            // Evento para corregir el test
+            document.getElementById('correct-test').addEventListener('click', () => {
+                let wrongAnswers = 0;
+                document.querySelectorAll('.question').forEach((question, index) => {
+                    const selected = question.querySelector('.option.selected');
+                    const isCorrect = selected && selected.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    if (!isCorrect) {
+                        wrongAnswers++;
+                    }
+                    // Actualizar el botón de paginación si no se ha respondido
+                    if (!selected) {
+                        const paginationButton = index < 15 ? paginationRow1.children[index] : paginationRow2.children[index - 15];
+                        paginationButton.classList.add('incorrect');
+                    }
+                });
+                const resultMessage = `Has fallado ${wrongAnswers} respuestas.`;
+
+                const alert = document.getElementById('custom-alert');
+                document.getElementById('alert-message').textContent = resultMessage;
+                alert.style.display = 'block';
+            });
+        });
+
+        function closeAlert() {
+            document.getElementById('custom-alert').style.display = 'none';
+        }
+    </script>
+
+    
+</body>
+</html>

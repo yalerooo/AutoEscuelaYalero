@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Autoescuela</title>
+    <link rel="stylesheet" href="../../../Assets/style.css">
+</head>
+<body>
+
+    
+    <div class="container">
+        <h1 style="text-align: center; color: #ffa5c3;">Test de Autoescuela</h1>
+        <div id="test-container">
+            <!-- Aquí se generarán dinámicamente las preguntas -->
+        </div>
+        <div class="pagination">
+            <div class="pagination-row" id="pagination-row-1"></div>
+            <div class="pagination-row" id="pagination-row-2"></div>
+        </div>
+        <button id="correct-test">Corregir Test</button>
+    </div>
+
+    <!-- Custom Alert HTML -->
+    <div class="custom-alert" id="custom-alert">
+        <h2>Resultado del Test</h2>
+        <p id="alert-message">Aquí irá el mensaje del resultado.</p>
+        <button onclick="closeAlert()">Cerrar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = [
+    {
+        "text": "Los límites de velocidad establecidos en las vías tienen como objetivo...",
+        "options": [
+            "garantizar la seguridad únicamente.",
+            "garantizar la seguridad y la fluidez.",
+            "adaptar la conducción a las nuevas tecnologías de los vehículos y el medio ambiente."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P0421.jpg"
+    },
+    {
+        "text": "Los límites de velocidad que se establecen para una vía, ¿de qué dependen?",
+        "options": [
+            "De criterios económicos, fundamentalmente.",
+            "De su trazado y del tráfico que vaya a soportar.",
+            "De su trazado y del número de curvas."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T502408.jpg"
+    },
+    {
+        "text": "La máxima velocidad segura que puede mantenerse sobre una sección de carretera en condiciones favorables es la velocidad...",
+        "options": [
+            "de fluidez de una vía.",
+            "adecuada de una vía.",
+            "de diseño de una vía."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T502829.jpg"
+    },
+    {
+        "text": "Circular a una velocidad adecuada permite...",
+        "options": [
+            "controlar el vehículo ante cualquier imprevisto.",
+            "evitar atascos.",
+            "ahorrarse el mantenimiento preventivo del vehículo."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P3001.jpg"
+    },
+    {
+        "text": "La velocidad adecuada está siempre...",
+        "options": [
+            "por debajo de la velocidad mínima.",
+            "por encima de la velocidad máxima y por debajo de la mínima.",
+            "por encima de la velocidad mínima y por debajo de la máxima."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T501514.jpg"
+    },
+    {
+        "text": "¿Qué es la velocidad inadecuada?",
+        "options": [
+            "La velocidad que no se adapta a las condiciones del tráfico, de la vía o del conductor.",
+            "La velocidad permitida en la vía.",
+            "La que no rebasa el límite máximo de velocidad para la vía."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T502524.jpg"
+    },
+    {
+        "text": "Aunque no se superen los límites máximos de velocidad, ¿puede llegar a circular a una velocidad inadecuada?",
+        "options": [
+            "Sí, en tanto que la velocidad debe adecuarse a las circunstancias de la vía, como por ejemplo, la lluvia, nieve o hielo.",
+            "No, en ningún caso.",
+            "Sí, siempre que vaya a más de 100 km/h."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T503906.jpg"
+    },
+    {
+        "text": "Si un conductor circula a velocidad inadecuada, ¿lo hace siempre por encima de la velocidad máxima permitida o por debajo de la velocidad mínima establecida?",
+        "options": [
+            "Sí, la velocidad inadecuada siempre es superior a la velocidad máxima establecida.",
+            "Sí, la velocidad inadecuada siempre es inferior a la velocidad mínima establecida.",
+            "No, la velocidad puede ser inadecuada aunque esté dentro de los límites establecidos."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T511616.jpg"
+    },
+    {
+        "text": "Cuando se aproxime a un cruce con visibilidad nula, ¿debe moderar la velocidad?",
+        "options": [
+            "Sí, y si hay señal que no establezca nuestra prioridad, no debo superar los 50 Km/h.",
+            "Sí, y no tengo que prestar atención al límite de velocidad.",
+            "No, siempre y cuando haya una señal de ceda el paso."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510105_250116.jpg"
+    },
+    {
+        "text": "La sensación de circular a una velocidad inferior a la que realmente lleva, puede deberse a...",
+        "options": [
+            "circular con un régimen alto de revoluciones en el motor.",
+            "el ruido que producen los neumáticos de nieve durante un largo trayecto.",
+            "haber circulado a gran velocidad por carreteras amplias y bien asfaltadas."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T504608.jpg"
+    },
+    {
+        "text": "¿Está permitido realizar competiciones de velocidad en las vías públicas?",
+        "options": [
+            "No, como norma general.",
+            "Sí, pero todas las pruebas autorizadas irán precedidas por un agente de la autoridad con una bandera de color verde.",
+            "Sí, siempre."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T504323.jpg"
+    },
+    {
+        "text": "Normalmente, ¿a qué velocidad debe circular?",
+        "options": [
+            "A la velocidad mínima permitida en la vía.",
+            "A la velocidad máxima permitida en la vía.",
+            "A la velocidad adecuada para poder detenerme con seguridad en caso necesario."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T500717.jpg"
+    },
+    {
+        "text": "En autopista, ¿cómo debe circular un turismo?",
+        "options": [
+            "A velocidad adaptada a la circulación y al estado de la calzada sin rebasar los 120 km/h.",
+            "Siempre a la velocidad máxima permitida.",
+            "A velocidad adaptada a la circulación y al estado de la calzada, pudiendo rebasar los 120 km/h para realizar adelantamientos."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T500702.jpg"
+    },
+    {
+        "text": "En autopista, ¿a qué velocidad máxima puede circular una motocicleta?",
+        "options": [
+            "90 km/h.",
+            "100 km/h.",
+            "120 km/h."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P0403.jpg"
+    },
+    {
+        "text": "La velocidad máxima para un vehículo mixto adaptable en autopista es...",
+        "options": [
+            "100 km/h.",
+            "120 km/h.",
+            "90 km/h."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P0404.jpg"
+    },
+    {
+        "text": "En esta autopista, ¿a qué velocidad máxima podrá circular un camión de 3.000 kilos de MMA?",
+        "options": [
+            "90 km/h.",
+            "100 km/h.",
+            "80 km/h."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510101_051116.jpg"
+    },
+    {
+        "text": "En autovía, ¿a qué velocidad máxima puede circular un turismo?",
+        "options": [
+            "A 100 km/h.",
+            "A 120 km/h.",
+            "A 140 km/h."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T511405.jpg"
+    },
+    {
+        "text": "Con una motocicleta de hasta 125 centímetros cúbicos, ¿a qué velocidad máxima puede circular por una autovía?",
+        "options": [
+            "A 120 kilómetros por hora.",
+            "A 90 kilómetros por hora.",
+            "A 80 kilómetros por hora."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T505106.jpg"
+    },
+    {
+        "text": "Un turismo que arrastra un remolque, ¿a qué velocidad máxima puede circular por autopista o autovía?",
+        "options": [
+            "A 120 km/h.",
+            "A 100 km/h.",
+            "A 90 km/h."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T512225.jpg"
+    },
+    {
+        "text": "¿A qué velocidad máxima tiene permitido circular una autocaravana, de masa máxima autorizada inferior a 3.500 kilogramos, en una autovía?",
+        "options": [
+            "A 120 km/h.",
+            "A 100 km/h.",
+            "A 90 km/h."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T505815.jpg"
+    },
+    {
+        "text": "La velocidad máxima de un vehículo mixto adaptable en una vía para automóviles será de...",
+        "options": [
+            "80 kilómetros por hora.",
+            "70 kilómetros por hora.",
+            "90 kilómetros por hora."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T510123_151216.jpg"
+    },
+    {
+        "text": "En autopistas y autovías, ¿qué vehículos pueden superar la velocidad máxima permitida para adelantar?",
+        "options": [
+            "Los turismos y las motocicletas solamente.",
+            "Sólo las motocicletas.",
+            "No la puede superar ningún vehículo."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T510129_150116.jpg"
+    },
+    {
+        "text": "¿Es importante cumplir con los límites inferiores de velocidad?",
+        "options": [
+            "Sí, pero sólo para no ser sancionado.",
+            "Sí, para evitar causar accidentes.",
+            "No, ya que los límites inferiores son sólo orientativos."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T511119.jpg"
+    },
+    {
+        "text": "¿Cuándo se circula a velocidad anormalmente reducida?",
+        "options": [
+            "Cuando se circula a velocidad inferior a la mínima permitida.",
+            "Cuando se circula a velocidad inferior a la máxima permitida.",
+            "Cuando se circula a velocidad superior a la mínima permitida."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P0417.jpg"
+    },
+    {
+        "text": "Circula con un turismo por esta autopista, ¿qué velocidad se considera anormalmente reducida?",
+        "options": [
+            "La menor de 50 km/h.",
+            "La menor de 60 km/h.",
+            "La menor de 70 km/h."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P0418.jpg"
+    },
+    {
+        "text": "Como norma general, en las autopistas, ¿puede una motocicleta circular a 50 kilómetros por hora?",
+        "options": [
+            "Sí, ya que es la velocidad mínima permitida.",
+            "No, como mínimo hay que circular a 100 Km/h.",
+            "No, como mínimo hay que circular a 60 Km/h."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T513513.jpg"
+    },
+    {
+        "text": "¿Está permitido circular por una autovía, sin causa justificada, por debajo del límite mínimo de velocidad establecido para dicha vía?",
+        "options": [
+            "Sí, aunque en este caso es obligatorio circular por el arcén.",
+            "No, porque es una velocidad anormalmente reducida.",
+            "Sí, siempre que no circulen otros vehículos a los que pueda entorpecer su marcha normal."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T513003.jpg"
+    },
+    {
+        "text": "En una autopista, ¿está permitido circular a una velocidad anormalmente reducida con niebla espesa?",
+        "options": [
+            "No, porque es una autopista y es una vía de gran seguridad.",
+            "Sí.",
+            "Sí, si la circulación es escasa, pero no, si es densa."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P0419.jpg"
+    },
+    {
+        "text": "A 100 km/h por esta vía, ¿circula a una velocidad adecuada?",
+        "options": [
+            "No, porque lo aconsejado es circular a 120 km/h.",
+            "Sí, siempre que lo permitan las circunstancias del tráfico y la vía.",
+            "Sí, siempre que no entorpezca la circulación."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T507811.jpg"
+    },
+    {
+        "text": "En esta autopista dentro de poblado, ¿a qué velocidad puede circular como máximo si no existe señalización?",
+        "options": [
+            "A 70 km/h.",
+            "A 120 km/h.",
+            "A 80 km/h."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T500727.jpg"
+    }
+]
+            
+            ;
+
+            const container = document.getElementById('test-container');
+            const paginationRow1 = document.getElementById('pagination-row-1');
+            const paginationRow2 = document.getElementById('pagination-row-2');
+
+            // Generar preguntas
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.setAttribute('data-correct', question.correct);
+                questionDiv.innerHTML = `
+                    <div class="question-image">
+                        <img src="${question.image}" alt="Imagen de la pregunta">
+                    </div>
+                    <div class="question-content">
+                        <h3>${index + 1}. ${question.text}</h3>
+                        <div class="options">
+                            ${question.options.map((option, idx) => `
+                                <div class="option" data-answer="${String.fromCharCode(65 + idx)}">
+                                    <span class="option-circle">${String.fromCharCode(65 + idx)}</span>
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+
+            // Generar paginación
+            for (let i = 0; i < questions.length; i++) {
+                const button = document.createElement('button');
+                button.textContent = `${i + 1}`;
+                button.addEventListener('click', () => showQuestion(i));
+                if (i < 15) {
+                    paginationRow1.appendChild(button);
+                } else {
+                    paginationRow2.appendChild(button);
+                }
+            }
+
+            // Mostrar la primera pregunta
+            showQuestion(0);
+
+            // Función para mostrar una pregunta específica
+            function showQuestion(index) {
+                document.querySelectorAll('.question').forEach((q, i) => {
+                    q.style.display = i === index ? 'flex' : 'none';
+                });
+                document.querySelectorAll('.pagination button').forEach((btn, i) => {
+                    btn.style.backgroundColor = i === index ? '#ff7aa2' : '#ffa5c3';
+                });
+            }
+
+            // Evento para las opciones de respuesta
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const question = this.closest('.question');
+                    const questionIndex = Array.from(container.children).indexOf(question);
+                    const isCorrect = this.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    
+                    if (question.dataset.answered) return;
+
+                    question.dataset.answered = true;
+
+                    question.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                        opt.style.pointerEvents = 'none';
+                    });
+                    
+                    this.classList.add('selected', isCorrect ? 'correct' : 'incorrect');
+
+                    if (!isCorrect) {
+                        question.querySelector(`.option[data-answer="${question.getAttribute('data-correct')}"]`).classList.add('correct');
+                    }
+
+                    // Actualizar el botón de paginación
+                    const paginationButton = questionIndex < 15 ? paginationRow1.children[questionIndex] : paginationRow2.children[questionIndex - 15];
+                    paginationButton.classList.add(isCorrect ? 'correct' : 'incorrect');
+                });
+            });
+
+            // Evento para corregir el test
+            document.getElementById('correct-test').addEventListener('click', () => {
+                let wrongAnswers = 0;
+                document.querySelectorAll('.question').forEach((question, index) => {
+                    const selected = question.querySelector('.option.selected');
+                    const isCorrect = selected && selected.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    if (!isCorrect) {
+                        wrongAnswers++;
+                    }
+                    // Actualizar el botón de paginación si no se ha respondido
+                    if (!selected) {
+                        const paginationButton = index < 15 ? paginationRow1.children[index] : paginationRow2.children[index - 15];
+                        paginationButton.classList.add('incorrect');
+                    }
+                });
+                const resultMessage = `Has fallado ${wrongAnswers} respuestas.`;
+
+                const alert = document.getElementById('custom-alert');
+                document.getElementById('alert-message').textContent = resultMessage;
+                alert.style.display = 'block';
+            });
+        });
+
+        function closeAlert() {
+            document.getElementById('custom-alert').style.display = 'none';
+        }
+    </script>
+
+    
+</body>
+</html>

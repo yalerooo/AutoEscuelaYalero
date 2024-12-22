@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Autoescuela</title>
+    <link rel="stylesheet" href="../../../Assets/style.css">
+</head>
+<body>
+
+    
+    <div class="container">
+        <h1 style="text-align: center; color: #ffa5c3;">Test de Autoescuela</h1>
+        <div id="test-container">
+            <!-- Aquí se generarán dinámicamente las preguntas -->
+        </div>
+        <div class="pagination">
+            <div class="pagination-row" id="pagination-row-1"></div>
+            <div class="pagination-row" id="pagination-row-2"></div>
+        </div>
+        <button id="correct-test">Corregir Test</button>
+    </div>
+
+    <!-- Custom Alert HTML -->
+    <div class="custom-alert" id="custom-alert">
+        <h2>Resultado del Test</h2>
+        <p id="alert-message">Aquí irá el mensaje del resultado.</p>
+        <button onclick="closeAlert()">Cerrar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = [
+    {
+        "text": "¿Cuáles son las ruedas motrices en un vehículo?",
+        "options": [
+            "Las delanteras, las traseras, o todas ellas, dependiendo de qué eje, o ejes, reciban la potencia del motor.",
+            "Las delanteras, siempre que el motor esté situado en la parte delantera del vehículo.",
+            "Las ruedas motrices son siempre las traseras, independientemente del lugar donde el vehículo lleve situado el motor."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P3219.jpg"
+    },
+    {
+        "text": "Las ruedas directrices de un turismo son...",
+        "options": [
+            "Las ruedas delanteras.",
+            "Las ruedas posteriores.",
+            "Las ruedas que reciben la fuerza del motor."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P3218.jpg"
+    },
+    {
+        "text": "Es recomendable revisar la dirección del vehículo cuando...",
+        "options": [
+            "el volante no vibra entre las manos a altas velocidades.",
+            "las ruedas rebotan en los baches.",
+            "se desvía a un lado al soltar el volante en terreno llano."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T509512.jpg"
+    },
+    {
+        "text": "La regulación, el funcionamiento y el estado del sistema de alumbrado, ¿hay que revisarlos con frecuencia?",
+        "options": [
+            "No, sólo es necesario cambiar las bombillas cuando estén fundidas.",
+            "Sí.",
+            "No, con una vez cada dos o tres años es suficiente."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T510128_050916.jpg"
+    },
+    {
+        "text": "El lavaparabrisas del vehículo...",
+        "options": [
+            "no necesita ningún mantenimiento.",
+            "necesita que se vigile el nivel de agua de su propio depósito.",
+            "necesita que se vigile el nivel del circuito de refrigeración de donde toma el agua."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T501422.jpg"
+    },
+    {
+        "text": "El limpiaparabrisas del vehículo, ¿cuándo hay que revisarlo?",
+        "options": [
+            "Con frecuencia.",
+            "Cada 6 meses.",
+            "Cada año."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T508514.jpg"
+    },
+    {
+        "text": "Una exposición continuada del vehículo a temperaturas elevadas, puede provocar un deterioro mayor de las gomas de las escobillas de los limpiaparabrisas. ¿Cuáles son los efectos más comunes?",
+        "options": [
+            "Se endurecen y se agrietan.",
+            "Se dilatan y ejercen mayor presión sobre el cristal.",
+            "Se reblandecen y pierden elasticidad."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T512514.jpg"
+    },
+    {
+        "text": "¿Cuándo se deben cambiar las escobillas del limpiaparabrisas?",
+        "options": [
+            "Cuando las gomas estén dañadas.",
+            "Siempre antes de pasar la inspección técnica del vehículo.",
+            "Cada dos años obligatoriamente."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510108_150623.jpg"
+    },
+    {
+        "text": "En un turismo, ¿es obligatorio llevar dispositivo de preseñalización de peligro?",
+        "options": [
+            "Sólo en autopista y autovía.",
+            "No es obligatorio, pero es aconsejable.",
+            "Sí, es obligatorio."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T512927.jpg"
+    },
+    {
+        "text": "En caso de avería en la calzada, ¿dónde debe colocarse el dispositivo luminoso de preseñalización de peligro?",
+        "options": [
+            "En la parte delantera del vehículo, siempre.",
+            "En la parte posterior del vehículo, siempre.",
+            "En la parte más alta posible del vehículo inmovilizado garantizado su máxima visibilidad."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T510105_010721.jpg"
+    },
+    {
+        "text": "En un turismo, ¿qué accesorio de los siguientes es obligatorio llevar?",
+        "options": [
+            "Dispositivo de preseñalización de peligro.",
+            "Una caja con lámparas de repuesto.",
+            "Un equipo homologado de extinción de incendios."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T514927.jpg"
+    },
+    {
+        "text": "¿Cuántos chalecos reflectantes debe llevar obligatoriamente en un turismo?",
+        "options": [
+            "Dos.",
+            "Uno, aunque es recomendable llevar dos.",
+            "Ninguno, ya que no es obligatorio."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P3221.jpg"
+    },
+    {
+        "text": "Los conductores de turismos deben utilizar el chaleco reflectante de alta visibilidad...",
+        "options": [
+            "siempre que salgan del vehículo.",
+            "cuando salgan del vehículo y ocupen la calzada o el arcén de una vía interurbana.",
+            "cuando salgan del vehículo y ocupen la calzada o el arcén en cualquier vía."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P3222.jpg"
+    },
+    {
+        "text": "En un vehículo mixto adaptable, ¿es obligatorio llevar un chaleco reflectante?",
+        "options": [
+            "Sí.",
+            "No, pero es recomendable.",
+            "Sí, en el maletero del vehículo."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T501228.jpg"
+    },
+    {
+        "text": "El conductor de un camión, ¿está obligado a llevar un chaleco reflectante en su vehículo?",
+        "options": [
+            "No.",
+            "Sí.",
+            "No, pero lo puede llevar cuando circule por vía interurbana."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P3223.jpg"
+    },
+    {
+        "text": "Un turismo debe llevar las herramientas indispensables para...",
+        "options": [
+            "el cambio de la rueda de repuesto.",
+            "efectuar pequeñas reparaciones.",
+            "el cambio de manguitos, correas y bujías."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P3227.jpeg"
+    },
+    {
+        "text": "¿Es obligatorio en un turismo llevar una rueda de repuesto?",
+        "options": [
+            "No, si lleva un sistema alternativo para el cambio de la rueda como un kit antipinchazos.",
+            "Sí.",
+            "Sólo es obligatorio para los de M.M.A. superior a 3.500 kg."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P3225.jpg"
+    },
+    {
+        "text": "La rueda de repuesto, ¿en qué condiciones debe estar?",
+        "options": [
+            "Con menor presión de aire que las ruedas normales.",
+            "En condiciones adecuadas para ser utilizada en cualquier momento.",
+            "Con mayor presión de aire que las ruedas normales."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P3226.jpg"
+    },
+    {
+        "text": "El conductor de un turismo que necesite utilizar una rueda de repuesto de uso temporal, circulará...",
+        "options": [
+            "hasta llegar a su taller habitual donde se reparará o cambiará la rueda.",
+            "como si de una rueda de repuesto normal se tratara.",
+            "respetando sus limitaciones y por el tiempo indispensable para llevar el vehículo a reparar al centro más cercano."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T510108_0512.jpg"
+    },
+    {
+        "text": "Si debido a un pinchazo usted se ve obligado a circular con una rueda de uso temporal, ¿qué deberá tener en cuenta?",
+        "options": [
+            "Que se aconseja no circular a más de 80 kilómetros por hora.",
+            "Que no se debe circular más de 80 kilómetros con ella.",
+            "Que no se debe circular a más de 50 kilómetros por hora."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T505207.jpg"
+    },
+    {
+        "text": "¿Es aconsejable realizar largos desplazamientos utilizando una rueda de repuesto de uso temporal?",
+        "options": [
+            "No, debido a las limitaciones en velocidad y kilometraje que presentan.",
+            "Sólo si se circula por autopistas y en condiciones climatológicas favorables.",
+            "Sí, siempre que se lleve con una presión superior a la de las demás ruedas."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T511505.jpg"
+    },
+    {
+        "text": "Un turismo con remolque, ¿es obligatorio que lleve una rueda de repuesto del remolque?",
+        "options": [
+            "No.",
+            "Sí, cuando el remolque no es ligero.",
+            "Sí."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P3228.jpg"
+    },
+    {
+        "text": "Un camión de 3.500 kilogramos de MMA, ¿puede llevar como repuesto una rueda de uso temporal?",
+        "options": [
+            "No, es obligatorio que lleve una rueda completa.",
+            "No, porque únicamente los turismos pueden llevar como repuesto este tipo de ruedas.",
+            "Sí."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T512608.jpg"
+    },
+    {
+        "text": "Entre la dotación obligatoria que debe llevar un turismo, ¿se encuentra un extintor?",
+        "options": [
+            "No.",
+            "Sí, pero solamente cuando circule por vías fuera de poblado.",
+            "Sí."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T505516.jpg"
+    },
+    {
+        "text": "¿Es obligatorio llevar un extintor como equipamiento de un automóvil que circula en servicio particular?",
+        "options": [
+            "No, sólo lo llevan los autobuses.",
+            "Sí, todos los vehículos deben llevarlo.",
+            "No, si se trata de un turismo o de una motocicleta."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T514830.jpg"
+    },
+    {
+        "text": "Los turismos que arrastren un remolque ligero, ¿están obligados a llevar entre sus accesorios un equipo homologado de extinción de incendios?",
+        "options": [
+            "No.",
+            "Sí.",
+            "Sólo cuando circulen por vías interurbanas."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P3229.jpg"
+    },
+    {
+        "text": "Los turismos que arrastren un remolque no ligero, están obligados a llevar entre sus accesorios...",
+        "options": [
+            "Un juego de lámparas de repuesto.",
+            "Dos chalecos reflectantes.",
+            "Un equipo homologado de extinción de incendios."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T511724.jpg"
+    },
+    {
+        "text": "Un camión de más de 3.500 kilogramos de masa máxima autorizada destinado al servicio público debe llevar siempre...",
+        "options": [
+            "un extintor de incendios y al menos un calzo adecuado para el vehículo.",
+            "un extintor de incendios.",
+            "un calzo adecuado para el vehículo."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T502221.jpg"
+    },
+    {
+        "text": "Su vehículo se incendia y no tiene extintor. ¿Cómo debe apagarlo?",
+        "options": [
+            "Con tierra.",
+            "Con aire.",
+            "Con agua."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T510112_050116.jpg"
+    },
+    {
+        "text": "Un botiquín de primeros auxilios, ¿se encuentra entre la dotación obligatoria de los vehículos de nueve o más plazas?",
+        "options": [
+            "No, un botiquín es solamente recomendable.",
+            "Es obligatorio dependiendo del número de pasajeros transportados.",
+            "Sí, es obligatorio."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P3230.jpg"
+    }
+]
+            
+            ;
+
+            const container = document.getElementById('test-container');
+            const paginationRow1 = document.getElementById('pagination-row-1');
+            const paginationRow2 = document.getElementById('pagination-row-2');
+
+            // Generar preguntas
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.setAttribute('data-correct', question.correct);
+                questionDiv.innerHTML = `
+                    <div class="question-image">
+                        <img src="${question.image}" alt="Imagen de la pregunta">
+                    </div>
+                    <div class="question-content">
+                        <h3>${index + 1}. ${question.text}</h3>
+                        <div class="options">
+                            ${question.options.map((option, idx) => `
+                                <div class="option" data-answer="${String.fromCharCode(65 + idx)}">
+                                    <span class="option-circle">${String.fromCharCode(65 + idx)}</span>
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+
+            // Generar paginación
+            for (let i = 0; i < questions.length; i++) {
+                const button = document.createElement('button');
+                button.textContent = `${i + 1}`;
+                button.addEventListener('click', () => showQuestion(i));
+                if (i < 15) {
+                    paginationRow1.appendChild(button);
+                } else {
+                    paginationRow2.appendChild(button);
+                }
+            }
+
+            // Mostrar la primera pregunta
+            showQuestion(0);
+
+            // Función para mostrar una pregunta específica
+            function showQuestion(index) {
+                document.querySelectorAll('.question').forEach((q, i) => {
+                    q.style.display = i === index ? 'flex' : 'none';
+                });
+                document.querySelectorAll('.pagination button').forEach((btn, i) => {
+                    btn.style.backgroundColor = i === index ? '#ff7aa2' : '#ffa5c3';
+                });
+            }
+
+            // Evento para las opciones de respuesta
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const question = this.closest('.question');
+                    const questionIndex = Array.from(container.children).indexOf(question);
+                    const isCorrect = this.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    
+                    if (question.dataset.answered) return;
+
+                    question.dataset.answered = true;
+
+                    question.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                        opt.style.pointerEvents = 'none';
+                    });
+                    
+                    this.classList.add('selected', isCorrect ? 'correct' : 'incorrect');
+
+                    if (!isCorrect) {
+                        question.querySelector(`.option[data-answer="${question.getAttribute('data-correct')}"]`).classList.add('correct');
+                    }
+
+                    // Actualizar el botón de paginación
+                    const paginationButton = questionIndex < 15 ? paginationRow1.children[questionIndex] : paginationRow2.children[questionIndex - 15];
+                    paginationButton.classList.add(isCorrect ? 'correct' : 'incorrect');
+                });
+            });
+
+            // Evento para corregir el test
+            document.getElementById('correct-test').addEventListener('click', () => {
+                let wrongAnswers = 0;
+                document.querySelectorAll('.question').forEach((question, index) => {
+                    const selected = question.querySelector('.option.selected');
+                    const isCorrect = selected && selected.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    if (!isCorrect) {
+                        wrongAnswers++;
+                    }
+                    // Actualizar el botón de paginación si no se ha respondido
+                    if (!selected) {
+                        const paginationButton = index < 15 ? paginationRow1.children[index] : paginationRow2.children[index - 15];
+                        paginationButton.classList.add('incorrect');
+                    }
+                });
+                const resultMessage = `Has fallado ${wrongAnswers} respuestas.`;
+
+                const alert = document.getElementById('custom-alert');
+                document.getElementById('alert-message').textContent = resultMessage;
+                alert.style.display = 'block';
+            });
+        });
+
+        function closeAlert() {
+            document.getElementById('custom-alert').style.display = 'none';
+        }
+    </script>
+
+    
+</body>
+</html>

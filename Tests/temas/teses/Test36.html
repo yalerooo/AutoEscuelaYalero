@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Autoescuela</title>
+    <link rel="stylesheet" href="../../../Assets/style.css">
+</head>
+<body>
+
+    
+    <div class="container">
+        <h1 style="text-align: center; color: #ffa5c3;">Test de Autoescuela</h1>
+        <div id="test-container">
+            <!-- Aquí se generarán dinámicamente las preguntas -->
+        </div>
+        <div class="pagination">
+            <div class="pagination-row" id="pagination-row-1"></div>
+            <div class="pagination-row" id="pagination-row-2"></div>
+        </div>
+        <button id="correct-test">Corregir Test</button>
+    </div>
+
+    <!-- Custom Alert HTML -->
+    <div class="custom-alert" id="custom-alert">
+        <h2>Resultado del Test</h2>
+        <p id="alert-message">Aquí irá el mensaje del resultado.</p>
+        <button onclick="closeAlert()">Cerrar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = [
+    {
+        "text": "Por la izquierda de una línea continua, ¿se puede circular?",
+        "options": [
+            "No, en ningún caso.",
+            "Sí, para adelantar.",
+            "Sí, si la vía es de sentido único."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P1803.jpg"
+    },
+    {
+        "text": "El autobús circula despacio. ¿Puede adelantarlo teniendo en cuenta la señalización?",
+        "options": [
+            "Sí, pero sólo cuando el conductor del autobús me indica que puedo hacerlo.",
+            "No, porque está prohibido atravesar la línea longitudinal contínua.",
+            "Sí, porque no vienen vehículos en sentido contrario."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T510102_250116.jpg"
+    },
+    {
+        "text": "Para rebasar un obstáculo, ¿puede desplazarse al carril contiguo?",
+        "options": [
+            "Sí, siempre que no esté ocupado dicho carril.",
+            "No, en ningún caso.",
+            "Sí, esté o no ocupado el otro carril."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P1805.jpg"
+    },
+    {
+        "text": "Cuando la separación entre los trazos de una línea discontinua es sensiblemente más corta que en el caso general, ¿qué puede anunciar?",
+        "options": [
+            "La proximidad de un carril especial.",
+            "La proximidad de un tramo de vía que presenta un riesgo especial.",
+            "La proximidad de una travesía."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T514511.jpg"
+    },
+    {
+        "text": "Esta carretera tiene más de 6 m de ancho. ¿Es correcto circular por encima de las líneas que separan los carriles?",
+        "options": [
+            "No, porque debo circular dentro de mi carril.",
+            "Sí, porque hay dos carriles.",
+            "Sí, cuando no vienen vehículos en sentido contrario."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T501618.jpg"
+    },
+    {
+        "text": "Si circulamos por una vía donde hay una línea longitudinal continua adosada a otra discontinua...",
+        "options": [
+            "debemos tener en cuenta solamente la línea más cercana al carril por el que circulamos.",
+            "nos indica que es un carril reversible.",
+            "no se puede atravesar en ningún caso."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P1806.jpg"
+    },
+    {
+        "text": "El coche rojo, ¿puede cambiarse al carril derecho?",
+        "options": [
+            "Sí, la marca vial me lo permite.",
+            "No.",
+            "Sí, pero con cuidado."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T509103.jpg"
+    },
+    {
+        "text": "La línea de borde de la calzada, ¿se puede atravesar?",
+        "options": [
+            "No, está prohibido.",
+            "Sí, cuando la línea es discontinua; no, cuando es continua.",
+            "Sí, cuando sea necesario y las circunstancias lo permitan."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P1807.jpg"
+    },
+    {
+        "text": "Cuando un carril está delimitado a ambos lados por doble línea discontinua, ¿qué deben hacer los conductores?",
+        "options": [
+            "Seguir las indicaciones marcadas por semáforos de carril, porque la circulación puede estar regulada en uno o en otro sentido.",
+            "Utilizarlo sólo para adelantar.",
+            "No circular por él porque la circulación está prohibida."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P1809.jpg"
+    },
+    {
+        "text": "La línea ancha discontinua, ¿qué indica?",
+        "options": [
+            "Que hay un carril reversible.",
+            "Que hay una zona de estacionamiento.",
+            "Que hay un carril especial."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T500324.jpg"
+    },
+    {
+        "text": "Ante un paso para peatones señalizado con marca vial solamente, ¿cuándo hay que detenerse?",
+        "options": [
+            "Cuando el peatón ya está atravesándolo, pero no cuando sólo demuestra su intención de hacerlo.",
+            "Sólo cuando lo indique un agente.",
+            "Siempre que un peatón esté atravesándolo o demuestre su intención de hacerlo."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P1810.jpg"
+    },
+    {
+        "text": "En esta intersección con señal de STOP, ¿qué debe hacer?",
+        "options": [
+            "Detenerme, pero sólo cuando se acerque otro vehículo.",
+            "Detenerme donde vea mejor.",
+            "Detenerme siempre, antes de la línea transversal."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T510119_151215.jpg"
+    },
+    {
+        "text": "Si se detiene ante la línea continua y observa que no tiene visibilidad, ¿qué debe hacer?",
+        "options": [
+            "Pasar con precaución.",
+            "Detener nuevamente el vehículo sólo si se aproximan vehículos.",
+            "Detener nuevamente el vehículo donde tenga visibilidad sin poner en peligro a otros usuarios."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P1813.jpg"
+    },
+    {
+        "text": "El triángulo blanco pintado en la calzada, ¿qué significa?",
+        "options": [
+            "Que los conductores tienen preferencia de paso al cambiar de carril.",
+            "Que es obligatorio ceder el paso a los vehículos que se aproximen por el carril derecho cuando cambie de carril.",
+            "Que el conductor está obligado a detener el vehículo en todo caso."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P1819.jpg"
+    },
+    {
+        "text": "Al llegar a una intersección, la única señal que observa es una marca transversal discontinua en su carril, ¿qué debe hacer?",
+        "options": [
+            "No franquear esa marca en ningún caso.",
+            "Detenerse obligatoriamente ante esa marca.",
+            "No franquear esa marca si hay que ceder el paso por aplicación de las normas de prioridad."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T512021.jpg"
+    },
+    {
+        "text": "La señal de limitación de velocidad afecta a los vehículos que circulen por...",
+        "options": [
+            "el lado de la vía sobre el que está situada.",
+            "toda la calzada.",
+            "el carril sobre el que está situada."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P1818.jpg"
+    },
+    {
+        "text": "Las flechas de selección de carril...",
+        "options": [
+            "obligan a seguir las direcciones indicadas por las flechas, prohibiendo siempre el cambio de carril.",
+            "aconsejan seguir las direcciones indicadas por las flechas.",
+            "obligan a seguir la dirección o las direcciones indicadas, pero si la señalización lo permite autorizan el cambio de carril."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P1815.jpg"
+    },
+    {
+        "text": "Las flechas pintadas en la calzada...",
+        "options": [
+            "indican la dirección del ramal de la próxima salida.",
+            "señalizan que el carril en el que están situadas termina próximamente."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T501711.jpg"
+    },
+    {
+        "text": "Circula por el carril izquierdo. ¿Qué le indica la flecha?",
+        "options": [
+            "Que debe incorporarse cuanto antes al carril derecho.",
+            "Que está cerca la próxima salida.",
+            "Que se permite la circulación en paralelo."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P1817.jpg"
+    },
+    {
+        "text": "La marca vial compuesta por las letras P y N, una a cada lado de un aspa, indican...",
+        "options": [
+            "peligro por la proximidad de un paso a nivel con barreras.",
+            "peligro por la proximidad de un paso a nivel sin barreras.",
+            "la proximidad de un paso a nivel."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T504810.jpg"
+    },
+    {
+        "text": "Estas marcas viales, ¿qué indican?",
+        "options": [
+            "Un paso para ciclistas.",
+            "Un paso para peatones y ciclistas.",
+            "Un paso obligatorio para vehículos de dos ruedas."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P1811.jpg"
+    },
+    {
+        "text": "¿Qué indica esta marca de color blanco?",
+        "options": [
+            "La existencia de un carril reservado exclusivamente a los autobuses.",
+            "Indica el comienzo de un carril reservado para determinados vehículos.",
+            "Indica el final de un carril reservado para determinados vehículos."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P1822.jpg"
+    },
+    {
+        "text": "En esta zona cebreada, ¿pueden los conductores circular o pararse sobre ella?",
+        "options": [
+            "Parar sí, circular no.",
+            "Sí, todos los conductores.",
+            "No, ni circular ni pararse sobre ella."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P1820.jpg"
+    },
+    {
+        "text": "En una zona de obras, la señalización horizontal es de color...",
+        "options": [
+            "amarillo.",
+            "rojo.",
+            "blanco."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P1830.jpg"
+    },
+    {
+        "text": "Estas marcas viales azules indican...",
+        "options": [
+            "la zona en que se permite estacionar, al igual que las marcas blancas.",
+            "que en ciertos periodos del día, la duración del estacionamiento está limitada.",
+            "que está prohibido estacionar."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P1827.jpg"
+    },
+    {
+        "text": "Si inmoviliza el vehículo junto al borde de esta calzada, ¿incumple alguna norma de circulación?",
+        "options": [
+            "No, si es para efectuar una parada.",
+            "No, ya que esta marca vial no prohíbe parar ni estacionar.",
+            "Sí, porque es una zona de carga y descarga y está prohibido cualquier tipo de inmovilización."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P1825.jpg"
+    },
+    {
+        "text": "¿Qué prohíbe la marca logitudinal discontinua amarilla?",
+        "options": [
+            "Ambos.",
+            "La parada.",
+            "El estacionamiento."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P1824.jpg"
+    },
+    {
+        "text": "La marca vial amarilla continua, ¿qué indica?",
+        "options": [
+            "Prohíbe hacer parada y estacionar.",
+            "Prohíbe hacer parada solamente.",
+            "Prohíbe estacionar solamente."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P1823.jpg"
+    },
+    {
+        "text": "Una cuadrícula de marcas amarillas pintada en el suelo indica...",
+        "options": [
+            "que no se puede franquear la intersección.",
+            "que no se debe entrar en la intersección si se puede quedar detenido en ella, obstaculizando la circulación.",
+            "que el estacionamiento está prohibido."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T502412.jpg"
+    },
+    {
+        "text": "Una cuadrícula de marcas blancas y rojas prohíbe...",
+        "options": [
+            "solamente la parada.",
+            "la parada, el estacionamiento o la utilización con otros fines.",
+            "solamente el estacionamiento."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P1829.jpg"
+    }
+]
+            
+            ;
+
+            const container = document.getElementById('test-container');
+            const paginationRow1 = document.getElementById('pagination-row-1');
+            const paginationRow2 = document.getElementById('pagination-row-2');
+
+            // Generar preguntas
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.setAttribute('data-correct', question.correct);
+                questionDiv.innerHTML = `
+                    <div class="question-image">
+                        <img src="${question.image}" alt="Imagen de la pregunta">
+                    </div>
+                    <div class="question-content">
+                        <h3>${index + 1}. ${question.text}</h3>
+                        <div class="options">
+                            ${question.options.map((option, idx) => `
+                                <div class="option" data-answer="${String.fromCharCode(65 + idx)}">
+                                    <span class="option-circle">${String.fromCharCode(65 + idx)}</span>
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+
+            // Generar paginación
+            for (let i = 0; i < questions.length; i++) {
+                const button = document.createElement('button');
+                button.textContent = `${i + 1}`;
+                button.addEventListener('click', () => showQuestion(i));
+                if (i < 15) {
+                    paginationRow1.appendChild(button);
+                } else {
+                    paginationRow2.appendChild(button);
+                }
+            }
+
+            // Mostrar la primera pregunta
+            showQuestion(0);
+
+            // Función para mostrar una pregunta específica
+            function showQuestion(index) {
+                document.querySelectorAll('.question').forEach((q, i) => {
+                    q.style.display = i === index ? 'flex' : 'none';
+                });
+                document.querySelectorAll('.pagination button').forEach((btn, i) => {
+                    btn.style.backgroundColor = i === index ? '#ff7aa2' : '#ffa5c3';
+                });
+            }
+
+            // Evento para las opciones de respuesta
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const question = this.closest('.question');
+                    const questionIndex = Array.from(container.children).indexOf(question);
+                    const isCorrect = this.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    
+                    if (question.dataset.answered) return;
+
+                    question.dataset.answered = true;
+
+                    question.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                        opt.style.pointerEvents = 'none';
+                    });
+                    
+                    this.classList.add('selected', isCorrect ? 'correct' : 'incorrect');
+
+                    if (!isCorrect) {
+                        question.querySelector(`.option[data-answer="${question.getAttribute('data-correct')}"]`).classList.add('correct');
+                    }
+
+                    // Actualizar el botón de paginación
+                    const paginationButton = questionIndex < 15 ? paginationRow1.children[questionIndex] : paginationRow2.children[questionIndex - 15];
+                    paginationButton.classList.add(isCorrect ? 'correct' : 'incorrect');
+                });
+            });
+
+            // Evento para corregir el test
+            document.getElementById('correct-test').addEventListener('click', () => {
+                let wrongAnswers = 0;
+                document.querySelectorAll('.question').forEach((question, index) => {
+                    const selected = question.querySelector('.option.selected');
+                    const isCorrect = selected && selected.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    if (!isCorrect) {
+                        wrongAnswers++;
+                    }
+                    // Actualizar el botón de paginación si no se ha respondido
+                    if (!selected) {
+                        const paginationButton = index < 15 ? paginationRow1.children[index] : paginationRow2.children[index - 15];
+                        paginationButton.classList.add('incorrect');
+                    }
+                });
+                const resultMessage = `Has fallado ${wrongAnswers} respuestas.`;
+
+                const alert = document.getElementById('custom-alert');
+                document.getElementById('alert-message').textContent = resultMessage;
+                alert.style.display = 'block';
+            });
+        });
+
+        function closeAlert() {
+            document.getElementById('custom-alert').style.display = 'none';
+        }
+    </script>
+
+    
+</body>
+</html>

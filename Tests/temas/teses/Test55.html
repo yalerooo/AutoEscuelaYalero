@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Autoescuela</title>
+    <link rel="stylesheet" href="../../../Assets/style.css">
+</head>
+<body>
+
+    
+    <div class="container">
+        <h1 style="text-align: center; color: #ffa5c3;">Test de Autoescuela</h1>
+        <div id="test-container">
+            <!-- Aquí se generarán dinámicamente las preguntas -->
+        </div>
+        <div class="pagination">
+            <div class="pagination-row" id="pagination-row-1"></div>
+            <div class="pagination-row" id="pagination-row-2"></div>
+        </div>
+        <button id="correct-test">Corregir Test</button>
+    </div>
+
+    <!-- Custom Alert HTML -->
+    <div class="custom-alert" id="custom-alert">
+        <h2>Resultado del Test</h2>
+        <p id="alert-message">Aquí irá el mensaje del resultado.</p>
+        <button onclick="closeAlert()">Cerrar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = [
+    {
+        "text": "¿Es obligatorio prestar auxilio a las víctimas de un accidente?",
+        "options": [
+            "No, porque el auxilio le corresponde a los servicios sanitarios.",
+            "Sí, pero sólo para los conductores implicados.",
+            "Sí, excepto cuando la ayuda esté organizada."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P3101.jpg"
+    },
+    {
+        "text": "Si presencia un accidente de circulación en el que no está implicado, ¿está obligado a auxiliar a los heridos?",
+        "options": [
+            "No.",
+            "Sí."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P3102.jpg"
+    },
+    {
+        "text": "¿Qué medidas debe adoptar si se produce un accidente?",
+        "options": [
+            "Auxiliar a los heridos lo antes posible y avisar a las autoridades.",
+            "Detener el tráfico, auxiliar a los heridos y después avisar a las autoridades.",
+            "Detener su vehículo sin crear peligro, avisar a la autoridad o sus agentes y auxiliar a los heridos."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P3103.jpg"
+    },
+    {
+        "text": "La regla básica de actuación en caso de accidente es...",
+        "options": [
+            "proteger, alertar, socorrer (PAS).",
+            "socorrer lo antes posible a las víctimas.",
+            "prevenir, atender y servir (PAS)."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P3104.jpg"
+    },
+    {
+        "text": "¿Qué precauciones deberá tomar antes de examinar a las victimas de un accidente?",
+        "options": [
+            "Inmovilizar mi vehículo en lugar seguro, parar el motor, señalizar el accidente y cortar el encendido de los vehículos implicados.",
+            "Avisar a la Autoridad judicial.",
+            "Comprobar la identidad de los implicados en el accidente."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P3106.jpg"
+    },
+    {
+        "text": "Al prestar ayuda en un accidente, ¿debe ponerse el chaleco reflectante?",
+        "options": [
+            "No, ya que es una situación de emergencia.",
+            "Sí, antes de salir del vehículo.",
+            "Sólo si el accidente ocurre en zona urbana."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T510106_151215.jpg"
+    },
+    {
+        "text": "Debe saber que el número 112 de servicios de emergencia...",
+        "options": [
+            "es un servicio de tarifa reducida y se necesita cobertura en el teléfono móvil para acceder a él.",
+            "en algunas Comunidades Autónomas es gratuito y en otras de pago.",
+            "es gratuito y en algunos casos se puede acceder a él sin cobertura en el teléfono móvil."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T507308.jpg"
+    },
+    {
+        "text": "Cuando avise de un accidente, ¿qué información es útil que aporte a los servicios de emergencia?",
+        "options": [
+            "Cómo ha ocurrido el accidente y los vehículos accidentados.",
+            "El lugar del accidente, el número de víctimas y su identificación.",
+            "El lugar del accidente y el número de matrícula de los vehículos."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P3108.jpg"
+    },
+    {
+        "text": "¿Quién debe realizar las actuaciones de soporte vital básico a las víctimas de un accidente?",
+        "options": [
+            "El personal especializado, siempre.",
+            "Estas actuaciones siempre deben realizarse en un hospital.",
+            "El personal especializado, salvo que la persona que le auxilie esté totalmente seguro de conocerlas y poder realizarlas."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P3109.jpg"
+    },
+    {
+        "text": "¿A qué herido de los que se citan atenderíamos en primer lugar en un accidente de circulación?",
+        "options": [
+            "Al que se encuentra dentro del vehículo y se queja de grandes dolores.",
+            "Al que presenta una fuerte hemorragia en la pierna.",
+            "Al que está inconsciente."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P3110.jpg"
+    },
+    {
+        "text": "¿Debe moverse a los heridos?",
+        "options": [
+            "No, salvo que sea imprescindible por su seguridad.",
+            "No, en ningún caso.",
+            "Sí, cuando sus lesiones no son graves."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P3111.jpg"
+    },
+    {
+        "text": "¿Es necesario comprobar si un herido en un accidente está consciente o respira?",
+        "options": [
+            "No, eso es responsabilidad de los servicios de urgencia.",
+            "No es necesario, como norma general.",
+            "Sí, para valorar la gravedad de su estado."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P3112.jpg"
+    },
+    {
+        "text": "Al auxiliar a una víctima de un accidente de tráfico, ¿debe darle alimentos o bebidas?",
+        "options": [
+            "Sí, si lo piden.",
+            "No.",
+            "Alimentos no, pero bebidas sí."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P3113.jpg"
+    },
+    {
+        "text": "¿Debe usted darles sedantes a los heridos en un accidente de tráfico?",
+        "options": [
+            "No.",
+            "Sólo si vemos que sufren y nos los piden.",
+            "Se deben dar sedantes a todos los heridos que se encuentren conscientes."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P3115.jpg"
+    },
+    {
+        "text": "¿Qué es lo primero que debemos hacer con un herido hasta que llegue la ayuda sanitaria?",
+        "options": [
+            "Comprobar y mantener su respiración.",
+            "Limpiar las heridas con agua.",
+            "Comprobar si tiene hemorragia."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T506020.jpg"
+    },
+    {
+        "text": "Para hacer la respiración boca-boca a un herido, ¿qué debe hacer primero?",
+        "options": [
+            "Taparle la nariz.",
+            "Limpiar y abrir las vías respiratorias.",
+            "Colocar al herido en posición de defensa."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P3117.jpg"
+    },
+    {
+        "text": "¿Hasta cuándo debemos realizar la respiración artificial a un herido que no respira por sí solo?",
+        "options": [
+            "Hasta un máximo de 2 minutos.",
+            "Hasta un máximo de 5 minutos.",
+            "Hasta que llegue la ayuda sanitaria."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P3118.jpg"
+    },
+    {
+        "text": "¿Cuántas son las pulsaciones normales en una persona adulta?",
+        "options": [
+            "De 60 a 80 pulsaciones por minuto.",
+            "De 100 a 110 pulsaciones por minuto.",
+            "De 120 a 130 pulsaciones por minuto."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P3119.jpg"
+    },
+    {
+        "text": "Para cortar una hemorragia en la pierna de un accidentado, ¿qué es lo primero que debe hacer?",
+        "options": [
+            "Levantar la pierna y presionar directamente sobre la herida.",
+            "Aplicar un torniquete.",
+            "Aplicar un vendaje, sin ejercer presión."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P3121.jpg"
+    },
+    {
+        "text": "Si un herido en un accidente de tráfico tiene una hemorragia por un oído, ¿qué medidas debemos adoptar con él?",
+        "options": [
+            "Taponar con fuerte presión el oído para cortar la hemorragia.",
+            "Ponerle en posición semisentado con la cabeza inclinada hacia delante, y permitir que la sangre mane libremente.",
+            "Ponerle en posición de defensa sobre el oído sangrante."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P3122.jpg"
+    },
+    {
+        "text": "Si un herido en accidente de circulación presenta dolor y deformidad en una extremidad, probablemente sufre...",
+        "options": [
+            "Parálisis.",
+            "Una fractura.",
+            "Una hemorragia interna"
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T510102_050616.jpg"
+    },
+    {
+        "text": "Cuando un vehículo accidentado comienza a arder, ¿qué se debe hacer primero?",
+        "options": [
+            "Apagar el fuego.",
+            "Sacar rápidamente a los heridos.",
+            "Ir a buscar ayuda."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P3123.jpg"
+    },
+    {
+        "text": "Un herido tiene quemaduras. ¿Qué debe hacer?",
+        "options": [
+            "Limpiar la herida.",
+            "Tapar la quemadura con gasas húmedas.",
+            "Quitarle la ropa pegada a la quemadura."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P3124.jpg"
+    },
+    {
+        "text": "A un motorista herido en accidente, ¿debe quitarle el casco?",
+        "options": [
+            "Haré lo que él me diga.",
+            "Sí, para que respire mejor.",
+            "No, como norma general."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T501803.jpg"
+    },
+    {
+        "text": "¿Es aconsejable quitar el casco de protección al pasajero de una motocicleta que ha sufrido un accidente?",
+        "options": [
+            "Sí, siempre que el herido esté consciente.",
+            "No, salvo que sea necesario y se conozca la técnica.",
+            "Sí, lo antes posible para evitar asfixias."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P3126.jpg"
+    },
+    {
+        "text": "Ante un motorista accidentado con una hemorragia por la nariz, la actuación correcta es...",
+        "options": [
+            "no realizarle nunca taponamientos.",
+            "retirarle el casco para realizarle un taponamiento.",
+            "colocarle boca arriba para que deje de sangrar."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P3127.jpg"
+    },
+    {
+        "text": "¿Por qué motivo se pone a los heridos en un accidente en posición de defensa?",
+        "options": [
+            "Para favorecer el riego de sangre al cerebro.",
+            "Para favorecer su respiración.",
+            "Para evitar su agotamiento."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P3128.jpg"
+    },
+    {
+        "text": "¿Por qué motivo se suele producir la asfixia por obstrucción de las vías respiratorias tras un accidente de circulación?",
+        "options": [
+            "Por una hemorragia.",
+            "Por recibir un golpe en el pecho.",
+            "Por caída de la lengua hacia atrás."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P3129.jpg"
+    },
+    {
+        "text": "El traslado de un accidentado de tráfico a un hospital debe realizarse...",
+        "options": [
+            "por personal especializado, para que el traslado se realice con los medios adecuados.",
+            "en vehículos particulares, porque lo importante es que el herido llegue al hospital.",
+            "en el vehículo que pueda circular más rápido."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P3130.jpg"
+    },
+    {
+        "text": "Acompañar a las víctimas de un accidente, ¿es importante?",
+        "options": [
+            "No, si su estado no reviste gravedad.",
+            "No, es preferible dejarlas solas.",
+            "Sí, para transmitirles tranquilidad."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T501727.jpg"
+    }
+]
+            
+            ;
+
+            const container = document.getElementById('test-container');
+            const paginationRow1 = document.getElementById('pagination-row-1');
+            const paginationRow2 = document.getElementById('pagination-row-2');
+
+            // Generar preguntas
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.setAttribute('data-correct', question.correct);
+                questionDiv.innerHTML = `
+                    <div class="question-image">
+                        <img src="${question.image}" alt="Imagen de la pregunta">
+                    </div>
+                    <div class="question-content">
+                        <h3>${index + 1}. ${question.text}</h3>
+                        <div class="options">
+                            ${question.options.map((option, idx) => `
+                                <div class="option" data-answer="${String.fromCharCode(65 + idx)}">
+                                    <span class="option-circle">${String.fromCharCode(65 + idx)}</span>
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+
+            // Generar paginación
+            for (let i = 0; i < questions.length; i++) {
+                const button = document.createElement('button');
+                button.textContent = `${i + 1}`;
+                button.addEventListener('click', () => showQuestion(i));
+                if (i < 15) {
+                    paginationRow1.appendChild(button);
+                } else {
+                    paginationRow2.appendChild(button);
+                }
+            }
+
+            // Mostrar la primera pregunta
+            showQuestion(0);
+
+            // Función para mostrar una pregunta específica
+            function showQuestion(index) {
+                document.querySelectorAll('.question').forEach((q, i) => {
+                    q.style.display = i === index ? 'flex' : 'none';
+                });
+                document.querySelectorAll('.pagination button').forEach((btn, i) => {
+                    btn.style.backgroundColor = i === index ? '#ff7aa2' : '#ffa5c3';
+                });
+            }
+
+            // Evento para las opciones de respuesta
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const question = this.closest('.question');
+                    const questionIndex = Array.from(container.children).indexOf(question);
+                    const isCorrect = this.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    
+                    if (question.dataset.answered) return;
+
+                    question.dataset.answered = true;
+
+                    question.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                        opt.style.pointerEvents = 'none';
+                    });
+                    
+                    this.classList.add('selected', isCorrect ? 'correct' : 'incorrect');
+
+                    if (!isCorrect) {
+                        question.querySelector(`.option[data-answer="${question.getAttribute('data-correct')}"]`).classList.add('correct');
+                    }
+
+                    // Actualizar el botón de paginación
+                    const paginationButton = questionIndex < 15 ? paginationRow1.children[questionIndex] : paginationRow2.children[questionIndex - 15];
+                    paginationButton.classList.add(isCorrect ? 'correct' : 'incorrect');
+                });
+            });
+
+            // Evento para corregir el test
+            document.getElementById('correct-test').addEventListener('click', () => {
+                let wrongAnswers = 0;
+                document.querySelectorAll('.question').forEach((question, index) => {
+                    const selected = question.querySelector('.option.selected');
+                    const isCorrect = selected && selected.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    if (!isCorrect) {
+                        wrongAnswers++;
+                    }
+                    // Actualizar el botón de paginación si no se ha respondido
+                    if (!selected) {
+                        const paginationButton = index < 15 ? paginationRow1.children[index] : paginationRow2.children[index - 15];
+                        paginationButton.classList.add('incorrect');
+                    }
+                });
+                const resultMessage = `Has fallado ${wrongAnswers} respuestas.`;
+
+                const alert = document.getElementById('custom-alert');
+                document.getElementById('alert-message').textContent = resultMessage;
+                alert.style.display = 'block';
+            });
+        });
+
+        function closeAlert() {
+            document.getElementById('custom-alert').style.display = 'none';
+        }
+    </script>
+
+    
+</body>
+</html>

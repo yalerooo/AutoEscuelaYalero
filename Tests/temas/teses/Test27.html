@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Autoescuela</title>
+    <link rel="stylesheet" href="../../../Assets/style.css">
+</head>
+<body>
+
+    
+    <div class="container">
+        <h1 style="text-align: center; color: #ffa5c3;">Test de Autoescuela</h1>
+        <div id="test-container">
+            <!-- Aquí se generarán dinámicamente las preguntas -->
+        </div>
+        <div class="pagination">
+            <div class="pagination-row" id="pagination-row-1"></div>
+            <div class="pagination-row" id="pagination-row-2"></div>
+        </div>
+        <button id="correct-test">Corregir Test</button>
+    </div>
+
+    <!-- Custom Alert HTML -->
+    <div class="custom-alert" id="custom-alert">
+        <h2>Resultado del Test</h2>
+        <p id="alert-message">Aquí irá el mensaje del resultado.</p>
+        <button onclick="closeAlert()">Cerrar</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const questions = [
+    {
+        "text": "A los conductores, ¿les está permitido modificar, trasladar o retirar la señalización instalada en una vía?",
+        "options": [
+            "Sí, como norma general, excepto las que señalicen obras en la calzada.",
+            "Sí, siempre que sean señales circunstanciales o de balizamiento.",
+            "No, salvo por causa justificada."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T501130.jpg"
+    },
+    {
+        "text": "Es obligatorio que las obras que dificulten la circulación estén señalizadas...",
+        "options": [
+            "sólo de noche.",
+            "tanto de día como de noche.",
+            "sólo de día."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P1203.jpg"
+    },
+    {
+        "text": "Los paneles de mensaje variable, ¿pueden utilizarse para dar instrucciones de obligado cumplimiento?",
+        "options": [
+            "No, son meramente informativos.",
+            "No, sólo pueden usarse para advertir de posibles peligros.",
+            "Sí, entre otros usos."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P1302.jpg"
+    },
+    {
+        "text": "Las señales circunstanciales, en caso de contradicción, prevalecen sobre...",
+        "options": [
+            "Las señales de los agentes.",
+            "Todas las demás señales.",
+            "Las señales verticales."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P1301.jpg"
+    },
+    {
+        "text": "En una zona de obras se encuentra un panel direccional provisional, ¿qué indica?",
+        "options": [
+            "La presencia de una curva y su dirección en una zona de obras.",
+            "Prohíbe el paso e informa sobre el sentido de la circulación.",
+            "Advierte del peligro por obras."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P1305.jpg"
+    },
+    {
+        "text": "¿Se puede atravesar la línea de conos para cambiar de carril?",
+        "options": [
+            "Sí, para realizar una parada.",
+            "Sí, para adelantar.",
+            "No, porque está prohibido."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P1308.jpg"
+    },
+    {
+        "text": "Al llegar a una luz roja fija de balizamiento en una obra...",
+        "options": [
+            "debemos esperar hasta que cambie de color.",
+            "debemos continuar con precaución.",
+            "indica que la calzada está totalmente cerrada al tráfico."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T505202.jpg"
+    },
+    {
+        "text": "En esta curva, ¿qué nos indica la línea formada por conos?",
+        "options": [
+            "Que no podemos circular por el carril izquierdo.",
+            "Que se trata de una curva peligrosa.",
+            "Que hay obras en la calzada."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T513911.jpg"
+    },
+    {
+        "text": "Estas señales de balizamiento, ¿qué indican?",
+        "options": [
+            "Que está prohibido circular por el carril izquierdo.",
+            "Que hay un carril de salida a la derecha.",
+            "Que la próxima curva es especialmente peligrosa."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T504723.jpg"
+    },
+    {
+        "text": "Los conos de la fotografía...",
+        "options": [
+            "sirven sólo para señalizar un nuevo carril.",
+            "tienen prioridad sobre el resto de señales.",
+            "tienen prioridad sobre el resto de señales, salvo las de los agentes de la autoridad."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T514509.jpg"
+    },
+    {
+        "text": "Los conos colocados en la calzada, ¿qué indican?",
+        "options": [
+            "Permiten atravesar la línea real o imaginaria que los une, pero con precaución",
+            "Prohíben atravesar la línea real o imaginaria que los une.",
+            "El sentido de la circulación."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T500807.jpg"
+    },
+    {
+        "text": "Los paneles direccionales, ¿qué indican?",
+        "options": [
+            "Prohíben el paso e infoman del sentido de la circulación.",
+            "Que es un carril reversible.",
+            "Que la calzada está cerrada permanentemente."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T504911.jpg"
+    },
+    {
+        "text": "Una hilera de luces amarillas fijas o intermitentes...",
+        "options": [
+            "permite el paso si son intermitentes y lo prohíbe si son fijas.",
+            "prohíbe el paso a través de la línea imaginaria que las une.",
+            "permite el paso tanto si son fijas como si son intermitentes."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T503019.jpg"
+    },
+    {
+        "text": "Una señal de balizamiento consistente en una luz roja fija, indica que...",
+        "options": [
+            "a partir de ella hay que reducir la velocidad.",
+            "hay que detenerse hasta que se encienda la luz verde.",
+            "la calzada está totalmente cerrada al tráfico."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T514217.jpg"
+    },
+    {
+        "text": "¿Qué le indica el panel?",
+        "options": [
+            "Impone una obligación a ciertos usuarios a partir de ese punto.",
+            "Advierte de ciertos peligros a determinados usuarios.",
+            "Establece unas prohibiciones a determinados usuarios prevaleciendo sobre las demás señales fijas de la vía."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T505323.jpg"
+    },
+    {
+        "text": "¿Qué indican los paneles?",
+        "options": [
+            "Prohíben el paso a través de la zona que delimitan.",
+            "La presencia de una curva y su sentido.",
+            "La presencia de una curva en la que se realizan obras en la calzada."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T510109.jpg"
+    },
+    {
+        "text": "¿Se puede atravesar la línea de conos para cambiar de carril?",
+        "options": [
+            "Sí, para realizar una parada.",
+            "Sí, para adelantar.",
+            "No, porque está prohibido."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T502726.jpg"
+    },
+    {
+        "text": "Si al llegar a un paso a nivel, provisto de barreras móviles, éstas se encuentran en movimiento ascendente...",
+        "options": [
+            "Podemos cruzar con precaución.",
+            "Debemos cruzar con diligencia.",
+            "Debemos detenernos hasta que se levanten por completo."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P1303.jpg"
+    },
+    {
+        "text": "Si, al llegar a un paso a nivel que tiene la barrera levantada, observa que existe a su lado una señal vertical de \"stop\", debe...",
+        "options": [
+            "Detener el vehículo.",
+            "Continuar la marcha, porque la barrera prevalece sobre la señal."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P1304.jpg"
+    },
+    {
+        "text": "Las barreras del paso a nivel están bajando, ¿se puede cruzar?",
+        "options": [
+            "No, cuando las barreras están en movimiento está prohibido el paso.",
+            "Sí, hasta que no están atravesadas se puede pasar.",
+            "Sí, siempre que se está seguro que no se aproxima el tren."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T512505.jpg"
+    },
+    {
+        "text": "Cuando las indicaciones de un semáforo y una señal de balizamiento se contradicen prevalece...",
+        "options": [
+            "el semáforo.",
+            "la señal de balizamiento, por orden de prioridad.",
+            "la señal más restrictiva."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T510117_050416.jpg"
+    },
+    {
+        "text": "Ante un semáforo circular de color amarillo fijo, ¿hay que detenerse?",
+        "options": [
+            "No, pero sí obliga a pasar con precaución.",
+            "Sí, a no ser que no pueda hacerse en condiciones de seguridad.",
+            "No, porque únicamente avisa que va a cambiar a color rojo."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P1312.jpg"
+    },
+    {
+        "text": "La luz verde de un semáforo circular para vehículos, indica que...",
+        "options": [
+            "está permitido el paso y con preferencia de paso.",
+            "debe ceder el paso a los demás vehículos.",
+            "puede pasar, cediendo el paso a los peatones"
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/P1310.jpg"
+    },
+    {
+        "text": "Ante esta situación, ¿qué debe hacer?",
+        "options": [
+            "Acelerar y pasar, porque la señalización me lo permite.",
+            "Detenerme para obedecer las marcas viales.",
+            "Moderar la velocidad, porque hay peatones en la calzada."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/T510109_051016.jpg"
+    },
+    {
+        "text": "En un semáforo se apaga la luz verde y se enciende la luz amarilla fija. ¿Puede pasar?",
+        "options": [
+            "Sí, en todo caso.",
+            "No, a no ser que no pueda detenerme en condiciones de seguridad suficiente.",
+            "Sí, porque todavía no ha cambiado la luz a rojo."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/T509611.jpg"
+    },
+    {
+        "text": "La luz amarilla intermitente de un semáforo...",
+        "options": [
+            "obliga a detenerse como una luz roja.",
+            "indica que debe pasar rápidamente antes de cambiar a rojo.",
+            "obliga a extremar la precaución, y en caso necesario, ceder el paso."
+        ],
+        "correct": "C",
+        "image": "../../../Assets/img/P1313.jpg"
+    },
+    {
+        "text": "Al aproximarse a un semáforo con una o dos luces amarillas intermitentes,\n¿qué hay que hacer?",
+        "options": [
+            "Pasar con precaución.",
+            "Extremar la precaución y, si es necesario, ceder el paso.",
+            "Detenerse en las mismas condiciones que si se tratara de una luz roja fija."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P1315.jpg"
+    },
+    {
+        "text": "Cuando se encienda la luz verde del semáforo, ¿qué deben hacer estos vehículos?",
+        "options": [
+            "Girar a la derecha o continuar de frente.",
+            "Girar a la derecha o girar a la izquierda.",
+            "Girar a la izquierda o continuar de frente."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T505008.jpg"
+    },
+    {
+        "text": "¿Qué le indica la flecha verde del semáforo?",
+        "options": [
+            "Que puedo tomar la dirección que indica la flecha, con precaución y dejando pasar a los vehículos que circulen por el carril al que me incorporo.",
+            "Que puedo girar a la derecha cuando se encienda la luz verde del semáforo principal.",
+            "Que puedo girar a la derecha con prioridad."
+        ],
+        "correct": "A",
+        "image": "../../../Assets/img/T505609.jpg"
+    },
+    {
+        "text": "La flecha verde está iluminada. Si quiere girar a la derecha, ¿tiene preferencia de paso?",
+        "options": [
+            "Sí, porque la flecha verde me obliga a girar.",
+            "No, porque la flecha verde me permite pasar pero debo ceder el paso al vehículo que se aproxima.",
+            "No, porque la luz roja me prohíbe girar."
+        ],
+        "correct": "B",
+        "image": "../../../Assets/img/P1317.jpg"
+    }
+]
+            
+            ;
+
+            const container = document.getElementById('test-container');
+            const paginationRow1 = document.getElementById('pagination-row-1');
+            const paginationRow2 = document.getElementById('pagination-row-2');
+
+            // Generar preguntas
+            questions.forEach((question, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.setAttribute('data-correct', question.correct);
+                questionDiv.innerHTML = `
+                    <div class="question-image">
+                        <img src="${question.image}" alt="Imagen de la pregunta">
+                    </div>
+                    <div class="question-content">
+                        <h3>${index + 1}. ${question.text}</h3>
+                        <div class="options">
+                            ${question.options.map((option, idx) => `
+                                <div class="option" data-answer="${String.fromCharCode(65 + idx)}">
+                                    <span class="option-circle">${String.fromCharCode(65 + idx)}</span>
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+
+            // Generar paginación
+            for (let i = 0; i < questions.length; i++) {
+                const button = document.createElement('button');
+                button.textContent = `${i + 1}`;
+                button.addEventListener('click', () => showQuestion(i));
+                if (i < 15) {
+                    paginationRow1.appendChild(button);
+                } else {
+                    paginationRow2.appendChild(button);
+                }
+            }
+
+            // Mostrar la primera pregunta
+            showQuestion(0);
+
+            // Función para mostrar una pregunta específica
+            function showQuestion(index) {
+                document.querySelectorAll('.question').forEach((q, i) => {
+                    q.style.display = i === index ? 'flex' : 'none';
+                });
+                document.querySelectorAll('.pagination button').forEach((btn, i) => {
+                    btn.style.backgroundColor = i === index ? '#ff7aa2' : '#ffa5c3';
+                });
+            }
+
+            // Evento para las opciones de respuesta
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const question = this.closest('.question');
+                    const questionIndex = Array.from(container.children).indexOf(question);
+                    const isCorrect = this.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    
+                    if (question.dataset.answered) return;
+
+                    question.dataset.answered = true;
+
+                    question.querySelectorAll('.option').forEach(opt => {
+                        opt.classList.remove('selected');
+                        opt.style.pointerEvents = 'none';
+                    });
+                    
+                    this.classList.add('selected', isCorrect ? 'correct' : 'incorrect');
+
+                    if (!isCorrect) {
+                        question.querySelector(`.option[data-answer="${question.getAttribute('data-correct')}"]`).classList.add('correct');
+                    }
+
+                    // Actualizar el botón de paginación
+                    const paginationButton = questionIndex < 15 ? paginationRow1.children[questionIndex] : paginationRow2.children[questionIndex - 15];
+                    paginationButton.classList.add(isCorrect ? 'correct' : 'incorrect');
+                });
+            });
+
+            // Evento para corregir el test
+            document.getElementById('correct-test').addEventListener('click', () => {
+                let wrongAnswers = 0;
+                document.querySelectorAll('.question').forEach((question, index) => {
+                    const selected = question.querySelector('.option.selected');
+                    const isCorrect = selected && selected.getAttribute('data-answer') === question.getAttribute('data-correct');
+                    if (!isCorrect) {
+                        wrongAnswers++;
+                    }
+                    // Actualizar el botón de paginación si no se ha respondido
+                    if (!selected) {
+                        const paginationButton = index < 15 ? paginationRow1.children[index] : paginationRow2.children[index - 15];
+                        paginationButton.classList.add('incorrect');
+                    }
+                });
+                const resultMessage = `Has fallado ${wrongAnswers} respuestas.`;
+
+                const alert = document.getElementById('custom-alert');
+                document.getElementById('alert-message').textContent = resultMessage;
+                alert.style.display = 'block';
+            });
+        });
+
+        function closeAlert() {
+            document.getElementById('custom-alert').style.display = 'none';
+        }
+    </script>
+
+    
+</body>
+</html>
