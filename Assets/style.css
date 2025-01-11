@@ -4,11 +4,10 @@ body {
     color: #e0e0e0;
     line-height: 1.6;
     margin: 0;
-    padding: 20px;
+    padding: 20px; /* Padding por defecto para pantallas más grandes */
     display: flex;
     justify-content: center;
     min-height: 100vh;
-    /* Asegura que el contenido se centre incluso en pantallas pequeñas */
     align-items: flex-start;
 }
 
@@ -16,24 +15,27 @@ body {
     background-color: #1e1e1e;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    padding: 30px;
+    padding: 30px; /* Padding por defecto para pantallas más grandes */
     max-width: 1600px;
     width: 100%;
+    box-sizing: border-box;
+}
+
+h1 {
+    font-size: 36px; /* Tamaño por defecto para pantallas más grandes */
+    margin-bottom: 30px;
 }
 
 .question {
     margin-bottom: 30px;
     display: flex;
-    flex-wrap: wrap;
-    /* Permite que los elementos se apilen en pantallas pequeñas */
+    align-items: flex-start; /* Alineación por defecto para pantallas más grandes */
 }
 
 .question-image {
     flex: 1;
-    min-width: 300px; /* Reduce el min-width para pantallas más pequeñas */
-    max-width: 700px;
+    max-width: 700px; /* Ancho máximo por defecto para pantallas más grandes */
     margin-right: 20px;
-    margin-bottom: 20px; /* Añade margen inferior cuando se apila */
 }
 
 .question-image img {
@@ -45,7 +47,11 @@ body {
 
 .question-content {
     flex: 2;
-    min-width: 280px; /* Reduce el min-width para pantallas más pequeñas */
+}
+
+h3 {
+    font-size: 24px; /* Tamaño por defecto para pantallas más grandes */
+    margin-bottom: 20px;
 }
 
 .options {
@@ -61,7 +67,8 @@ body {
     border-radius: 20px;
     transition: background-color 0.3s;
     background-color: #2a2a2a;
-    font-size: 18px;
+    font-size: 18px; /* Tamaño por defecto para pantallas más grandes */
+    text-align: left;
 }
 
 .option:hover {
@@ -69,18 +76,18 @@ body {
 }
 
 .option-circle {
-    width: 40px; /* Reduce el tamaño del círculo en móviles */
-    height: 40px; /* Reduce el tamaño del círculo en móviles */
+    width: 50px; /* Tamaño por defecto para pantallas más grandes */
+    height: 50px; /* Tamaño por defecto para pantallas más grandes */
     border-radius: 50%;
     background-color: #ffa5c3;
     color: #1e1e1e;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-right: 10px; /* Reduce el margen derecho en móviles */
+    margin-right: 15px;
     font-weight: bold;
     flex-shrink: 0;
-    font-size: 20px; /* Reduce el tamaño de la fuente en móviles */
+    font-size: 24px; /* Tamaño por defecto para pantallas más grandes */
 }
 
 .option.correct {
@@ -115,14 +122,15 @@ body {
     background-color: #ffa5c3;
     border: none;
     color: #1e1e1e;
-    padding: 15px 20px; /* Reduce el padding en móviles */
+    padding: 22px 26px; /* Padding por defecto para pantallas más grandes */
     cursor: pointer;
     border-radius: 5px;
     transition: background-color 0.3s;
     font-weight: bold;
-    font-size: 16px; /* Reduce el tamaño de la fuente en móviles */
-    width: auto; /* Permite que el ancho se ajuste al contenido */
-    min-width: 40px; /* Establece un ancho mínimo */
+    font-size: 18px; /* Tamaño por defecto para pantallas más grandes */
+    width: 70px;
+    box-sizing: border-box;
+    margin: 0;
 }
 
 .pagination button:hover {
@@ -141,8 +149,8 @@ body {
     background-color: #ffa5c3;
     color: #1e1e1e;
     border: none;
-    padding: 12px 25px; /* Reduce el padding en móviles */
-    font-size: 18px; /* Reduce el tamaño de la fuente en móviles */
+    padding: 15px 30px; /* Padding por defecto para pantallas más grandes */
+    font-size: 20px; /* Tamaño por defecto para pantallas más grandes */
     border-radius: 25px;
     cursor: pointer;
     transition: background-color 0.3s;
@@ -153,17 +161,6 @@ body {
 
 #correct-test:hover {
     background-color: #ff7aa2;
-}
-
-h1 {
-    font-size: 28px; /* Reduce el tamaño de la fuente en móviles */
-    margin-bottom: 20px; /* Reduce el margen inferior en móviles */
-    text-align: center; /* Centra el título en móviles */
-}
-
-h3 {
-    font-size: 20px; /* Reduce el tamaño de la fuente en móviles */
-    margin-bottom: 15px; /* Reduce el margen inferior en móviles */
 }
 
 .custom-alert {
@@ -179,14 +176,14 @@ h3 {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     text-align: center;
-    font-size: 16px; /* Reduce el tamaño de la fuente en móviles */
-    max-width: 90%; /* Permite que el alert sea más ancho en móviles */
+    font-size: 18px; /* Tamaño por defecto para pantallas más grandes */
+    max-width: 80%;
 }
 
 .custom-alert h2 {
     margin-top: 0;
     color: #1e1e1e;
-    font-size: 20px; /* Reduce el tamaño de la fuente en móviles */
+    font-size: 24px; /* Tamaño por defecto para pantallas más grandes */
 }
 
 .custom-alert button {
@@ -197,7 +194,7 @@ h3 {
     margin-top: 15px;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 14px; /* Reduce el tamaño de la fuente en móviles */
+    font-size: 16px; /* Tamaño por defecto para pantallas más grandes */
     transition: background-color 0.3s;
 }
 
@@ -205,63 +202,101 @@ h3 {
     background-color: #ff5c8a;
 }
 
-/* Media queries para pantallas más pequeñas (móviles) */
+/* Media query para dispositivos móviles (ancho máximo de 768px) */
 @media (max-width: 768px) {
     body {
-        padding: 10px; /* Reduce el padding general en móviles */
+        padding: 10px;
     }
 
     .container {
-        padding: 20px; /* Reduce el padding del contenedor en móviles */
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        text-align: center;
     }
 
     .question {
-        flex-direction: column; /* Apila la imagen y el contenido en móviles */
+        margin-bottom: 20px;
+        flex-direction: column;
+        align-items: center;
     }
 
     .question-image {
-        margin-right: 0; /* Elimina el margen derecho en móviles */
-        min-width: auto; /* Permite que la imagen ocupe el ancho completo */
-        max-width: 100%; /* Asegura que la imagen no se desborde */
+        width: 100%;
+        max-width: 400px;
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+
+    .question-content {
+        width: 100%;
+        text-align: center;
+    }
+
+    h3 {
+        font-size: 18px;
+        margin-bottom: 15px;
     }
 
     .options {
-        grid-template-columns: 1fr; /* Muestra las opciones en una sola columna en móviles */
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
     }
 
     .option {
-        font-size: 16px; /* Reduce el tamaño de la fuente de las opciones en móviles */
-        padding: 12px; /* Reduce el padding de las opciones en móviles */
+        padding: 12px;
+        font-size: 16px;
+        text-align: left;
+    }
+
+    .option-circle {
+        width: 35px;
+        height: 35px;
+        margin-right: 10px;
+        font-size: 16px;
     }
 
     .pagination {
-        flex-direction: column; /* Apila las filas de paginación en móviles */
-        align-items: center; /* Centra los elementos en la columna */
+        margin: 15px 0;
+        gap: 5px;
     }
 
     .pagination-row {
-        flex-direction: column; /* Apila los botones en cada fila en móviles */
-        align-items: center; /* Centra los botones en la columna */
-        margin-bottom: 5px; /* Reduce el margen inferior entre las filas */
+        margin-bottom: 5px;
+        gap: 5px;
     }
 
     .pagination button {
-        padding: 10px 15px; /* Reduce aún más el padding en móviles */
-        font-size: 14px; /* Reduce aún más el tamaño de la fuente en móviles */
-        width: 100%; /* Los botones ocupan el ancho completo de la fila */
-        box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
-        margin-bottom: 5px; /* Añade un pequeño margen entre los botones */
+        padding: 10px 12px;
+        font-size: 14px;
+        width: auto;
+        min-width: 30px;
+        margin: 2px;
     }
 
     #correct-test {
-        font-size: 16px; /* Reduce aún más el tamaño de la fuente en móviles */
-        padding: 10px 20px; /* Reduce aún más el padding en móviles */
+        padding: 10px 20px;
+        font-size: 16px;
+        margin: 20px auto 0;
     }
-}
 
-/* Media queries para tablets (entre móviles y escritorios) */
-@media (min-width: 769px) and (max-width: 1024px) {
-    .question-image {
-        min-width: 40%; /* Ajusta el ancho mínimo de la imagen en tablets */
+    .custom-alert {
+        padding: 15px;
+        font-size: 16px;
+        max-width: 90%;
+    }
+
+    .custom-alert h2 {
+        font-size: 18px;
+    }
+
+    .custom-alert button {
+        padding: 8px 15px;
+        margin-top: 10px;
+        font-size: 14px;
     }
 }
